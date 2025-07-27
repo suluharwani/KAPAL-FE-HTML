@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak - Raja Ampat Boat Services</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Contact Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Hubungi Kami</h1>
+            <p class="lead">Tim kami siap membantu kebutuhan perjalanan Anda</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Kirim Pesan</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="contactForm">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Alamat Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Nomor Telepon/WhatsApp</label>
+                                <input type="tel" class="form-control" id="phone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subjek</label>
+                                <select class="form-select" id="subject" required>
+                                    <option value="" selected disabled>Pilih Subjek</option>
+                                    <option value="booking">Pertanyaan Pemesanan</option>
+                                    <option value="schedule">Jadwal Kapal</option>
+                                    <option value="complaint">Keluhan</option>
+                                    <option value="other">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Pesan</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Informasi Kontak</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h4><i class="fas fa-map-marker-alt text-primary me-2"></i> Alamat Kantor</h4>
+                            <p class="ms-4 ps-3">Jl. Raya Waigeo No. 45<br>Kota Waisai, Kabupaten Raja Ampat<br>Papua Barat, Indonesia</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4><i class="fas fa-phone-alt text-primary me-2"></i> Telepon</h4>
+                            <p class="ms-4 ps-3">
+                                Customer Service: +62 812-3456-7890<br>
+                                Reservasi: +62 812-3456-7891<br>
+                                Operasional: +62 812-3456-7892
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4><i class="fas fa-envelope text-primary me-2"></i> Email</h4>
+                            <p class="ms-4 ps-3">
+                                info@rajaampatboats.com<br>
+                                booking@rajaampatboats.com<br>
+                                support@rajaampatboats.com
+                            </p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4><i class="fas fa-clock text-primary me-2"></i> Jam Operasional</h4>
+                            <p class="ms-4 ps-3">
+                                Senin - Jumat: 08:00 - 17:00 WIT<br>
+                                Sabtu: 08:00 - 15:00 WIT<br>
+                                Minggu: Tutup
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5 class="mb-3">Media Sosial</h5>
+                            <div class="social-icons">
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-outline-primary btn-sm me-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <section class="mt-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Lokasi Kantor Kami</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.71599568124!2d130.63291315!3d-0.23866769999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d5f1492281b3e5f%3A0x3fe9a7e5d5a7c9a2!2sWaigeo%2C%20Raja%20Ampat%20Regency%2C%20West%20Papua!5e0!3m2!1sen!2sid!4v1621234567890!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/6281234567890" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp whatsapp-float-icon"></i>
+    </a>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Load header and footer
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('partials/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                });
+            
+            fetch('partials/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer').innerHTML = data;
+                });
+
+            // Contact form handling
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Here you would typically send this data to a server
+                    // For demo purposes, we'll just show an alert
+                    alert(`Terima kasih ${name}, pesan Anda dengan subjek "${subject}" telah kami terima. Kami akan menghubungi Anda segera melalui email ${email} atau telepon ${phone}.`);
+                    
+                    // Reset form
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

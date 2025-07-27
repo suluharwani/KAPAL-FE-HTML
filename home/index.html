@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Kapal Raja Ampat</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <!-- Image Slider -->
+        <section class="mb-5">
+            <div id="mainSlider" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner rounded-3">
+                    <div class="carousel-item active">
+                        <img src="images/slider1.jpg" class="d-block w-100" alt="Raja Ampat 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/slider2.jpg" class="d-block w-100" alt="Raja Ampat 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/slider3.jpg" class="d-block w-100" alt="Raja Ampat 3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Booking Form -->
+        <section class="booking-form mb-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Pesan Kapal Sekarang</h3>
+                </div>
+                <div class="card-body">
+                    <form id="boatBookingForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fromIsland" class="form-label">Dari Pulau</label>
+                                <select class="form-select" id="fromIsland" required>
+                                    <option value="" selected disabled>Pilih Pulau Asal</option>
+                                    <option value="pulau1">Pulau Waigeo</option>
+                                    <option value="pulau2">Pulau Misool</option>
+                                    <option value="pulau3">Pulau Salawati</option>
+                                    <option value="pulau4">Pulau Batanta</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="toIsland" class="form-label">Ke Pulau</label>
+                                <select class="form-select" id="toIsland" required>
+                                    <option value="" selected disabled>Pilih Pulau Tujuan</option>
+                                    <option value="pulau1">Pulau Waigeo</option>
+                                    <option value="pulau2">Pulau Misool</option>
+                                    <option value="pulau3">Pulau Salawati</option>
+                                    <option value="pulau4">Pulau Batanta</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="departureDate" class="form-label">Tanggal Keberangkatan</label>
+                                <input type="date" class="form-control" id="departureDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="passengers" class="form-label">Jumlah Penumpang</label>
+                                <input type="number" class="form-control" id="passengers" min="1" max="20" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="boatType" class="form-label">Tipe Kapal</label>
+                            <select class="form-select" id="boatType" required>
+                                <option value="" selected disabled>Pilih Tipe Kapal</option>
+                                <option value="speedboat">Speedboat (Max 8 orang) - Rp 3.000.000</option>
+                                <option value="traditional">Kapal Tradisional (Max 15 orang) - Rp 4.500.000</option>
+                                <option value="luxury">Kapal Luxury (Max 6 orang) - Rp 5.500.000</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="roundTrip">
+                                <label class="form-check-label" for="roundTrip">
+                                    Pulang-Pergi
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Cek Jadwal & Harga</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section class="schedule-section mb-5">
+            <h2 class="text-center mb-4">Jadwal Kapal</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Rute</th>
+                            <th>Jadwal</th>
+                            <th>Durasi</th>
+                            <th>Harga Kapal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Waigeo - Misool</td>
+                            <td>Senin, Rabu, Jumat (08:00 WIT)</td>
+                            <td>4-5 jam</td>
+                            <td>Rp 3.500.000</td>
+                        </tr>
+                        <tr>
+                            <td>Waigeo - Salawati</td>
+                            <td>Setiap Hari (07:30 WIT)</td>
+                            <td>2-3 jam</td>
+                            <td>Rp 2.500.000</td>
+                        </tr>
+                        <tr>
+                            <td>Misool - Batanta</td>
+                            <td>Selasa, Kamis, Sabtu (09:00 WIT)</td>
+                            <td>5-6 jam</td>
+                            <td>Rp 4.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section mb-5">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-ship fa-3x text-primary"></i>
+                    </div>
+                    <h3>Kapal Nyaman</h3>
+                    <p>Kapal kami dilengkapi dengan perlengkapan keselamatan dan kenyamanan penumpang.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-clock fa-3x text-primary"></i>
+                    </div>
+                    <h3>Tepat Waktu</h3>
+                    <p>Jadwal keberangkatan yang teratur dan tepat waktu untuk kenyamanan perjalanan Anda.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                    </div>
+                    <h3>Aman Terpercaya</h3>
+                    <p>Dilayani oleh awak kapal profesional dengan pengalaman bertahun-tahun.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/6281234567890" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp whatsapp-float-icon"></i>
+    </a>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Load header and footer
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('partials/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                });
+            
+            fetch('partials/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footer').innerHTML = data;
+                });
+        });
+    </script>
+</body>
+</html>
