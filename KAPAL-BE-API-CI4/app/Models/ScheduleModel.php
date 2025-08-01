@@ -8,7 +8,7 @@ class ScheduleModel extends Model
     protected $primaryKey = 'schedule_id';
     protected $allowedFields = [
         'route_id', 'boat_id', 'departure_time', 'departure_date',
-        'available_seats', 'status'
+        'available_seats', 'status','is_open_trip'
     ];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';

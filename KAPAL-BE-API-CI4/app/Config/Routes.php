@@ -119,4 +119,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api', 'filter' => 'cors']
         $routes->post('/', 'Testimonials::create', ['filter' => 'auth']);
         $routes->put('(:num)/status', 'Testimonials::updateStatus/$1', ['filter' => 'auth:admin']);
     });
+    $routes->group('open-trips', ['filter' => 'auth'], function($routes) {
+        $routes->post('request', 'OpenTrips::createRequest');
+        $routes->put('request/(:num)/approve', 'OpenTrips::approveRequest/$1', ['filter' => 'auth:admin']);
+        $routes->get('available', 'OpenTrips::listAvailable');
+        $routes->post('(:num)/reserve', 'OpenTrips::bookReservedSeat/$1');
+        $routes->post('(:num)/join', 'OpenTrips::joinOpenTrip/$1');
+    });
 });

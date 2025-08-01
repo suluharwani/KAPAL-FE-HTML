@@ -9,7 +9,7 @@ class BookingModel extends Model
     protected $allowedFields = [
         'booking_code', 'user_id', 'schedule_id', 'passenger_count',
         'total_price', 'booking_status', 'payment_method', 'payment_status',
-        'notes'
+        'notes','is_open_trip','open_trip_type' 
     ];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
