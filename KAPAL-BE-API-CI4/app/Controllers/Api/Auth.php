@@ -3,7 +3,6 @@
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Models\SettingModel;
-use Bcrypt\Bcrypt;
 
 class Auth extends BaseApiController
 {
@@ -20,29 +19,17 @@ class Auth extends BaseApiController
     protected $settingModel;
     
     /**
-     * @var Bcrypt
-     */
-    protected $bcrypt;
-    
-    /**
-     * BCrypt version to use (default is '2y')
-     * @var string
-     */
-    protected $bcryptVersion = '2a';
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->settingModel = new SettingModel();
-        $this->bcrypt = new Bcrypt();
         helper('jwt');
     }
 
     /**
-     * Register a new user with secure BCrypt hashing
+     * Register a new user with secure password hashing
      * 
      * @return \CodeIgniter\HTTP\Response
      */
@@ -59,10 +46,10 @@ class Auth extends BaseApiController
         if (!$this->validate($rules)) {
             return $this->failValidationErrors($this->validator->getErrors());
         }
-
+        $hashedPassword = $this->hashPassword($this->request->getVar('password'));
         $data = [
             'username' => $this->request->getVar('username'),
-            'password' => $this->hashPassword($this->request->getVar('password')),
+            'password' =>   $hashedPassword,
             'email' => $this->request->getVar('email'),
             'full_name' => $this->request->getVar('full_name'),
             'phone' => $this->request->getVar('phone'),
@@ -75,7 +62,8 @@ class Auth extends BaseApiController
                 'status' => 201,
                 'message' => 'User registered successfully',
                 'data' => [
-                    'user_id' => $this->userModel->getInsertID()
+                    'user_id' => $this->userModel->getInsertID(),
+                    'hash' => $hashedPassword,
                 ]
             ]);
         } else {
@@ -105,7 +93,7 @@ class Auth extends BaseApiController
         $user = $this->userModel->where('username', $username)->first();
 
         if (!$user) {
-            return $this->failUnauthorized("Invalid username or password");
+            return $this->failUnauthorized("Invalid username");
         }
 
         if (!$this->verifyPassword($password, $user['password'])) {
@@ -131,18 +119,18 @@ class Auth extends BaseApiController
     }
 
     /**
-     * Securely hash password using BCrypt
+     * Securely hash password using PHP password_hash()
      * 
      * @param string $password Plain text password
      * @return string Hashed password
      */
     protected function hashPassword(string $password): string
     {
-        return $this->bcrypt->encrypt($password, $this->bcryptVersion);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
-     * Verify password against hash
+     * Verify password against hash using PHP password_verify()
      * 
      * @param string $password Plain text password
      * @param string $hash Hashed password
@@ -150,7 +138,7 @@ class Auth extends BaseApiController
      */
     protected function verifyPassword(string $password, string $hash): bool
     {
-        return $this->bcrypt->verify($password, $hash);
+        return password_verify($password, $hash);
     }
 
     /**
@@ -161,7 +149,7 @@ class Auth extends BaseApiController
      */
     protected function needsRehash(string $hash): bool
     {
-        return $this->bcrypt->needsRehash($hash);
+        return password_needs_rehash($hash, PASSWORD_DEFAULT);
     }
 
     /**
@@ -310,39 +298,23 @@ class Auth extends BaseApiController
     }
 
     /**
-     * Test BCrypt hashing and verification (for debugging)
+     * Test password hashing and verification (for debugging)
      * 
      * @param string $password Password to test
      * @return \CodeIgniter\HTTP\Response
      */
-    public function testBcrypt($password = 'test123')
+    public function testHash($password = 'test123')
     {
         $hash = $this->hashPassword($password);
         $verify = $this->verifyPassword($password, $hash);
+        $needsRehash = $this->needsRehash($hash);
         
         return $this->respond([
             'input' => $password,
             'hash' => $hash,
             'verify' => $verify,
-            'hash_info' => [
-                'length' => strlen($hash),
-                'prefix' => substr($hash, 0, 4),
-                'is_valid' => $this->isValidBcryptHash($hash)
-            ]
+            'needs_rehash' => $needsRehash,
+            'hash_info' => password_get_info($hash)
         ]);
     }
-
-    /**
-     * Validate BCrypt hash format
-     * 
-     * @param string $hash Hashed password
-     * @return bool True if valid BCrypt hash
-     */
-    protected function isValidBcryptHash(string $hash): bool
-    {
-        return preg_match('/^\$2[ay]\$.{56}$/', $hash);
-    }
-
-
-
 }
