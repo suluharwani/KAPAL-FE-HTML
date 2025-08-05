@@ -237,8 +237,8 @@
                     <i class="bi bi-people"></i> Open Trip
                 </a>
                 <ul id="opentrips-submenu" class="submenu <?= strpos(current_url(), 'open-trips') !== false ? 'show' : '' ?>">
-                    <li><a href="<?= base_url('open-trips') ?>">Daftar Open Trip</a></li>
-                    <li><a href="<?= base_url('open-trips/request') ?>">Request Open Trip</a></li>
+                    <li><a href="<?= base_url('open-trip') ?>">Daftar Open Trip</a></li>
+                    <li><a href="<?= base_url('open-trip/request') ?>">Request Open Trip</a></li>
                 </ul>
             </li>
             

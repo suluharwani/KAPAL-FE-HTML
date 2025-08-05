@@ -61,3 +61,18 @@ $routes->group('islands', function($routes) {
     $routes->get('delete/(:num)', 'Islands::delete/$1');
     $routes->get('view/(:num)', 'Islands::view/$1');
 });
+$routes->group('open-trip', function($routes) {
+    $routes->get('/', 'OpenTrip::index');
+    $routes->get('request', 'OpenTrip::requestForm');
+    $routes->post('submit-request', 'OpenTrip::submitRequest');
+    $routes->get('view/(:num)', 'OpenTrip::view/$1');
+    $routes->post('join/(:num)', 'OpenTrip::join/$1');
+    $routes->post('approve/(:num)', 'OpenTrip::approveRequest/$1');
+});
+$routes->group('gallery', function($routes) {
+    $routes->get('/', 'Gallery::index');
+    $routes->get('featured', 'Gallery::featured');
+    $routes->get('add', 'Gallery::add');
+    $routes->post('store', 'Gallery::store');
+    $routes->get('delete/(:num)', 'Gallery::delete/$1');
+});
