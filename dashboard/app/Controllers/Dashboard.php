@@ -4,17 +4,21 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class Dashboard extends Controller
+class Dashboard extends BaseController
 {
     public function index()
     {
         $session = session();
+        
         if (!$session->get('isLoggedIn')) {
-            return redirect()->to('/login');
+            return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu');
         }
 
-        return view('dashboard_view', [
+        $data = [
+            'title' => 'Dashboard',
             'userData' => $session->get('userData')
-        ]);
+        ];
+        
+        return view('dashboard_view', $data);
     }
 }

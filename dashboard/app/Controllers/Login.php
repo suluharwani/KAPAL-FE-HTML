@@ -50,13 +50,16 @@ public function process()
             // Login successful - Debugging step
             log_message('info', 'Login successful for user: ' . $username);
             log_message('debug', 'Token received: ' . $body['data']['token']);
-
+            // var_dump($body['data']['user']['role']);
+            // die(); // Debugging output
             // Store session data
-            $session->set([
+            $ses = [
                 'isLoggedIn' => true,
                 'token' => $body['data']['token'],
-                'username' => $username
-            ]);
+                'username' => $username,
+                'role'=> $body['data']['user']['role'],
+            ];
+            $session->set($ses);
 
             // Verify the session was set
             log_message('debug', 'Session data: ' . print_r($session->get(), true));
