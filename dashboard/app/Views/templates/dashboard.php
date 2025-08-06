@@ -251,7 +251,7 @@
             
             <!-- FAQs -->
             <li>
-                <a href="<?= base_url('faqs') ?>" class="<?= current_url() == base_url('faqs') ? 'active' : '' ?>">
+                <a href="<?= base_url('faq') ?>" class="<?= current_url() == base_url('faqs') ? 'active' : '' ?>">
                     <i class="bi bi-question-circle"></i> FAQ
                 </a>
             </li>
@@ -269,10 +269,15 @@
         <small class="text-muted px-3">Admin Menu</small>
     </li>
     
-    <li>
-        <a href="<?= base_url('reports') ?>" class="<?= current_url() == base_url('reports') ? 'active' : '' ?>">
+    <li class="has-submenu <?= strpos(current_url(), 'reports') !== false ? 'collapsed' : '' ?>">
+        <a href="#reports-submenu" data-bs-toggle="collapse">
             <i class="bi bi-bar-chart"></i> Laporan
         </a>
+        <ul id="reports-submenu" class="submenu <?= strpos(current_url(), 'reports') !== false ? 'show' : '' ?>">
+            <li><a href="<?= base_url('reports/bookings') ?>">Pemesanan</a></li>
+            <li><a href="<?= base_url('reports/revenue') ?>">Pendapatan</a></li>
+            <li><a href="<?= base_url('reports/boats') ?>">Utilisasi Kapal</a></li>
+        </ul>
     </li>
 <?php endif; ?>
         </ul>

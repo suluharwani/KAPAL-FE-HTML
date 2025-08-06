@@ -51,75 +51,91 @@ class Boats extends BaseController
     public function add()
     {
         return view('boats/add', [
-            'title' => 'Tambah Kapal Baru'
+            'title' => 'Tambah Kapal Baru',
+            'token' => session()->get('token')
         ]);
     }
 
     // Simpan Kapal Baru
-    public function store()
-    {
-        $validation = Services::validation();
-        $validation->setRules([
-            'boat_name' => 'required',
-            'boat_type' => 'required',
-            'capacity' => 'required|numeric',
-            'price_per_trip' => 'required|numeric',
-            'description' => 'permit_empty'
+public function store()
+{
+    $validation = Services::validation();
+    $validation->setRules([
+        'boat_name' => 'required',
+        'boat_type' => 'required',
+        'capacity' => 'required|numeric',
+        'price_per_trip' => 'required|numeric',
+        'description' => 'permit_empty',
+        'image' => 'uploaded[image]|max_size[image,2048]|is_image[image]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+    }
+
+    $client = \Config\Services::curlrequest();
+    $image = $this->request->getFile('image');
+
+    try {
+        // Prepare multipart form data
+        $multipart = [
+            [
+                'name' => 'boat_name',
+                'contents' => $this->request->getPost('boat_name')
+            ],
+            [
+                'name' => 'boat_type',
+                'contents' => $this->request->getPost('boat_type')
+            ],
+            [
+                'name' => 'capacity',
+                'contents' => $this->request->getPost('capacity')
+            ],
+            [
+                'name' => 'price_per_trip',
+                'contents' => $this->request->getPost('price_per_trip')
+            ],
+            [
+                'name' => 'description',
+                'contents' => $this->request->getPost('description') ?? ''
+            ]
+        ];
+
+        // Add image file if uploaded
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $multipart[] = [
+                'name' => 'image',
+                'contents' => fopen($image->getRealPath(), 'r'),
+                'filename' => $image->getName()
+            ];
+        }
+
+        $response = $client->post($this->apiUrl, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->session->get('token')
+            ],
+            'multipart' => $multipart
         ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        $responseData = json_decode($response->getBody(), true);
+
+        if ($response->getStatusCode() === 201) {
+            return redirect()->to('/boats')->with('success', 'Kapal berhasil ditambahkan');
+        } else {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $responseData['message'] ?? 'Gagal menambahkan kapal');
         }
 
-        $client = \Config\Services::curlrequest();
-        $image = $this->request->getFile('image');
-
-        try {
-            $data = [
-                'boat_name' => $this->request->getPost('boat_name'),
-                'boat_type' => $this->request->getPost('boat_type'),
-                'capacity' => $this->request->getPost('capacity'),
-                'price_per_trip' => $this->request->getPost('price_per_trip'),
-                'description' => $this->request->getPost('description')
-            ];
-
-            $options = [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->session->get('token')
-                ],
-                'multipart' => []
-            ];
-
-            // Tambahkan field data
-            foreach ($data as $key => $value) {
-                $options['multipart'][] = [
-                    'name' => $key,
-                    'contents' => $value
-                ];
-            }
-
-            // Tambahkan file gambar jika ada
-            if ($image && $image->isValid() && !$image->hasMoved()) {
-                $options['multipart'][] = [
-                    'name' => 'image',
-                    'contents' => fopen($image->getRealPath(), 'r'),
-                    'filename' => $image->getName()
-                ];
-            }
-
-            $response = $client->post($this->apiUrl, $options);
-
-            if ($response->getStatusCode() === 201) {
-                return redirect()->to('/boats')->with('success', 'Kapal berhasil ditambahkan');
-            } else {
-                $error = json_decode($response->getBody(), true);
-                return redirect()->to('/boats/add')->withInput()->with('error', $error['message'] ?? 'Gagal menambahkan kapal');
-            }
-
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        log_message('error', 'Boat store error: ' . $e->getMessage());
+        
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
+}
 
     // Form Edit Kapal
     public function edit($id)

@@ -29,4 +29,16 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+   // In app/Config/Services.php
+// In app/Config/Services.php
+public static function pager(?bool $getShared = true)
+{
+    if ($getShared) {
+        return static::getSharedInstance('pager');
+    }
+
+    $config = config('Pager');
+    $view = Services::renderer();
+    return new \App\Libraries\CustomPager($config, $view);
+}
 }

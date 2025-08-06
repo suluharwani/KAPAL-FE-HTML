@@ -76,3 +76,25 @@ $routes->group('gallery', function($routes) {
     $routes->post('store', 'Gallery::store');
     $routes->get('delete/(:num)', 'Gallery::delete/$1');
 });
+$routes->group('faq', function($routes) {
+    $routes->get('/', 'Faq::index');
+    $routes->get('featured', 'Faq::featured');
+    $routes->get('add', 'Faq::add');
+    $routes->post('store', 'Faq::store');
+    $routes->get('edit/(:num)', 'Faq::edit/$1');
+    $routes->post('update/(:num)', 'Faq::update/$1');
+    $routes->get('delete/(:num)', 'Faq::delete/$1');
+});
+$routes->group('testimonials', function($routes) {
+    $routes->get('/', 'Testimonials::index');
+    $routes->get('approved', 'Testimonials::approved');
+    $routes->get('create', 'Testimonials::create');
+    $routes->post('store', 'Testimonials::store');
+    $routes->post('update-status/(:num)', 'Testimonials::updateStatus/$1');
+});
+$routes->group('reports', function($routes) {
+    $routes->get('bookings', 'Reports::bookings');
+    $routes->get('revenue', 'Reports::revenue');
+    $routes->get('boats', 'Reports::boats');
+    $routes->get('export/(:segment)', 'Reports::export/$1');
+});
