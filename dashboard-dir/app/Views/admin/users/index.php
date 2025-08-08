@@ -4,14 +4,14 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">User Management</h5>
         <div class="btn-group">
-            <a href="<?= base_url('admin/users') ?>" class="btn btn-sm btn-outline-secondary <?= !$this->request->getGet('role') ? 'active' : '' ?>">All</a>
-            <a href="<?= base_url('admin/users?role=admin') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('role') == 'admin' ? 'active' : '' ?>">Admins</a>
-            <a href="<?= base_url('admin/users?role=customer') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('role') == 'customer' ? 'active' : '' ?>">Customers</a>
+            <a href="<?= base_url('admin/users') ?>" class="btn btn-sm btn-outline-secondary <?= !$_SESSION['role'] ? 'active' : '' ?>">All</a>
+            <a href="<?= base_url('admin/users?role=admin') ?>" class="btn btn-sm btn-outline-secondary <?= $_SESSION['role'] == 'admin' ? 'active' : '' ?>">Admins</a>
+            <a href="<?= base_url('admin/users?role=customer') ?>" class="btn btn-sm btn-outline-secondary <?= $_SESSION['role'] == 'customer' ? 'active' : '' ?>">Customers</a>
         </div>
         <div class="input-group ms-2" style="width: 300px;">
             <form action="<?= base_url('admin/users') ?>" method="get" class="d-flex w-100">
                 <input type="text" class="form-control form-control-sm" name="search" placeholder="Search..." 
-                    value="<?= esc($this->request->getGet('search')) ?>">
+                    value="">
                 <button class="btn btn-outline-secondary btn-sm" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
