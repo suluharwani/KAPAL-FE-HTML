@@ -2,13 +2,13 @@
 
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Gallery Management</h5>
+        <h5 class="mb-0">Gallery Management</h5> 
         <div class="btn-group">
-            <a href="<?= base_url('admin/gallery') ?>" class="btn btn-sm btn-outline-secondary <?= !$this->request->getGet('category') ? 'active' : '' ?>">All</a>
-            <a href="<?= base_url('admin/gallery?category=kapal') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('category') == 'kapal' ? 'active' : '' ?>">Boats</a>
-            <a href="<?= base_url('admin/gallery?category=wisata') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('category') == 'wisata' ? 'active' : '' ?>">Tourism</a>
-            <a href="<?= base_url('admin/gallery?category=penumpang') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('category') == 'penumpang' ? 'active' : '' ?>">Passengers</a>
-            <a href="<?= base_url('admin/gallery?category=pulau') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('category') == 'pulau' ? 'active' : '' ?>">Islands</a>
+            <a href="<?= base_url('admin/gallery') ?>" class="btn btn-sm btn-outline-secondary <?= !$category ? 'active' : '' ?>">All</a>
+            <a href="<?= base_url('admin/gallery?category=kapal') ?>" class="btn btn-sm btn-outline-secondary <?= $category == 'kapal' ? 'active' : '' ?>">Boats</a>
+            <a href="<?= base_url('admin/gallery?category=wisata') ?>" class="btn btn-sm btn-outline-secondary <?= $category == 'wisata' ? 'active' : '' ?>">Tourism</a>
+            <a href="<?= base_url('admin/gallery?category=penumpang') ?>" class="btn btn-sm btn-outline-secondary <?= $category == 'penumpang' ? 'active' : '' ?>">Passengers</a>
+            <a href="<?= base_url('admin/gallery?category=pulau') ?>" class="btn btn-sm btn-outline-secondary <?= $category == 'pulau' ? 'active' : '' ?>">Islands</a>
         </div>
         <a href="<?= base_url('admin/gallery/create') ?>" class="btn btn-primary btn-sm">
             <i class="bi bi-plus"></i> Add New

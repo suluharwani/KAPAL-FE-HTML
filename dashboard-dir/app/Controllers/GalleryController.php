@@ -18,6 +18,7 @@ class GalleryController extends BaseController
         
         $data = [
             'title' => 'Gallery Management',
+            'category' => $category,
             'gallery' => $this->galleryModel->getGalleryItems($category),
             'user' => [
                 'name' => $this->session->get('full_name'),
