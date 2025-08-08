@@ -4,10 +4,10 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Contact Messages</h5>
         <div class="btn-group">
-            <a href="<?= base_url('admin/contacts') ?>" class="btn btn-sm btn-outline-secondary <?= !$this->request->getGet('status') ? 'active' : '' ?>">All</a>
-            <a href="<?= base_url('admin/contacts?status=unread') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'unread' ? 'active' : '' ?>">Unread</a>
-            <a href="<?= base_url('admin/contacts?status=read') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'read' ? 'active' : '' ?>">Read</a>
-            <a href="<?= base_url('admin/contacts?status=replied') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'replied' ? 'active' : '' ?>">Replied</a>
+            <a href="<?= base_url('admin/contacts') ?>" class="btn btn-sm btn-outline-secondary <?= !$contacts ? 'active' : '' ?>">All</a>
+            <a href="<?= base_url('admin/contacts?status=unread') ?>" class="btn btn-sm btn-outline-secondary <?=$contacts == 'unread' ? 'active' : '' ?>">Unread</a>
+            <a href="<?= base_url('admin/contacts?status=read') ?>" class="btn btn-sm btn-outline-secondary <?=$contacts == 'read' ? 'active' : '' ?>">Read</a>
+            <a href="<?= base_url('admin/contacts?status=replied') ?>" class="btn btn-sm btn-outline-secondary <?=$contacts == 'replied' ? 'active' : '' ?>">Replied</a>
         </div>
     </div>
     <div class="card-body">
