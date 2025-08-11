@@ -45,7 +45,7 @@ class RouteController extends BaseController
     {
         $rules = [
             'departure_island_id' => 'required|numeric',
-            'arrival_island_id' => 'required|numeric|different[departure_island_id]',
+            'arrival_island_id' => 'required|numeric',
             'estimated_duration' => 'required|max_length[50]'
         ];
 

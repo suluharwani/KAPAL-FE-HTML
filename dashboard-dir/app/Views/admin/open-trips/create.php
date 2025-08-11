@@ -19,19 +19,19 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="route_id" class="form-label">Route</label>
-                        <select class="form-select" id="route_id" name="route_id" required>
-                            <option value="">Select Route</option>
-                            <?php foreach ($routes as $route): ?>
-                            <option value="<?= $route['route_id'] ?>">
-                                <?= $islands[$route['departure_island_id']]['island_name'] ?> to <?= $islands[$route['arrival_island_id']]['island_name'] ?>
-                                (<?= $route['estimated_duration'] ?>)
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
+    <div class="mb-3">
+        <label for="route_id" class="form-label">Route</label>
+        <select class="form-select" id="route_id" name="route_id" required>
+            <option value="">Select Route</option>
+            <?php foreach ($routes as $route): ?>
+                <option value="<?= $route['route_id'] ?>">
+                    <?= esc($route['departure_island']) ?> to <?= esc($route['arrival_island']) ?>
+                    (<?= esc($route['estimated_duration']) ?>)
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
             </div>
 
             <div class="row">

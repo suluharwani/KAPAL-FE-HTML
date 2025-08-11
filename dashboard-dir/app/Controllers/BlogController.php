@@ -14,9 +14,13 @@ class BlogController extends BaseController
 
     public function index()
     {
+        if ($this->request->isAJAX()) {
+            $blogs = $this->blogModel->getBlogsWithCategory();
+            return $this->response->setJSON(['data' => $blogs]);
+        }
+
         $data = [
             'title' => 'Manage Blogs',
-            'blogs' => $this->blogModel->getBlogsWithCategory(),
             'user' => [
                 'name' => $this->session->get('full_name'),
                 'role' => $this->session->get('role')
@@ -27,9 +31,17 @@ class BlogController extends BaseController
 
     public function create()
     {
+        $categories = $this->blogModel->getBlogCategories();
+        
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'categories' => $categories
+            ]);
+        }
+
         $data = [
             'title' => 'Add New Blog',
-            'categories' => $this->blogModel->getBlogCategories(),
+            'categories' => $categories,
             'user' => [
                 'name' => $this->session->get('full_name'),
                 'role' => $this->session->get('role')
@@ -40,6 +52,8 @@ class BlogController extends BaseController
 
     public function store()
     {
+        $response = ['success' => false, 'message' => 'Failed to add blog'];
+        
         $rules = [
             'title' => 'required|min_length[5]|max_length[255]',
             'content' => 'required',
@@ -48,7 +62,8 @@ class BlogController extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            $response['errors'] = $this->validator->getErrors();
+            return $this->response->setJSON($response);
         }
 
         $data = [
@@ -63,23 +78,39 @@ class BlogController extends BaseController
         ];
 
         if ($this->blogModel->insert($data)) {
-            return redirect()->to('/admin/blogs')->with('success', 'Blog added successfully');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Failed to add blog');
+            $response = [
+                'success' => true,
+                'message' => 'Blog added successfully',
+                'redirect' => base_url('admin/blogs')
+            ];
         }
+
+        return $this->response->setJSON($response);
     }
 
     public function edit($id)
     {
         $blog = $this->blogModel->find($id);
         if (!$blog) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['error' => 'Blog not found'])->setStatusCode(404);
+            }
             return redirect()->to('/admin/blogs')->with('error', 'Blog not found');
+        }
+
+        $categories = $this->blogModel->getBlogCategories();
+        
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'blog' => $blog,
+                'categories' => $categories
+            ]);
         }
 
         $data = [
             'title' => 'Edit Blog',
             'blog' => $blog,
-            'categories' => $this->blogModel->getBlogCategories(),
+            'categories' => $categories,
             'user' => [
                 'name' => $this->session->get('full_name'),
                 'role' => $this->session->get('role')
@@ -90,6 +121,14 @@ class BlogController extends BaseController
 
     public function update($id)
     {
+        $response = ['success' => false, 'message' => 'Failed to update blog'];
+        
+        $blog = $this->blogModel->find($id);
+        if (!$blog) {
+            $response['message'] = 'Blog not found';
+            return $this->response->setJSON($response)->setStatusCode(404);
+        }
+
         $rules = [
             'title' => 'required|min_length[5]|max_length[255]',
             'content' => 'required',
@@ -98,7 +137,8 @@ class BlogController extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            $response['errors'] = $this->validator->getErrors();
+            return $this->response->setJSON($response);
         }
 
         $data = [
@@ -112,18 +152,27 @@ class BlogController extends BaseController
         ];
 
         if ($this->blogModel->update($id, $data)) {
-            return redirect()->to('/admin/blogs')->with('success', 'Blog updated successfully');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Failed to update blog');
+            $response = [
+                'success' => true,
+                'message' => 'Blog updated successfully',
+                'redirect' => base_url('admin/blogs')
+            ];
         }
+
+        return $this->response->setJSON($response);
     }
 
     public function delete($id)
     {
+        $response = ['success' => false, 'message' => 'Failed to delete blog'];
+        
         if ($this->blogModel->delete($id)) {
-            return redirect()->to('/admin/blogs')->with('success', 'Blog deleted successfully');
-        } else {
-            return redirect()->to('/admin/blogs')->with('error', 'Failed to delete blog');
+            $response = [
+                'success' => true,
+                'message' => 'Blog deleted successfully'
+            ];
         }
+
+        return $this->response->setJSON($response);
     }
 }

@@ -83,7 +83,9 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->post('store', 'OpenTripController::store');
         $routes->get('(:num)', 'OpenTripController::show/$1');
         $routes->post('(:num)/status/(:any)', 'OpenTripController::updateStatus/$1/$2');
+        $routes->get('(:num)/status/(:any)', 'OpenTripController::updateStatus/$1/$2');
     });
+    
     
     // Routes
     $routes->group('routes', function($routes) {
@@ -136,4 +138,10 @@ $routes->group('', function($routes) {
     $routes->get('logout', 'Auth::logout');
     $routes->get('register', 'Auth::register');
     $routes->post('register', 'Auth::register');
+});
+// Request Open Trips
+$routes->group('admin/request-open-trips', function($routes) {
+    $routes->get('/', 'RequestOpenTripController::index');
+    $routes->get('(:num)', 'RequestOpenTripController::show/$1');
+    $routes->post('(:num)/status/(:any)', 'RequestOpenTripController::updateStatus/$1/$2');
 });

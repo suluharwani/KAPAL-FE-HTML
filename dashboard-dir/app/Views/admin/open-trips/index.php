@@ -4,10 +4,10 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Open Trips Management</h5>
         <div class="btn-group">
-            <a href="<?= base_url('admin/open-trips') ?>" class="btn btn-sm btn-outline-secondary <?= !$this->request->getGet('status') ? 'active' : '' ?>">All</a>
-            <a href="<?= base_url('admin/open-trips?status=upcoming') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'upcoming' ? 'active' : '' ?>">Upcoming</a>
-            <a href="<?= base_url('admin/open-trips?status=ongoing') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'ongoing' ? 'active' : '' ?>">Ongoing</a>
-            <a href="<?= base_url('admin/open-trips?status=completed') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'completed' ? 'active' : '' ?>">Completed</a>
+            <a href="<?= base_url('admin/open-trips') ?>" class="btn btn-sm btn-outline-secondary <?= !$status ? 'active' : '' ?>">All</a>
+            <a href="<?= base_url('admin/open-trips?status=upcoming') ?>" class="btn btn-sm btn-outline-secondary <?= $status == 'upcoming' ? 'active' : '' ?>">Upcoming</a>
+            <a href="<?= base_url('admin/open-trips?status=ongoing') ?>" class="btn btn-sm btn-outline-secondary <?= $status == 'ongoing' ? 'active' : '' ?>">Ongoing</a>
+            <a href="<?= base_url('admin/open-trips?status=completed') ?>" class="btn btn-sm btn-outline-secondary <?= $status == 'completed' ? 'active' : '' ?>">Completed</a>
         </div>
         <a href="<?= base_url('admin/open-trips/create') ?>" class="btn btn-primary btn-sm">
             <i class="bi bi-plus"></i> Add New

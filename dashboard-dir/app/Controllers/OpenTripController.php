@@ -33,6 +33,7 @@ class OpenTripController extends BaseController
         
         $data = [
             'title' => 'Manage Open Trips',
+            'status' => $status,
             'openTrips' => $this->openTripModel->getOpenTripsWithDetails($status),
             'user' => [
                 'name' => $this->session->get('full_name'),
@@ -62,19 +63,26 @@ class OpenTripController extends BaseController
     }
 
     public function create()
-    {
-        $data = [
-            'title' => 'Create Open Trip',
-            'boats' => $this->boatModel->findAll(),
-            'routes' => $this->routeModel->findAll(),
-            'islands' => $this->islandModel->findAll(),
-            'user' => [
-                'name' => $this->session->get('full_name'),
-                'role' => $this->session->get('role')
-            ]
-        ];
-        return view('admin/open-trips/create', $data);
+{
+    // Get all islands and create an associative array with island_id as key
+    $allIslands = $this->islandModel->findAll();
+    $islands = [];
+    foreach ($allIslands as $island) {
+        $islands[$island['island_id']] = $island;
     }
+
+    $data = [
+        'title' => 'Create Open Trip',
+        'boats' => $this->boatModel->findAll(),
+        'routes' => $this->routeModel->getRoutesWithIslands(), // Make sure this returns routes with island info
+        'islands' => $islands, // Pass the formatted islands array
+        'user' => [
+            'name' => $this->session->get('full_name'),
+            'role' => $this->session->get('role')
+        ]
+    ];
+    return view('admin/open-trips/create', $data);
+}
 
     public function store()
     {
