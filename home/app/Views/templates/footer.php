@@ -1,0 +1,63 @@
+<footer class="bg-dark text-white pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">Raja Ampat Boat Services</h5>
+                <p>Menyediakan layanan transportasi kapal antar pulau di Kepulauan Raja Ampat dengan pelayanan terbaik dan harga kompetitif.</p>
+                <div class="social-icons">
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="mb-3">Tautan Cepat</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="<?= base_url() ?>" class="text-white">Home</a></li>
+                    <li class="mb-2"><a href="<?= base_url('about') ?>" class="text-white">Tentang Kami</a></li>
+                    <li class="mb-2"><a href="<?= base_url('blog') ?>" class="text-white">Blog</a></li>
+                    <li class="mb-2"><a href="<?= base_url('contact') ?>" class="text-white">Kontak</a></li>
+                    <li class="mb-2"><a href="<?= base_url('faq') ?>" class="text-white">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="mb-3">Kontak Kami</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. Raya Waigeo, Raja Ampat</li>
+                    <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> +62 812-3456-7890</li>
+                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@rajaampatboats.com</li>
+                </ul>
+            </div>
+            <div class="col-lg-3 mb-4">
+                <h5 class="mb-3">Jam Operasional</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Senin - Jumat: 08:00 - 17:00</li>
+                    <li class="mb-2">Sabtu: 08:00 - 15:00</li>
+                    <li>Minggu: Libur</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4 bg-secondary">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0">&copy; <?= date('Y') ?> Raja Ampat Boat Services. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0">Designed with <i class="fas fa-heart text-danger"></i> for Raja Ampat</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/6281234567890" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp whatsapp-float-icon"></i>
+</a>
+
+<!-- JavaScript Libraries -->
+<script src="<?= base_url('js/bootstrap.bundle.min.js') ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script src="<?= base_url('js/script.js') ?>"></script>
+</body>
+</html>
