@@ -2,23 +2,23 @@
 
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Testimonials Management</h5>
+        <h5 class="mb-0">Testimonials</h5>
         <div class="btn-group">
-            <a href="<?= base_url('admin/testimonials') ?>" class="btn btn-sm btn-outline-secondary <?= !$this->request->getGet('status') ? 'active' : '' ?>">All</a>
-            <a href="<?= base_url('admin/testimonials?status=pending') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'pending' ? 'active' : '' ?>">Pending</a>
-            <a href="<?= base_url('admin/testimonials?status=approved') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'approved' ? 'active' : '' ?>">Approved</a>
-            <a href="<?= base_url('admin/testimonials?status=rejected') ?>" class="btn btn-sm btn-outline-secondary <?= $this->request->getGet('status') == 'rejected' ? 'active' : '' ?>">Rejected</a>
+            <a href="?status=approved" class="btn btn-sm btn-outline-success">Approved</a>
+            <a href="?status=pending" class="btn btn-sm btn-outline-warning">Pending</a>
+            <a href="?status=rejected" class="btn btn-sm btn-outline-danger">Rejected</a>
+            <a href="<?= base_url('admin/testimonials') ?>" class="btn btn-sm btn-outline-secondary">All</a>
         </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover" id="testimonialsTable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Rating</th>
+                        <th>User/Guest</th>
                         <th>Content</th>
+                        <th>Rating</th>
                         <th>Status</th>
                         <th>Date</th>
                         <th>Actions</th>
@@ -29,21 +29,21 @@
                     <tr>
                         <td><?= $index + 1 ?></td>
                         <td>
-                            <?= esc($testimonial['user_name'] ?? $testimonial['guest_name']) ?>
-                            <?php if ($testimonial['guest_email']): ?>
-                                <br><small class="text-muted"><?= esc($testimonial['guest_email']) ?></small>
+                            <?= $testimonial['user_name'] ?? $testimonial['guest_name'] ?>
+                            <?php if (isset($testimonial['guest_email'])): ?>
+                                <br><small><?= $testimonial['guest_email'] ?></small>
                             <?php endif; ?>
                         </td>
+                        <td><?= character_limiter($testimonial['content'], 100) ?></td>
                         <td>
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <i class="bi bi-star<?= $i <= $testimonial['rating'] ? '-fill text-warning' : '' ?>"></i>
                             <?php endfor; ?>
                         </td>
-                        <td><?= character_limiter(esc($testimonial['content']), 50) ?></td>
                         <td>
                             <span class="badge bg-<?= 
                                 $testimonial['status'] == 'approved' ? 'success' : 
-                                ($testimonial['status'] == 'rejected' ? 'danger' : 'warning') 
+                                ($testimonial['status'] == 'pending' ? 'warning text-dark' : 'danger')
                             ?>">
                                 <?= ucfirst($testimonial['status']) ?>
                             </span>
@@ -51,19 +51,19 @@
                         <td><?= date('d M Y', strtotime($testimonial['created_at'])) ?></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <form action="<?= base_url('admin/testimonials/' . $testimonial['testimonial_id'] . '/status') ?>" method="post" class="me-2">
+                                <form method="post" action="<?= base_url('admin/testimonials/'.$testimonial['testimonial_id'].'/status') ?>">
                                     <input type="hidden" name="status" value="approved">
-                                    <button type="submit" class="btn btn-sm btn-success" title="Approve">
+                                    <button type="submit" class="btn btn-sm btn-outline-success" title="Approve">
                                         <i class="bi bi-check"></i>
                                     </button>
                                 </form>
-                                <form action="<?= base_url('admin/testimonials/' . $testimonial['testimonial_id'] . '/status') ?>" method="post" class="me-2">
+                                <form method="post" action="<?= base_url('admin/testimonials/'.$testimonial['testimonial_id'].'/status') ?>">
                                     <input type="hidden" name="status" value="rejected">
-                                    <button type="submit" class="btn btn-sm btn-danger" title="Reject">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject">
                                         <i class="bi bi-x"></i>
                                     </button>
                                 </form>
-                                <button onclick="confirmDelete(this)" data-url="<?= base_url('admin/testimonials/delete/' . $testimonial['testimonial_id']) ?>" class="btn btn-sm btn-danger">
+                                <button onclick="confirmDelete(<?= $testimonial['testimonial_id'] ?>)" class="btn btn-sm btn-outline-danger" title="Delete">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -75,5 +75,23 @@
         </div>
     </div>
 </div>
+
+<script>
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '<?= base_url('admin/testimonials/delete/') ?>' + id;
+        }
+    });
+}
+</script>
 
 <?= $this->include('templates/admin_footer') ?>
