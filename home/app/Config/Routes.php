@@ -32,6 +32,7 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->post('check', 'Boats::checkAvailability');
     $routes->post('book', 'Boats::book');
     $routes->post('request-open-trip', 'Boats::openTripRequest');
+    $routes->get('my-open-trip-requests', 'Boats::openTripRequests');
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {

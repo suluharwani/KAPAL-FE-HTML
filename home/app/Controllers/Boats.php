@@ -171,7 +171,7 @@ private function calculateTotalPrice()
         return $schedule['price_per_trip'] * $passengers;
     }
 }
-    public function openTripRequest()
+public function openTripRequest()
 {
     if (!$this->request->isAJAX()) {
         return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
@@ -188,7 +188,7 @@ private function calculateTotalPrice()
         'proposed_date' => 'required|valid_date',
         'proposed_time' => 'required',
         'min_passengers' => 'required|numeric|greater_than[1]',
-        'max_passengers' => 'required|numeric|greater_than[min_passengers]',
+        'max_passengers' => 'required|numeric|greater_than[1]',
         'notes' => 'permit_empty'
     ]);
 
@@ -196,10 +196,10 @@ private function calculateTotalPrice()
         return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
     }
 
-    $requestModel = new \App\Models\RequestOpenTripsModel();
+    $requestModel = new \App\Models\RequestOpenTripsModel();// Now properly imported
     
     $data = [
-        'user_id' => $this->session->get('user_id'),
+        'user_id' => $_SESSION['userData']['user_id'],
         'boat_id' => $this->request->getPost('boat_id'),
         'route_id' => $this->request->getPost('route_id'),
         'proposed_date' => $this->request->getPost('proposed_date'),
@@ -225,12 +225,34 @@ private function calculateTotalPrice()
 
 public function openTripSchedule()
 {
+    $routeModel = new \App\Models\RouteModel(); // Add full namespace
+    $modelBoat = new BoatModel();
     $model = new \App\Models\OpenTripSchedulesModel();
     $data = [
         'title' => 'Open Trip - Raja Ampat Boat Services',
-        'openTrips' => $model->getUpcomingOpenTrips()
+        'openTrips' => $model->getUpcomingOpenTrips(),
+        'boats' => $modelBoat->findAll(),
+        'routes' => $routeModel->getRoutesWithIslands(),
     ];
     
     $this->render('boats/open_trip', $data);
+}
+public function openTripRequests()
+{
+    if (!$this->session->get('isLoggedIn')) {
+        return redirect()->to('/login');
+    }
+
+    $requestModel = new \App\Models\RequestOpenTripsModel();
+    $boatModel = new BoatModel();
+    $routeModel = new RouteModel();
+    $data = [
+        'title' => 'My Open Trip Requests - Raja Ampat Boat Services',
+        'requests' => $requestModel->getUserRequests($_SESSION['userData']['user_id']),
+        'boats' => $boatModel->findAll(),
+        'routes' => $routeModel->getRoutesWithIslands(),
+    ];
+    
+    $this->render('boats/open_trip_requests', $data);
 }
 }

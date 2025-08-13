@@ -3,7 +3,7 @@
     <h2 class="text-center mb-4">Open Trip</h2>
     
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h3 class="mb-0">Jadwal Open Trip</h3>
@@ -13,10 +13,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <button class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#requestOpenTripModal">
                 <i class="fas fa-plus me-2"></i>Request Open Trip Baru
             </button>
+        </div>
+        <div class="col-md-4">
+            <a href="<?= base_url('boats/my-open-trip-requests') ?>" class="btn btn-outline-primary btn-lg w-100">
+    <i class="fas fa-list me-2"></i>My Requests
+</a>
         </div>
     </div>
     

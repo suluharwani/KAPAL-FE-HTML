@@ -56,7 +56,13 @@
                     <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
                         <a class="btn btn-primary" href="<?= base_url('booking') ?>">Pesan Sekarang</a>
                     </li>
+                    <li class="nav-item">
+    <a class="nav-link" href="<?= base_url('boats/open-trip') ?>">
+        <i class="fas fa-users me-1"></i> Open Trip
+    </a>
+</li>
                 <?php else: ?>
+                    
                     <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
                         <a class="btn btn-primary" href="<?= base_url('auth/login') ?>">Login untuk Pesan</a>
                     </li>
