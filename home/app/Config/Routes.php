@@ -21,7 +21,9 @@ $routes->group('auth', function($routes) {
     $routes->post('register', 'Auth::attemptRegister');
     $routes->get('logout', 'Auth::logout');
 });
-
+$routes->post('auth/attemptLogin', 'Auth::attemptLogin');
+$routes->post('auth/attemptRegister', 'Auth::attemptRegister');
+$routes->get('auth/verify/(:any)', 'Auth::verify/$1');
 // Boats routes
 $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->get('/', 'Boats::index');

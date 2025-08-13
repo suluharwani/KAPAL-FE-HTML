@@ -1,6 +1,8 @@
 <?php namespace App\Controllers;
 
 use App\Models\UserModel;
+use CodeIgniter\Email\Email;
+use Config\Services;
 
 class Auth extends BaseController
 {
@@ -12,9 +14,8 @@ class Auth extends BaseController
         
         $data = [
             'title' => 'Login - Raja Ampat Boat Services',
-            'validation' => \Config\Services::validation()
+            'validation' => Services::validation()
         ];
-        
         $this->render('auth/login', $data);
     }
 
@@ -35,6 +36,10 @@ class Auth extends BaseController
 
         if (!$user || !password_verify($password, $user['password'])) {
             return redirect()->back()->withInput()->with('error', 'Email atau password salah');
+        }
+
+        if (!$user['email_verified']) {
+            return redirect()->back()->withInput()->with('error', 'Email belum diverifikasi. Silakan cek email Anda.');
         }
 
         // Set session
@@ -61,7 +66,7 @@ class Auth extends BaseController
         
         $data = [
             'title' => 'Register - Raja Ampat Boat Services',
-            'validation' => \Config\Services::validation()
+            'validation' => Services::validation()
         ];
         
         $this->render('auth/register', $data);
@@ -85,15 +90,49 @@ class Auth extends BaseController
         $data = [
             'username' => $this->request->getPost('username'),
             'email' => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password' => $this->request->getPost('password'),
             'full_name' => $this->request->getPost('full_name'),
             'phone' => $this->request->getPost('phone'),
             'role' => 'customer'
         ];
 
-        $model->save($data);
+        if ($model->save($data)) {
+            $user = $model->where('email', $data['email'])->first();
+            $this->sendVerificationEmail($user);
+            return redirect()->to('/auth/login')->with('message', 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.');
+        }
 
-        return redirect()->to('/auth/login')->with('message', 'Registrasi berhasil. Silakan login.');
+        return redirect()->back()->withInput()->with('error', 'Gagal melakukan registrasi');
+    }
+
+    protected function sendVerificationEmail($user)
+    {
+        $email = Services::email();
+        
+        $email->setTo($user['email']);
+        $email->setSubject('Verifikasi Email - Raja Ampat Boat Services');
+        
+        $verificationLink = base_url("auth/verify/{$user['verification_code']}");
+        
+        $message = view('emails/verification', [
+            'user' => $user,
+            'verificationLink' => $verificationLink
+        ]);
+        
+        $email->setMessage($message);
+        
+        return $email->send();
+    }
+
+    public function verify($code)
+    {
+        $model = new UserModel();
+        
+        if ($model->verifyUser($code)) {
+            return redirect()->to('/auth/login')->with('message', 'Email berhasil diverifikasi. Silakan login.');
+        }
+        
+        return redirect()->to('/auth/login')->with('error', 'Kode verifikasi tidak valid atau sudah kadaluarsa.');
     }
 
     public function logout()
