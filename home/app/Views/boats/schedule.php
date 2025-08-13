@@ -87,6 +87,7 @@
                     <div class="modal-body">
                         <input type="hidden" id="modalScheduleId">
                         <div class="mb-3">
+                            <input type="hidden" id="modalOpenTripId" name="open_trip_id">
                             <label class="form-label">Kapal</label>
                             <input type="text" class="form-control" id="modalBoatName" readonly>
                         </div>

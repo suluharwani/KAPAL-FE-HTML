@@ -28,8 +28,10 @@ $routes->get('auth/verify/(:any)', 'Auth::verify/$1');
 $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->get('/', 'Boats::index');
     $routes->get('schedule', 'Boats::schedule');
+    $routes->get('open-trip', 'Boats::openTripSchedule');
     $routes->post('check', 'Boats::checkAvailability');
     $routes->post('book', 'Boats::book');
+    $routes->post('request-open-trip', 'Boats::openTripRequest');
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {

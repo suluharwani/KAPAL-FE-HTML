@@ -71,39 +71,166 @@ class Boats extends BaseController
         ]);
     }
 
-    public function book()
-    {
-        if (!$this->request->isAJAX()) {
-            return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+public function book()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    if (!$this->session->get('isLoggedIn')) {
+        return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'schedule_id' => 'permit_empty|numeric',
+        'open_trip_id' => 'permit_empty|numeric',
+        'passengers' => 'required|numeric|greater_than[0]',
+        'passenger_names' => 'required'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $bookingCode = 'BOOK-' . strtoupper(uniqid());
+    
+    $data = [
+        'booking_code' => $bookingCode,
+        'user_id' => $this->session->get('user_id'),
+        'schedule_id' => $this->request->getPost('schedule_id'),
+        'passenger_count' => $this->request->getPost('passengers'),
+        'total_price' => $this->calculateTotalPrice(),
+        'booking_status' => 'pending',
+        'payment_status' => 'pending',
+        'is_open_trip' => $this->request->getPost('open_trip_id') ? 1 : 0,
+        'open_trip_id' => $this->request->getPost('open_trip_id'),
+        'open_trip_type' => $this->request->getPost('open_trip_id') ? 'public' : null
+    ];
+
+    try {
+        $bookingId = $bookingModel->insert($data);
+        
+        // Save passenger details
+        $passengerModel = new \App\Models\PassengerModel();
+        $passengerNames = $this->request->getPost('passenger_names');
+        
+        foreach ($passengerNames as $name) {
+            $passengerModel->insert([
+                'booking_id' => $bookingId,
+                'full_name' => $name
+            ]);
         }
-
-        if (!$this->session->get('isLoggedIn')) {
-            return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+        
+        // Update available seats if open trip
+        if ($this->request->getPost('open_trip_id')) {
+            $openTripModel = new \App\Models\OpenTripSchedulesModel();
+            $openTripModel->decrement('available_seats', $this->request->getPost('passengers'), 
+                ['open_trip_id' => $this->request->getPost('open_trip_id')]);
         }
-
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'schedule_id' => 'required|numeric',
-            'passengers' => 'required|numeric|greater_than[0]',
-            'passenger_names' => 'required'
-        ]);
-
-        if (!$validation->withRequest($this->request)->run()) {
-            return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
-        }
-
-        // Here you would typically save the booking to database
-        // For demo purposes, we'll just return a success message
         
         return $this->response->setJSON([
             'success' => true,
             'message' => 'Pemesanan berhasil. Silakan lakukan pembayaran.',
             'data' => [
-                'booking_code' => 'BOOK-' . strtoupper(uniqid()),
+                'booking_code' => $bookingCode,
                 'schedule_id' => $this->request->getPost('schedule_id'),
+                'open_trip_id' => $this->request->getPost('open_trip_id'),
                 'passengers' => $this->request->getPost('passengers'),
-                'total_price' => 3000000 // Example price
+                'total_price' => $data['total_price']
             ]
         ]);
+    } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
+}
+
+private function calculateTotalPrice()
+{
+    // Calculate based on schedule or open trip price
+    // This is a simplified version - adjust according to your business logic
+    $passengers = $this->request->getPost('passengers');
+    
+    if ($this->request->getPost('open_trip_id')) {
+        $openTripModel = new \App\Models\OpenTripSchedulesModel();
+        $openTrip = $openTripModel->select('b.price_per_trip')
+                       ->join('schedules s', 's.schedule_id = open_trip_schedules.schedule_id')
+                       ->join('boats b', 'b.boat_id = s.boat_id')
+                       ->where('open_trip_id', $this->request->getPost('open_trip_id'))
+                       ->first();
+        
+        return $openTrip['price_per_trip'] * $passengers;
+    } else {
+        $scheduleModel = new \App\Models\ScheduleModel();
+        $schedule = $scheduleModel->select('b.price_per_trip')
+                      ->join('boats b', 'b.boat_id = schedules.boat_id')
+                      ->where('schedule_id', $this->request->getPost('schedule_id'))
+                      ->first();
+        
+        return $schedule['price_per_trip'] * $passengers;
+    }
+}
+    public function openTripRequest()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    if (!$this->session->get('isLoggedIn')) {
+        return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'boat_id' => 'required|numeric',
+        'route_id' => 'required|numeric',
+        'proposed_date' => 'required|valid_date',
+        'proposed_time' => 'required',
+        'min_passengers' => 'required|numeric|greater_than[1]',
+        'max_passengers' => 'required|numeric|greater_than[min_passengers]',
+        'notes' => 'permit_empty'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $requestModel = new \App\Models\RequestOpenTripsModel();
+    
+    $data = [
+        'user_id' => $this->session->get('user_id'),
+        'boat_id' => $this->request->getPost('boat_id'),
+        'route_id' => $this->request->getPost('route_id'),
+        'proposed_date' => $this->request->getPost('proposed_date'),
+        'proposed_time' => $this->request->getPost('proposed_time'),
+        'min_passengers' => $this->request->getPost('min_passengers'),
+        'max_passengers' => $this->request->getPost('max_passengers'),
+        'notes' => $this->request->getPost('notes'),
+        'status' => 'pending'
+    ];
+
+    try {
+        $requestId = $requestModel->insert($data);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Permintaan open trip berhasil diajukan. Kami akan menghubungi Anda setelah verifikasi.',
+            'request_id' => $requestId
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    }
+}
+
+public function openTripSchedule()
+{
+    $model = new \App\Models\OpenTripSchedulesModel();
+    $data = [
+        'title' => 'Open Trip - Raja Ampat Boat Services',
+        'openTrips' => $model->getUpcomingOpenTrips()
+    ];
+    
+    $this->render('boats/open_trip', $data);
+}
 }
