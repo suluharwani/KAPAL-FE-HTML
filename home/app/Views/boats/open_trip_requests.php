@@ -18,12 +18,13 @@
                     <th>Penumpang</th>
                     <th>Status</th>
                     <th>Catatan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($requests)): ?>
                     <tr>
-                        <td colspan="8" class="text-center">Anda belum membuat permintaan open trip</td>
+                        <td colspan="9" class="text-center">Anda belum membuat permintaan open trip</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($requests as $request): ?>
@@ -42,12 +43,23 @@
                                         'rejected' => 'bg-danger',
                                         'completed' => 'bg-primary'
                                     ];
+                                    $status = $request['status'] ?? 'pending';
                                 ?>
-                                <span class="badge <?= $badgeClass[$request['status'] ?? 'bg-secondary'] ?>">
-                                    <?= ucfirst($request['status']) ?>
+                                <span class="badge <?= $badgeClass[$status] ?>">
+                                    <?= ucfirst($status) ?>
                                 </span>
                             </td>
                             <td><?= $request['notes'] ?? '-' ?></td>
+                            <td>
+                                <?php if ($status == 'approved' && isset($request['open_trip_id'])): ?>
+                                    <a href="<?= base_url('boats/open-trip-members/' . $request['open_trip_id']) ?>" 
+                                       class="btn btn-sm btn-info" title="Manage Members">
+                                        <i class="fas fa-users"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-muted">-</span>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

@@ -255,4 +255,200 @@ public function openTripRequests()
     
     $this->render('boats/open_trip_requests', $data);
 }
+public function manageOpenTripMembers($openTripId)
+{
+    if (!$this->session->get('isLoggedIn')) {
+        return redirect()->to('/login');
+    }
+
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    $bookingModel = new \App\Models\BookingModel();
+    
+    // Get open trip details
+    $openTrip = $openTripModel->getOpenTripDetails($openTripId);
+    if (!$openTrip) {
+        return redirect()->back()->with('error', 'Open trip not found');
+    }
+    
+    // Get members for this open trip
+    $members = $bookingModel->getOpenTripMembers($openTripId);
+    
+    $data = [
+        'title' => 'Manage Open Trip Members',
+        'openTrip' => $openTrip,
+        'members' => $members
+    ];
+    
+    return view('boats/open_trip_members', $data);
+}
+
+public function getBookingDetails($bookingId)
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    $paymentModel = new \App\Models\PaymentModel();
+    
+    // Get booking details
+    $booking = $bookingModel->getBookingWithUser($bookingId);
+    if (!$booking) {
+        return $this->response->setStatusCode(404)->setJSON(['error' => 'Booking not found']);
+    }
+    
+    // Get passengers
+    $passengers = $passengerModel->where('booking_id', $bookingId)->findAll();
+    
+    // Get payments
+    $payments = $paymentModel->where('booking_id', $bookingId)->findAll();
+    
+    $html = view('boats/booking_details', [
+        'booking' => $booking,
+        'passengers' => $passengers,
+        'payments' => $payments
+    ]);
+    
+    return $this->response->setJSON([
+        'success' => true,
+        'html' => $html
+    ]);
+}
+
+public function addOpenTripGuest()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'open_trip_id' => 'required|numeric',
+        'full_name' => 'required|min_length[3]',
+        'phone' => 'required',
+        'passenger_count' => 'required|numeric|greater_than[0]',
+        'passenger_names' => 'required'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $openTripId = $this->request->getPost('open_trip_id');
+    $passengerCount = $this->request->getPost('passenger_count');
+    
+    // Check available seats
+    $openTrip = $openTripModel->find($openTripId);
+    if (!$openTrip || $openTrip['available_seats'] < $passengerCount) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Not enough available seats']);
+    }
+    
+    // Create booking
+    $bookingCode = 'BOOK-' . strtoupper(uniqid());
+    
+    $bookingData = [
+        'booking_code' => $bookingCode,
+        'open_trip_id' => $openTripId,
+        'passenger_count' => $passengerCount,
+        'total_price' => $openTrip['price_per_trip'] * $passengerCount,
+        'booking_status' => 'pending',
+        'payment_status' => 'pending',
+        'is_open_trip' => 1,
+        'open_trip_type' => 'public'
+    ];
+    
+    try {
+        $bookingId = $bookingModel->insert($bookingData);
+        
+        // Save passenger details
+        $passengerNames = $this->request->getPost('passenger_names');
+        
+        foreach ($passengerNames as $name) {
+            $passengerModel->insert([
+                'booking_id' => $bookingId,
+                'full_name' => $name
+            ]);
+        }
+        
+        // Update available seats
+        $openTripModel->decrement('available_seats', $passengerCount, ['open_trip_id' => $openTripId]);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Guest member added successfully'
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    }
+}
+
+public function inviteToOpenTrip()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'open_trip_id' => 'required|numeric',
+        'email' => 'required|valid_email',
+        'passenger_count' => 'required|numeric|greater_than[0]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $userModel = new \App\Models\UserModel();
+    $notificationModel = new \App\Models\NotificationModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $openTripId = $this->request->getPost('open_trip_id');
+    $email = $this->request->getPost('email');
+    $passengerCount = $this->request->getPost('passenger_count');
+    
+    // Check user exists
+    $user = $userModel->where('email', $email)->first();
+    if (!$user) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'User not found']);
+    }
+    
+    // Check available seats
+    $openTrip = $openTripModel->find($openTripId);
+    if (!$openTrip || $openTrip['available_seats'] < $passengerCount) {
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Not enough available seats']);
+    }
+    
+    // Create invitation notification
+    $notificationData = [
+        'user_id' => $user['user_id'],
+        'title' => 'Open Trip Invitation',
+        'message' => 'You have been invited to join an open trip',
+        'type' => 'open_trip_invitation',
+        'reference_id' => $openTripId,
+        'is_read' => 0,
+        'metadata' => json_encode([
+            'passenger_count' => $passengerCount,
+            'invited_by' => $this->session->get('user_id')
+        ])
+    ];
+    
+    try {
+        $notificationModel->insert($notificationData);
+        
+        // Here you would typically also send an email notification
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Invitation sent successfully'
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    }
+}
 }

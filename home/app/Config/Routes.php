@@ -33,6 +33,10 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->post('book', 'Boats::book');
     $routes->post('request-open-trip', 'Boats::openTripRequest');
     $routes->get('my-open-trip-requests', 'Boats::openTripRequests');
+    $routes->get('open-trip-members/(:num)', 'Boats::manageOpenTripMembers/$1');
+    $routes->post('get-booking-details/(:num)', 'Boats::getBookingDetails/$1');
+    $routes->post('add-open-trip-guest', 'Boats::addOpenTripGuest');
+    $routes->post('invite-to-open-trip', 'Boats::inviteToOpenTrip');
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {
