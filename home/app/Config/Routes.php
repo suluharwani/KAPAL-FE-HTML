@@ -33,10 +33,23 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->post('book', 'Boats::book');
     $routes->post('request-open-trip', 'Boats::openTripRequest');
     $routes->get('my-open-trip-requests', 'Boats::openTripRequests');
-    $routes->get('open-trip-members/(:num)', 'Boats::manageOpenTripMembers/$1');
     $routes->post('get-booking-details/(:num)', 'Boats::getBookingDetails/$1');
     $routes->post('add-open-trip-guest', 'Boats::addOpenTripGuest');
     $routes->post('invite-to-open-trip', 'Boats::inviteToOpenTrip');
+
+    $routes->get('get-request-details/(:num)', 'Boats::getRequestDetails/$1');
+    $routes->post('cancel-request', 'Boats::cancelRequest');
+    $routes->post('complete-request', 'Boats::completeRequest');
+    $routes->post('update-request', 'Boats::updateRequest');
+    $routes->get('open-trip-details/(:num)', 'Boats::openTripDetails/$1');
+    $routes->get('get-open-trip-id', 'Boats::getOpenTripId');
+
+    $routes->get('open-trip-members/(:num)', 'Boats::manageOpenTripMembers/$1');
+$routes->get('get-member-details/(:num)', 'Boats::getMemberDetails/$1');
+$routes->post('add-member', 'Boats::addMember');
+$routes->get('get-member-edit/(:num)', 'Boats::getMemberEdit/$1');
+$routes->post('update-member', 'Boats::updateMember');
+$routes->post('delete-member', 'Boats::deleteMember');
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {

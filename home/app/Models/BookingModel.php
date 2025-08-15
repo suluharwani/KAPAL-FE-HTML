@@ -28,32 +28,32 @@ class BookingModel extends Model
     /**
      * Get open trip members with user details
      */
-    public function getOpenTripMembers($openTripId)
-    {
-        return $this->select('bookings.*, 
-                            users.full_name, 
-                            users.email, 
-                            users.phone,
-                            COUNT(passengers.passenger_id) as passenger_count')
-                   ->join('users', 'users.user_id = bookings.user_id', 'left')
-                   ->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left')
-                   ->where('bookings.open_trip_id', $openTripId)
-                   ->where('bookings.is_open_trip', 1)
-                   ->groupBy('bookings.booking_id')
-                   ->orderBy('bookings.created_at', 'DESC')
-                   ->findAll();
-    }
+    // public function getOpenTripMembers($openTripId)
+    // {
+    //     return $this->select('bookings.*, 
+    //                         users.full_name, 
+    //                         users.email, 
+    //                         users.phone,
+    //                         COUNT(passengers.passenger_id) as passenger_count')
+    //                ->join('users', 'users.user_id = bookings.user_id', 'left')
+    //                ->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left')
+    //                ->where('bookings.open_trip_id', $openTripId)
+    //                ->where('bookings.is_open_trip', 1)
+    //                ->groupBy('bookings.booking_id')
+    //                ->orderBy('bookings.created_at', 'DESC')
+    //                ->findAll();
+    // }
 
     /**
      * Get booking details with user information
      */
-    public function getBookingWithUser($bookingId)
-    {
-        return $this->select('bookings.*, users.full_name, users.email, users.phone')
-                   ->join('users', 'users.user_id = bookings.user_id', 'left')
-                   ->where('bookings.booking_id', $bookingId)
-                   ->first();
-    }
+    // public function getBookingWithUser($bookingId)
+    // {
+    //     return $this->select('bookings.*, users.full_name, users.email, users.phone')
+    //                ->join('users', 'users.user_id = bookings.user_id', 'left')
+    //                ->where('bookings.booking_id', $bookingId)
+    //                ->first();
+    // }
 
     /**
      * Get bookings for a specific user
@@ -186,4 +186,26 @@ class BookingModel extends Model
         
         return $totalCapacity['capacity'] - ($bookedSeats->passenger_count ?? 0);
     }
+    public function getOpenTripMembers($openTripId)
+{
+    return $this->select('bookings.*, 
+                        users.full_name, 
+                        users.email, 
+                        users.phone,
+                        COUNT(passengers.passenger_id) as passenger_count')
+               ->join('users', 'users.user_id = bookings.user_id', 'left')
+               ->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left')
+               ->where('bookings.open_trip_id', $openTripId)
+               ->groupBy('bookings.booking_id')
+               ->orderBy('bookings.created_at', 'DESC')
+               ->findAll();
+}
+
+public function getBookingWithUser($bookingId)
+{
+    return $this->select('bookings.*, users.full_name, users.email, users.phone')
+               ->join('users', 'users.user_id = bookings.user_id', 'left')
+               ->where('bookings.booking_id', $bookingId)
+               ->first();
+}
 }

@@ -264,9 +264,10 @@ public function manageOpenTripMembers($openTripId)
     $openTripModel = new \App\Models\OpenTripSchedulesModel();
     $bookingModel = new \App\Models\BookingModel();
     
-    // Get open trip details
-    $openTrip = $openTripModel->getOpenTripDetails($openTripId);
-    if (!$openTrip) {
+    // Get trip information - pastikan method getOpenTripDetails() ada di model
+    $tripInfo = $openTripModel->getOpenTripDetails($openTripId);
+    
+    if (!$tripInfo) {
         return redirect()->back()->with('error', 'Open trip not found');
     }
     
@@ -275,11 +276,10 @@ public function manageOpenTripMembers($openTripId)
     
     $data = [
         'title' => 'Manage Open Trip Members',
-        'openTrip' => $openTrip,
+        'tripInfo' => $tripInfo, // Pastikan ini dikirim
         'members' => $members
     ];
-    
-    return view('boats/open_trip_members', $data);
+    $this->render('boats/open_trip_members', $data);
 }
 
 public function getBookingDetails($bookingId)
@@ -451,4 +451,161 @@ public function inviteToOpenTrip()
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
 }
+public function getOpenTripId()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $requestId = $this->request->getGet('request_id');
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $openTrip = $openTripModel->where('request_id', $requestId)->first();
+    
+    if ($openTrip) {
+        return $this->response->setJSON([
+            'success' => true,
+            'open_trip_id' => $openTrip['open_trip_id']
+        ]);
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'error' => 'Open trip not found for this request'
+    ]);
+}
+// public function manageOpenTripMembers($openTripId)
+// {
+//     if (!$this->session->get('isLoggedIn')) {
+//         return redirect()->to('/login');
+//     }
+
+//     $openTripModel = new \App\Models\OpenTripSchedulesModel();
+//     $bookingModel = new \App\Models\BookingModel();
+    
+//     // Get trip information
+//     $tripInfo = $openTripModel->getOpenTripDetails($openTripId);
+//     if (!$tripInfo) {
+//         return redirect()->back()->with('error', 'Open trip not found');
+//     }
+    
+//     // Get members for this open trip
+//     $members = $bookingModel->getOpenTripMembers($openTripId);
+    
+//     $data = [
+//         'title' => 'Manage Open Trip Members',
+//         'tripInfo' => $tripInfo,
+//         'members' => $members
+//     ];
+    
+//     return view('boats/open_trip_members', $data);
+// }
+
+public function getMemberDetails($bookingId)
+{
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    
+    $member = $bookingModel->getBookingWithUser($bookingId);
+    if (!$member) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Member not found']);
+    }
+    
+    $passengers = $passengerModel->where('booking_id', $bookingId)->findAll();
+    
+    $html = view('boats/member_details', [
+        'member' => $member,
+        'passengers' => $passengers
+    ]);
+    
+    return $this->response->setJSON(['success' => true, 'html' => $html]);
+}
+
+public function addMember()
+{
+       $validation = \Config\Services::validation();
+    $validation->setRules([
+        'open_trip_id' => 'required|numeric',
+        'member_type' => 'required|in_list[registered,guest]',
+        'passenger_count' => 'required|numeric|greater_than[0]',
+        'email' => 'permit_empty|valid_email',
+        'guest_name' => 'permit_empty'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setJSON(['success' => false, 'errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $userModel = new \App\Models\UserModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $openTripId = $this->request->getPost('open_trip_id');
+    $memberType = $this->request->getPost('member_type');
+    $passengerCount = $this->request->getPost('passenger_count');
+    
+    // Get open trip details with boat price
+    $openTrip = $openTripModel->select('open_trip_schedules.*, boats.price_per_trip')
+                             ->join('boats', 'boats.boat_id = open_trip_schedules.boat_id')
+                             ->where('open_trip_schedules.open_trip_id', $openTripId)
+                             ->first();
+    
+    if (!$openTrip) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Open trip not found']);
+    }
+    
+    // Check available seats
+    if ($openTrip['available_seats'] < $passengerCount) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Not enough available seats']);
+    }
+    
+    // Set default price if not available
+    $pricePerTrip = $openTrip['price_per_trip'] ?? 0; // Default value jika tidak ada
+    
+    // Prepare booking data
+    $bookingData = [
+        'booking_code' => 'BOOK-' . strtoupper(uniqid()),
+        'open_trip_id' => $openTripId,
+        'passenger_count' => $passengerCount,
+        'total_price' => $pricePerTrip * $passengerCount,
+        'booking_status' => 'confirmed',
+        'payment_status' => 'paid',
+        'is_open_trip' => 1,
+        'open_trip_type' => $memberType === 'registered' ? 'reserved' : 'public'
+    ];
+    
+    // For registered users
+    if ($memberType === 'registered') {
+        $email = $this->request->getPost('email');
+        $user = $userModel->where('email', $email)->first();
+        
+        if (!$user) {
+            return $this->response->setJSON(['success' => false, 'error' => 'User not found']);
+        }
+        
+        $bookingData['user_id'] = $user['user_id'];
+    }
+    
+    try {
+        $bookingId = $bookingModel->insert($bookingData);
+        
+        // For guest members
+        if ($memberType === 'guest') {
+            $passengerModel = new \App\Models\PassengerModel();
+            $passengerModel->insert([
+                'booking_id' => $bookingId,
+                'full_name' => $this->request->getPost('guest_name')
+            ]);
+        }
+        
+        // Update available seats
+        $openTripModel->decrement('available_seats', $passengerCount, ['open_trip_id' => $openTripId]);
+        
+        return $this->response->setJSON(['success' => true]);
+    } catch (\Exception $e) {
+        return $this->response->setJSON(['success' => false, 'error' => $e->getMessage()]);
+    }
+}
+
+// Add other CRUD methods (update, delete) similarly
 }

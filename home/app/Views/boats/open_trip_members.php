@@ -1,42 +1,46 @@
-<?= $this->extend('layouts/main') ?>
 
-<?= $this->section('content') ?>
 <div class="container my-5">
-    <h2 class="text-center mb-4">Manage Open Trip Members</h2>
-    
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">Trip Details</h3>
-                <span class="badge bg-<?= 
-                    $openTrip['status'] == 'upcoming' ? 'info' : 
-                    ($openTrip['status'] == 'ongoing' ? 'warning' : 'success') 
-                ?>">
-                    <?= ucfirst($openTrip['status']) ?>
-                </span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <p><strong>Route:</strong> <?= $openTrip['departure_island'] ?> - <?= $openTrip['arrival_island'] ?></p>
-                    <p><strong>Date:</strong> <?= date('d M Y', strtotime($openTrip['departure_date'])) ?></p>
-                </div>
-                <div class="col-md-4">
-                    <p><strong>Boat:</strong> <?= $openTrip['boat_name'] ?> (<?= $openTrip['boat_type'] ?>)</p>
-                    <p><strong>Time:</strong> <?= date('H:i', strtotime($openTrip['departure_time'])) ?></p>
-                </div>
-                <div class="col-md-4">
-                    <p><strong>Capacity:</strong> <?= $openTrip['reserved_seats'] + $openTrip['available_seats'] ?> seats</p>
-                    <p><strong>Available:</strong> <?= $openTrip['available_seats'] ?> seats</p>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Manage Open Trip Members</h2>
+        <a href="<?= base_url('boats/open-trip') ?>" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Back to Open Trips
+        </a>
     </div>
 
+   <!-- Di open_trip_members.php -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Trip Information</h4>
+    </div>
+    <div class="card-body">
+        <?php if (isset($tripInfo) && !empty($tripInfo)): ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <p><strong>Route:</strong> <?= $tripInfo['departure_island'] ?> - <?= $tripInfo['arrival_island'] ?></p>
+                    <p><strong>Date:</strong> <?= date('d M Y', strtotime($tripInfo['departure_date'])) ?></p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Boat:</strong> <?= $tripInfo['boat_name'] ?> (<?= $tripInfo['boat_type'] ?>)</p>
+                    <p><strong>Time:</strong> <?= date('H:i', strtotime($tripInfo['departure_time'])) ?></p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Capacity:</strong> <?= $tripInfo['capacity'] ?> seats</p>
+                    <p><strong>Available:</strong> <?= $tripInfo['available_seats'] ?> seats</p>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-warning">Trip information not available</div>
+        <?php endif; ?>
+    </div>
+</div>
+
+    <!-- Members Table -->
     <div class="card">
-        <div class="card-header bg-secondary text-white">
-            <h3 class="mb-0">Trip Members</h3>
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Trip Members</h4>
+            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                <i class="fas fa-plus me-1"></i> Add Member
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -49,16 +53,14 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Passengers</th>
-                            <th>Total Price</th>
-                            <th>Booking Status</th>
-                            <th>Payment Status</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($members)): ?>
                             <tr>
-                                <td colspan="10" class="text-center">No members yet</td>
+                                <td colspan="8" class="text-center">No members yet</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($members as $index => $member): ?>
@@ -73,36 +75,30 @@
                                     <td><?= $member['full_name'] ?></td>
                                     <td><?= $member['phone'] ?? '-' ?></td>
                                     <td><?= $member['passenger_count'] ?></td>
-                                    <td>Rp <?= number_format($member['total_price'], 0, ',', '.') ?></td>
                                     <td>
                                         <span class="badge bg-<?= 
-                                            $member['booking_status'] == 'pending' ? 'warning' : 
-                                            ($member['booking_status'] == 'confirmed' ? 'info' : 
-                                            ($member['booking_status'] == 'paid' ? 'success' : 'danger')) 
+                                            $member['booking_status'] == 'confirmed' ? 'success' : 
+                                            ($member['booking_status'] == 'pending' ? 'warning' : 'danger') 
                                         ?>">
                                             <?= ucfirst($member['booking_status']) ?>
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-<?= 
-                                            $member['payment_status'] == 'pending' ? 'warning' : 
-                                            ($member['payment_status'] == 'partial' ? 'info' : 
-                                            ($member['payment_status'] == 'paid' ? 'success' : 'danger')) 
-                                        ?>">
-                                            <?= ucfirst($member['payment_status']) ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info view-details" 
-                                                data-booking-id="<?= $member['booking_id'] ?>">
+                                        <button class="btn btn-sm btn-info view-member" 
+                                                data-booking-id="<?= $member['booking_id'] ?>"
+                                                title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        <?php if ($member['booking_status'] != 'completed'): ?>
-                                            <button class="btn btn-sm btn-primary edit-booking" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        <?php endif; ?>
+                                        <button class="btn btn-sm btn-primary edit-member" 
+                                                data-booking-id="<?= $member['booking_id'] ?>"
+                                                title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger delete-member" 
+                                                data-booking-id="<?= $member['booking_id'] ?>"
+                                                title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -110,27 +106,53 @@
                     </tbody>
                 </table>
             </div>
-            
-            <div class="d-flex justify-content-between mt-4">
-                <a href="<?= base_url('boats/open-trip') ?>" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left me-2"></i> Back to Open Trips
-                </a>
-                
-                <div>
-                    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addMemberModal">
-                        <i class="fas fa-plus me-2"></i> Add Guest Member
-                    </button>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inviteUserModal">
-                        <i class="fas fa-user-plus me-2"></i> Invite User
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- Modal for Member Details -->
-<div class="modal fade" id="memberDetailsModal" tabindex="-1" aria-hidden="true">
+<!-- Add Member Modal -->
+<div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addMemberForm" action="<?= base_url('boats/add-member') ?>" method="POST">
+                <input type="hidden" name="open_trip_id" value="<?= $tripInfo['open_trip_id'] ?>">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Member Type</label>
+                        <select class="form-select" name="member_type" id="memberType">
+                            <option value="registered">Registered User</option>
+                            <option value="guest">Guest</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="userEmailField">
+                        <label class="form-label">User Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter user email">
+                    </div>
+                    <div class="mb-3 d-none" id="guestInfoField">
+                        <label class="form-label">Guest Name</label>
+                        <input type="text" class="form-control" name="guest_name" placeholder="Enter guest name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Passengers</label>
+                        <input type="number" class="form-control" name="passenger_count" 
+                               min="1" max="<?= $tripInfo['available_seats'] ?>" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- View Member Modal -->
+<div class="modal fade" id="viewMemberModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,74 +169,22 @@
     </div>
 </div>
 
-<!-- Modal for Add Guest Member -->
-<div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
+<!-- Edit Member Modal -->
+<div class="modal fade" id="editMemberModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Guest Member</h5>
+                <h5 class="modal-title">Edit Member</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="addGuestMemberForm" action="<?= base_url('boats/add-open-trip-guest') ?>" method="POST">
-                <input type="hidden" name="open_trip_id" value="<?= $openTrip['open_trip_id'] ?>">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="guestName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="guestName" name="full_name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="guestPhone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="guestPhone" name="phone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="guestPassengers" class="form-label">Number of Passengers</label>
-                        <input type="number" class="form-control" id="guestPassengers" name="passenger_count" 
-                               min="1" max="<?= $openTrip['available_seats'] ?>" required>
-                    </div>
-                    <div id="passengerDetailsContainer">
-                        <div class="mb-3 passenger-detail">
-                            <label class="form-label">Passenger 1 Name</label>
-                            <input type="text" class="form-control" name="passenger_names[]" required>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-primary" id="addPassengerBtn">
-                        <i class="fas fa-plus me-1"></i> Add Passenger
-                    </button>
+            <form id="editMemberForm" action="<?= base_url('boats/update-member') ?>" method="POST">
+                <input type="hidden" name="booking_id" id="editBookingId">
+                <div class="modal-body" id="editMemberContent">
+                    <!-- Content will be loaded via AJAX -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for Invite User -->
-<div class="modal fade" id="inviteUserModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Invite User to Join</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="inviteUserForm" action="<?= base_url('boats/invite-to-open-trip') ?>" method="POST">
-                <input type="hidden" name="open_trip_id" value="<?= $openTrip['open_trip_id'] ?>">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="userEmail" class="form-label">User Email</label>
-                        <input type="email" class="form-control" id="userEmail" name="email" required>
-                        <div class="form-text">Enter registered user email to invite</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="invitePassengers" class="form-label">Number of Passengers</label>
-                        <input type="number" class="form-control" id="invitePassengers" name="passenger_count" 
-                               min="1" max="<?= $openTrip['available_seats'] ?>" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send Invitation</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -223,60 +193,66 @@
 
 <script>
 $(document).ready(function() {
+    // Toggle between user email and guest info fields
+    $('#memberType').change(function() {
+        if ($(this).val() === 'registered') {
+            $('#userEmailField').removeClass('d-none');
+            $('#guestInfoField').addClass('d-none');
+        } else {
+            $('#userEmailField').addClass('d-none');
+            $('#guestInfoField').removeClass('d-none');
+        }
+    });
+
     // View member details
-    $('.view-details').click(function() {
+    $('.view-member').click(function() {
         const bookingId = $(this).data('booking-id');
         
-        $.get('<?= base_url('boats/get-booking-details') ?>/' + bookingId, function(response) {
+        $.get('<?= base_url('boats/get-member-details') ?>/' + bookingId, function(response) {
             if (response.success) {
                 $('#memberDetailsContent').html(response.html);
-                $('#memberDetailsModal').modal('show');
+                $('#viewMemberModal').modal('show');
             } else {
-                alert(response.error || 'Failed to load details');
+                alert(response.error || 'Failed to load member details');
             }
-        }).fail(function() {
-            alert('Error loading details');
         });
     });
 
-    // Add passenger fields
-    $('#addPassengerBtn').click(function() {
-        const count = $('#passengerDetailsContainer .passenger-detail').length + 1;
-        if (count <= $('#guestPassengers').val()) {
-            $('#passengerDetailsContainer').append(`
-                <div class="mb-3 passenger-detail">
-                    <label class="form-label">Passenger ${count} Name</label>
-                    <input type="text" class="form-control" name="passenger_names[]" required>
-                </div>
-            `);
-        } else {
-            alert('Number of passengers cannot exceed the specified count');
-        }
-    });
-
-    // Update passenger fields when count changes
-    $('#guestPassengers').change(function() {
-        const currentCount = $('#passengerDetailsContainer .passenger-detail').length;
-        const newCount = $(this).val();
+    // Edit member
+    $('.edit-member').click(function() {
+        const bookingId = $(this).data('booking-id');
+        $('#editBookingId').val(bookingId);
         
-        if (newCount > currentCount) {
-            for (let i = currentCount + 1; i <= newCount; i++) {
-                $('#passengerDetailsContainer').append(`
-                    <div class="mb-3 passenger-detail">
-                        <label class="form-label">Passenger ${i} Name</label>
-                        <input type="text" class="form-control" name="passenger_names[]" required>
-                    </div>
-                `);
+        $.get('<?= base_url('boats/get-member-edit') ?>/' + bookingId, function(response) {
+            if (response.success) {
+                $('#editMemberContent').html(response.html);
+                $('#editMemberModal').modal('show');
+            } else {
+                alert(response.error || 'Failed to load edit form');
             }
-        } else if (newCount < currentCount) {
-            for (let i = currentCount; i > newCount; i--) {
-                $('#passengerDetailsContainer .passenger-detail').last().remove();
-            }
+        });
+    });
+
+    // Delete member
+    $('.delete-member').click(function() {
+        const bookingId = $(this).data('booking-id');
+        
+        if (confirm('Are you sure you want to delete this member?')) {
+            $.post('<?= base_url('boats/delete-member') ?>', {
+                booking_id: bookingId
+            }, function(response) {
+                if (response.success) {
+                    alert('Member deleted successfully');
+                    location.reload();
+                } else {
+                    alert(response.error || 'Failed to delete member');
+                }
+            });
         }
     });
 
-    // Form submission for adding guest member
-    $('#addGuestMemberForm').submit(function(e) {
+    // Add member form submission
+    $('#addMemberForm').submit(function(e) {
         e.preventDefault();
         
         $.ajax({
@@ -286,20 +262,17 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    alert('Guest member added successfully');
+                    alert('Member added successfully');
                     location.reload();
                 } else {
-                    alert(response.error || 'Failed to add guest member');
+                    alert(response.error || 'Failed to add member');
                 }
-            },
-            error: function() {
-                alert('Error submitting form');
             }
         });
     });
 
-    // Form submission for inviting user
-    $('#inviteUserForm').submit(function(e) {
+    // Edit member form submission
+    $('#editMemberForm').submit(function(e) {
         e.preventDefault();
         
         $.ajax({
@@ -309,18 +282,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    alert('Invitation sent successfully');
+                    alert('Member updated successfully');
+                    $('#editMemberModal').modal('hide');
                     location.reload();
                 } else {
-                    alert(response.error || 'Failed to send invitation');
+                    alert(response.error || 'Failed to update member');
                 }
-            },
-            error: function() {
-                alert('Error submitting form');
             }
         });
     });
 });
 </script>
-
-<?= $this->endSection() ?>
