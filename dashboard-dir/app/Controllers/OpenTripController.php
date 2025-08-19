@@ -28,20 +28,26 @@ class OpenTripController extends BaseController
     }
 
     public function index()
-    {
-        $status = $this->request->getGet('status');
-        
-        $data = [
-            'title' => 'Manage Open Trips',
-            'status' => $status,
-            'openTrips' => $this->openTripModel->getOpenTripsWithDetails($status),
-            'user' => [
-                'name' => $this->session->get('full_name'),
-                'role' => $this->session->get('role')
-            ]
-        ];
-        return view('admin/open-trips/index', $data);
+{
+    $status = $this->request->getGet('status');
+    
+    if ($status === 'pending') {
+        $openTrips = $this->requestOpenTripModel->getPendingRequests();
+    } else {
+        $openTrips = $this->openTripModel->getOpenTripsWithDetails($status);
     }
+
+    $data = [
+        'title' => 'Manage Open Trips',
+        'status' => $status,
+        'openTrips' => $openTrips,
+        'user' => [
+            'name' => $this->session->get('full_name'),
+            'role' => $this->session->get('role')
+        ]
+    ];
+    return view('admin/open-trips/index', $data);
+}
 
     public function show($id)
     {
@@ -158,4 +164,38 @@ class OpenTripController extends BaseController
             return redirect()->back()->with('error', 'Failed to update status');
         }
     }
+    // Add this method to OpenTripController.php
+public function approveRequest($requestId)
+{
+    $request = $this->requestOpenTripModel->find($requestId);
+    if (!$request) {
+        return redirect()->back()->with('error', 'Request not found');
+    }
+
+    // Create schedule
+    $scheduleData = [
+        'route_id' => $request['route_id'],
+        'boat_id' => $request['boat_id'],
+        'departure_date' => $request['proposed_date'],
+        'departure_time' => $request['proposed_time'],
+        'available_seats' => $request['max_passengers'],
+        'is_open_trip' => 1
+    ];
+    $scheduleId = $this->scheduleModel->insert($scheduleData);
+
+    // Create open trip
+    $openTripData = [
+        'request_id' => $requestId,
+        'schedule_id' => $scheduleId,
+        'reserved_seats' => 0,
+        'available_seats' => $request['max_passengers'],
+        'status' => 'upcoming'
+    ];
+    $openTripId = $this->openTripModel->insert($openTripData);
+
+    // Update request status
+    $this->requestOpenTripModel->update($requestId, ['status' => 'approved']);
+
+    return redirect()->to('/admin/open-trips')->with('success', 'Open trip approved and created successfully');
+}
 }

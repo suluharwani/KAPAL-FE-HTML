@@ -84,6 +84,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('(:num)', 'OpenTripController::show/$1');
         $routes->post('(:num)/status/(:any)', 'OpenTripController::updateStatus/$1/$2');
         $routes->get('(:num)/status/(:any)', 'OpenTripController::updateStatus/$1/$2');
+        $routes->post('approve-request/(:num)', 'OpenTripController::approveRequest/$1');
     });
     
     
