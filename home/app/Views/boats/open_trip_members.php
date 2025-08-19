@@ -132,6 +132,10 @@
                         <label class="form-label">User Email</label>
                         <input type="email" class="form-control" name="email" placeholder="Enter user email">
                     </div>
+                    <div class="mb-3" id="userPhoneField">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="phone" placeholder="Enter user phone">
+                    </div>
                     <div class="mb-3 d-none" id="guestInfoField">
                         <label class="form-label">Guest Name</label>
                         <input type="text" class="form-control" name="guest_name" placeholder="Enter guest name">

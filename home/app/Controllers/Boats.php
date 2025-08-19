@@ -544,6 +544,7 @@ public function addMember()
     $openTripId = $this->request->getPost('open_trip_id');
     $memberType = $this->request->getPost('member_type');
     $passengerCount = $this->request->getPost('passenger_count');
+    $phone = $this->request->getPost('phone');
     
     // Get open trip details with boat price and schedule_id
     $openTrip = $openTripModel->select('open_trip_schedules.*, boats.price_per_trip, schedules.schedule_id')
@@ -601,7 +602,7 @@ public function addMember()
             'email' => 'guest_' . time() . '@example.com',
             'password' => password_hash(uniqid(), PASSWORD_DEFAULT),
             'full_name' => $guestName,
-            'phone' => '0000000000',
+            'phone' => $phone,
             'role' => 'customer'
         ];
 
