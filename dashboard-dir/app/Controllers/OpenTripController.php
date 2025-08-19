@@ -181,6 +181,8 @@ public function approveRequest($requestId)
         'available_seats' => $request['max_passengers'],
         'is_open_trip' => 1
     ];
+    // var_dump($scheduleData); // Debugging line to check schedule data
+    // die();
     $scheduleId = $this->scheduleModel->insert($scheduleData);
 
     // Create open trip
@@ -188,9 +190,12 @@ public function approveRequest($requestId)
         'request_id' => $requestId,
         'schedule_id' => $scheduleId,
         'reserved_seats' => 0,
+        'boat_id' => (int)$request['boat_id'],
         'available_seats' => $request['max_passengers'],
         'status' => 'upcoming'
     ];
+    // var_dump($openTripData); // Debugging line to check schedule data
+    // die();
     $openTripId = $this->openTripModel->insert($openTripData);
 
     // Update request status

@@ -523,7 +523,7 @@ public function getMemberDetails($bookingId)
 
 public function addMember()
 {
-       $validation = \Config\Services::validation();
+    $validation = \Config\Services::validation();
     $validation->setRules([
         'open_trip_id' => 'required|numeric',
         'member_type' => 'required|in_list[registered,guest]',
@@ -539,14 +539,16 @@ public function addMember()
     $bookingModel = new \App\Models\BookingModel();
     $userModel = new \App\Models\UserModel();
     $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    $scheduleModel = new \App\Models\ScheduleModel();
     
     $openTripId = $this->request->getPost('open_trip_id');
     $memberType = $this->request->getPost('member_type');
     $passengerCount = $this->request->getPost('passenger_count');
     
-    // Get open trip details with boat price
-    $openTrip = $openTripModel->select('open_trip_schedules.*, boats.price_per_trip')
+    // Get open trip details with boat price and schedule_id
+    $openTrip = $openTripModel->select('open_trip_schedules.*, boats.price_per_trip, schedules.schedule_id')
                              ->join('boats', 'boats.boat_id = open_trip_schedules.boat_id')
+                             ->join('schedules', 'schedules.schedule_id = open_trip_schedules.schedule_id')
                              ->where('open_trip_schedules.open_trip_id', $openTripId)
                              ->first();
     
@@ -560,11 +562,13 @@ public function addMember()
     }
     
     // Set default price if not available
-    $pricePerTrip = $openTrip['price_per_trip'] ?? 0; // Default value jika tidak ada
+    $pricePerTrip = $openTrip['price_per_trip'] ?? 0;
     
     // Prepare booking data
     $bookingData = [
         'booking_code' => 'BOOK-' . strtoupper(uniqid()),
+        'user_id' => null, // Will be set below
+        'schedule_id' => $openTrip['schedule_id'], // Add the schedule_id
         'open_trip_id' => $openTripId,
         'passenger_count' => $passengerCount,
         'total_price' => $pricePerTrip * $passengerCount,
@@ -584,12 +588,31 @@ public function addMember()
         }
         
         $bookingData['user_id'] = $user['user_id'];
+    } else {
+        // For guest users, create a temporary user account
+        $guestName = $this->request->getPost('guest_name');
+        if (empty($guestName)) {
+            return $this->response->setJSON(['success' => false, 'error' => 'Guest name is required']);
+        }
+
+        // Create a temporary user account for the guest
+        $tempUserData = [
+            'username' => 'guest_' . time(),
+            'email' => 'guest_' . time() . '@example.com',
+            'password' => password_hash(uniqid(), PASSWORD_DEFAULT),
+            'full_name' => $guestName,
+            'phone' => '0000000000',
+            'role' => 'customer'
+        ];
+
+        $userId = $userModel->insert($tempUserData);
+        $bookingData['user_id'] = $userId;
     }
     
     try {
         $bookingId = $bookingModel->insert($bookingData);
         
-        // For guest members
+        // For guest members, add passenger details
         if ($memberType === 'guest') {
             $passengerModel = new \App\Models\PassengerModel();
             $passengerModel->insert([
@@ -598,14 +621,17 @@ public function addMember()
             ]);
         }
         
-        // Update available seats
-        $openTripModel->decrement('available_seats', $passengerCount, ['open_trip_id' => $openTripId]);
+        // Update available seats in the schedule
+        $scheduleModel->decrement('available_seats', (int)$passengerCount, ['schedule_id' => $openTrip['schedule_id']]);
         
-        return $this->response->setJSON(['success' => true]);
+        return $this->response->setJSON(['success' => true, 'booking_id' => $bookingId]);
     } catch (\Exception $e) {
+        // If we created a temporary user, delete it if booking failed
+        if (isset($userId)) {
+            $userModel->delete($userId);
+        }
         return $this->response->setJSON(['success' => false, 'error' => $e->getMessage()]);
     }
 }
-
 // Add other CRUD methods (update, delete) similarly
 }

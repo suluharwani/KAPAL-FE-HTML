@@ -6,7 +6,7 @@ class OpenTripModel extends Model
 {
     protected $table = 'open_trip_schedules';
     protected $primaryKey = 'open_trip_id';
-    protected $allowedFields = ['request_id', 'schedule_id', 'reserved_seats', 'available_seats', 'status'];
+    protected $allowedFields = ['request_id', 'schedule_id','boat_id','reserved_seats', 'available_seats', 'status'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
