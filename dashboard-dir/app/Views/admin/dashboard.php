@@ -7,7 +7,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title">Total Boats</h6>
-                        <h2 class="mb-0">15</h2>
+                        <h2 class="mb-0"><?= $total_boats ?></h2>
                     </div>
                     <i class="bi bi-boat fs-1"></i>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title">Today's Bookings</h6>
-                        <h2 class="mb-0">8</h2>
+                        <h2 class="mb-0"><?= $today_bookings ?></h2>
                     </div>
                     <i class="bi bi-calendar-check fs-1"></i>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title">Pending Payments</h6>
-                        <h2 class="mb-0">5</h2>
+                        <h2 class="mb-0"><?= $pending_payments ?></h2>
                     </div>
                     <i class="bi bi-cash-coin fs-1"></i>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title">New Messages</h6>
-                        <h2 class="mb-0">3</h2>
+                        <h2 class="mb-0"><?= $new_messages ?></h2>
                     </div>
                     <i class="bi bi-envelope fs-1"></i>
                 </div>
@@ -74,20 +74,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($recent_bookings as $index => $booking): ?>
                             <tr>
-                                <td>1</td>
-                                <td>BK-20230801-001</td>
-                                <td>John Doe</td>
-                                <td>2023-08-01</td>
-                                <td><span class="badge bg-success">Paid</span></td>
+                                <td><?= $index + 1 ?></td>
+                                <td><?= $booking['booking_code'] ?></td>
+                                <td><?= $booking['full_name'] ?? 'Guest' ?></td>
+                                <td><?= date('Y-m-d', strtotime($booking['created_at'])) ?></td>
+                                <td>
+                                    <?php if ($booking['payment_status'] === 'paid'): ?>
+                                        <span class="badge bg-success">Paid</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>BK-20230801-002</td>
-                                <td>Jane Smith</td>
-                                <td>2023-08-02</td>
-                                <td><span class="badge bg-warning text-dark">Pending</span></td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -101,25 +102,17 @@
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
+                    <?php foreach ($recent_activities as $activity): ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
-                            <small class="text-muted">10 min ago</small>
-                            <p class="mb-0">New booking created</p>
+                            <small class="text-muted"><?= $activity['time_ago'] ?></small>
+                            <p class="mb-0"><?= $activity['description'] ?></p>
                         </div>
-                        <span class="badge bg-primary rounded-pill">New</span>
+                        <?php if ($activity['is_new']): ?>
+                            <span class="badge bg-primary rounded-pill">New</span>
+                        <?php endif; ?>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-muted">1 hour ago</small>
-                            <p class="mb-0">Payment verified</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-muted">2 hours ago</small>
-                            <p class="mb-0">New boat added</p>
-                        </div>
-                    </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
