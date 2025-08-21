@@ -6,14 +6,20 @@
             <i class="fas fa-arrow-left me-2"></i> Back to Open Trips
         </a>
     </div>
-
-   <!-- Di open_trip_members.php -->
+<!-- Di open_trip_members.php -->
 <div class="card mb-4">
     <div class="card-header bg-primary text-white">
         <h4 class="mb-0">Trip Information</h4>
     </div>
     <div class="card-body">
-        <?php if (isset($tripInfo) && !empty($tripInfo)): ?>
+        <?php if (isset($tripInfo) && !empty($tripInfo)): 
+            // Hitung total booked seats
+            $totalBooked = 0;
+            foreach ($members as $member) {
+                $totalBooked += $member['passenger_count'];
+            }
+            $availableSeats = $tripInfo['capacity'] - $totalBooked;
+        ?>
             <div class="row">
                 <div class="col-md-4">
                     <p><strong>Route:</strong> <?= $tripInfo['departure_island'] ?> - <?= $tripInfo['arrival_island'] ?></p>
@@ -25,7 +31,8 @@
                 </div>
                 <div class="col-md-4">
                     <p><strong>Capacity:</strong> <?= $tripInfo['capacity'] ?> seats</p>
-                    <p><strong>Available:</strong> <?= $tripInfo['available_seats'] ?> seats</p>
+                    <p><strong>Booked:</strong> <?= $totalBooked ?> seats</p>
+                    <p><strong>Available:</strong> <span class="badge bg-<?= $availableSeats > 0 ? 'success' : 'danger' ?>"><?= $availableSeats ?> seats</span></p>
                 </div>
             </div>
         <?php else: ?>
@@ -194,7 +201,52 @@
         </div>
     </div>
 </div>
-
+<!-- Add Member Modal -->
+<div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addMemberForm" action="<?= base_url('boats/add-member') ?>" method="POST">
+                <input type="hidden" name="open_trip_id" value="<?= $tripInfo['open_trip_id'] ?>">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Member Type</label>
+                        <select class="form-select" name="member_type" id="memberType">
+                            <option value="registered">Registered User</option>
+                            <option value="guest">Guest</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="userEmailField">
+                        <label class="form-label">User Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter user email" required>
+                    </div>
+                    <div class="mb-3" id="userPhoneField">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="phone" placeholder="Enter user phone" required>
+                    </div>
+                    <div class="mb-3 d-none" id="guestInfoField">
+                        <label class="form-label">Guest Name</label>
+                        <input type="text" class="form-control" name="guest_name" placeholder="Enter guest name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Passengers</label>
+                        <input type="number" class="form-control" name="passenger_count" 
+                               min="1" max="<?= $availableSeats ?? 0 ?>" 
+                               placeholder="Enter number of passengers" required>
+                        <small class="form-text text-muted passenger-help">Maximum <?= $availableSeats ?? 0 ?> seats available</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
 $(document).ready(function() {
     // Toggle between user email and guest info fields
@@ -255,25 +307,153 @@ $(document).ready(function() {
         }
     });
 
-    // Add member form submission
-    $('#addMemberForm').submit(function(e) {
-        e.preventDefault();
-        
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    alert('Member added successfully');
-                    location.reload();
+// Di open_trip_members.php - updated JavaScript handler
+$('#addMemberForm').submit(function(e) {
+    e.preventDefault();
+    
+    const form = $(this);
+    const formData = form.serialize();
+    const submitBtn = form.find('button[type="submit"]');
+    const originalBtnText = submitBtn.html();
+    
+    // Show loading state
+    submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Adding Member...');
+    
+    // Clear previous errors
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+    
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Show success message with details
+                const successHtml = `
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-check-circle"></i> Member Added Successfully!</h5>
+                        <p><strong>Booking Code:</strong> ${response.data.booking_code}</p>
+                        <p><strong>Passengers:</strong> ${response.data.passenger_count}</p>
+                        <p><strong>Total Price:</strong> IDR ${response.data.total_price}</p>
+                        <p><strong>Available Seats Left:</strong> ${response.data.available_seats}</p>
+                    </div>
+                `;
+                
+                // Show success message
+                $('#addMemberModal .modal-body').prepend(successHtml);
+                
+                // Reset form and close modal after 3 seconds
+                setTimeout(function() {
+                    $('#addMemberModal').modal('hide');
+                    form[0].reset();
+                    $('.alert-success').remove();
+                    location.reload(); // Refresh to update member list
+                }, 3000);
+                
+            } else {
+                // Show validation errors
+                if (response.errors) {
+                    $.each(response.errors, function(field, error) {
+                        const input = form.find('[name="' + field + '"]');
+                        input.addClass('is-invalid');
+                        input.after('<div class="invalid-feedback">' + error + '</div>');
+                    });
                 } else {
-                    alert(response.error || 'Failed to add member');
+                    alert('Error: ' + (response.error || response.message || 'Failed to add member'));
                 }
+                
+                submitBtn.prop('disabled', false).html(originalBtnText);
             }
-        });
+        },
+        error: function(xhr, status, error) {
+            alert('Network error: ' + error + '. Please check your connection and try again.');
+            submitBtn.prop('disabled', false).html(originalBtnText);
+        }
     });
+});
+
+// Reset form when modal is closed
+$('#addMemberModal').on('hidden.bs.modal', function() {
+    $(this).find('form')[0].reset();
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+    $('.alert-success').remove();
+});// Di open_trip_members.php - updated JavaScript handler
+$('#addMemberForm').submit(function(e) {
+    e.preventDefault();
+    
+    const form = $(this);
+    const formData = form.serialize();
+    const submitBtn = form.find('button[type="submit"]');
+    const originalBtnText = submitBtn.html();
+    
+    // Show loading state
+    submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Adding Member...');
+    
+    // Clear previous errors
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+    
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Show success message with details
+                const successHtml = `
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-check-circle"></i> Member Added Successfully!</h5>
+                        <p><strong>Booking Code:</strong> ${response.data.booking_code}</p>
+                        <p><strong>Passengers:</strong> ${response.data.passenger_count}</p>
+                        <p><strong>Total Price:</strong> IDR ${response.data.total_price}</p>
+                        <p><strong>Available Seats Left:</strong> ${response.data.available_seats}</p>
+                    </div>
+                `;
+                
+                // Show success message
+                $('#addMemberModal .modal-body').prepend(successHtml);
+                
+                // Reset form and close modal after 3 seconds
+                setTimeout(function() {
+                    $('#addMemberModal').modal('hide');
+                    form[0].reset();
+                    $('.alert-success').remove();
+                    location.reload(); // Refresh to update member list
+                }, 3000);
+                
+            } else {
+                // Show validation errors
+                if (response.errors) {
+                    $.each(response.errors, function(field, error) {
+                        const input = form.find('[name="' + field + '"]');
+                        input.addClass('is-invalid');
+                        input.after('<div class="invalid-feedback">' + error + '</div>');
+                    });
+                } else {
+                    alert('Error: ' + (response.error || response.message || 'Failed to add member'));
+                }
+                
+                submitBtn.prop('disabled', false).html(originalBtnText);
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Network error: ' + error + '. Please check your connection and try again.');
+            submitBtn.prop('disabled', false).html(originalBtnText);
+        }
+    });
+});
+
+// Reset form when modal is closed
+$('#addMemberModal').on('hidden.bs.modal', function() {
+    $(this).find('form')[0].reset();
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').remove();
+    $('.alert-success').remove();
+});
 
     // Edit member form submission
     $('#editMemberForm').submit(function(e) {

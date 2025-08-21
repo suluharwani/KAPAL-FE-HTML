@@ -73,4 +73,13 @@ public function getOpenTripDetails($openTripId)
              ->where('open_trip_id', $openTripId)
              ->update();
     }
+    // OpenTripSchedulesModel.php
+public function getBoatCapacity($openTripId)
+{
+    return $this->select('b.capacity')
+               ->join('schedules s', 's.schedule_id = open_trip_schedules.schedule_id')
+               ->join('boats b', 'b.boat_id = s.boat_id')
+               ->where('open_trip_schedules.open_trip_id', $openTripId)
+               ->first();
+}
 }
