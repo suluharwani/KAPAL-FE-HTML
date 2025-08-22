@@ -54,6 +54,7 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->post('delete-all-members', 'Boats::deleteAllMembers');
     $routes->get('print-tickets', 'Boats::printTickets');
     $routes->post('send-whatsapp-tickets', 'Boats::sendWhatsAppTickets');
+
     $routes->get('download-tickets-pdf/(:num)', 'Boats::downloadTicketsPdf/$1');
     $routes->get('download-tickets-pdf', 'Boats::downloadTicketsPdf');
 });

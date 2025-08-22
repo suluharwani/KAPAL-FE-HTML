@@ -6,6 +6,14 @@ use App\Models\RouteModel;
 use App\Models\ScheduleModel;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\Result\ResultInterface;
+
 class Boats extends BaseController
 {
     public function index()
@@ -1366,74 +1374,121 @@ public function deleteMember()
         ]);
     }
 }
+
 public function downloadTicketsPdf($openTripId = null)
 {
-    $bookingIds = $this->request->getGet('booking_ids');
-    
-    $bookingModel = new \App\Models\BookingModel();
-    $passengerModel = new \App\Models\PassengerModel();
-    $openTripModel = new \App\Models\OpenTripSchedulesModel();
-    
-    // Get bookings to print
-    if (!empty($bookingIds)) {
-        $bookingIds = is_array($bookingIds) ? $bookingIds : explode(',', $bookingIds);
-        $bookings = $bookingModel->whereIn('booking_id', $bookingIds)->findAll();
-    } else if (!empty($openTripId)) {
-        // Get all bookings for this open trip
-        $bookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
-    } else {
-        return redirect()->back()->with('error', 'No bookings selected');
+    try {
+        $bookingIds = $this->request->getGet('booking_ids');
+        
+        $bookingModel = new \App\Models\BookingModel();
+        $passengerModel = new \App\Models\PassengerModel();
+        $openTripModel = new \App\Models\OpenTripSchedulesModel();
+        
+        // Get bookings to print
+        if (!empty($bookingIds)) {
+            $bookingIds = is_array($bookingIds) ? $bookingIds : explode(',', $bookingIds);
+            $bookings = $bookingModel->whereIn('booking_id', $bookingIds)->findAll();
+        } else if (!empty($openTripId)) {
+            // Get all bookings for this open trip
+            $bookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
+        } else {
+            return redirect()->back()->with('error', 'No bookings selected');
+        }
+        
+        if (empty($bookings)) {
+            return redirect()->back()->with('error', 'No bookings found');
+        }
+        
+        // Get open trip details
+        $openTripDetails = [];
+        if (!empty($openTripId)) {
+            $openTripDetails = $openTripModel->getOpenTripDetails($openTripId);
+        }
+        
+        // Get passenger details for each booking
+        foreach ($bookings as &$booking) {
+            $booking['passengers'] = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
+            
+            // Generate QR codes for each passenger
+            $booking['qr_codes'] = [];
+            for ($i = 0; $i < $booking['passenger_count']; $i++) {
+                $qrText = $booking['booking_code'] . '-' . ($i + 1) . '-' . date('Ymd');
+                $booking['qr_codes'][$i] = $this->generateQrCode($qrText);
+            }
+        }
+        
+        // Prepare data for PDF
+        $data = [
+            'title' => 'Boat Tickets - Raja Ampat',
+            'bookings' => $bookings,
+            'open_trip_details' => $openTripDetails
+        ];
+        
+        // Load the view
+        $html = view('boats/tickets_pdf', $data);
+        
+        // Setup PDF options
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $options->set('defaultPaperSize', 'a5');
+        $options->set('defaultPaperOrientation', 'portrait');
+        $options->set('dpi', 96);
+        $options->set('isPhpEnabled', true);
+        
+        // Instantiate Dompdf
+        $dompdf = new Dompdf($options);
+        
+        // Set base path for assets
+        $dompdf->setBasePath(ROOTPATH . 'public/');
+        
+        // Load HTML content
+        $dompdf->loadHtml($html);
+        
+        // Render PDF
+        $dompdf->render();
+        
+        // Generate filename
+        if (!empty($openTripId)) {
+            $filename = 'tickets_open_trip_' . $openTripId . '_' . date('Ymd_His') . '.pdf';
+        } else {
+            $filename = 'tickets_' . date('Ymd_His') . '.pdf';
+        }
+        
+        // Output PDF for download
+        $dompdf->stream($filename, [
+            'Attachment' => true,
+            'compress' => true
+        ]);
+        
+        exit;
+        
+    } catch (\Exception $e) {
+        log_message('error', 'PDF Generation Error: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Failed to generate PDF: ' . $e->getMessage());
     }
-    
-    if (empty($bookings)) {
-        return redirect()->back()->with('error', 'No bookings found');
+}
+
+private function generateQrCode($text)
+{
+    try {
+        $qrCode = QrCode::create($text)
+            ->setEncoding(new Encoding('UTF-8'))
+            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+            ->setSize(150)
+            ->setMargin(10)
+            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->setForegroundColor(new Color(0, 0, 0))
+            ->setBackgroundColor(new Color(255, 255, 255));
+        
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        
+        return 'data:image/png;base64,' . base64_encode($result->getString());
+        
+    } catch (\Exception $e) {
+        log_message('error', 'QR Code Generation Error: ' . $e->getMessage());
+        return null;
     }
-    
-    // Get open trip details
-    $openTripDetails = [];
-    if (!empty($openTripId)) {
-        $openTripDetails = $openTripModel->getOpenTripDetails($openTripId);
-    }
-    
-    // Get passenger details for each booking
-    foreach ($bookings as &$booking) {
-        $booking['passengers'] = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
-    }
-    
-    // Prepare data for PDF
-    $data = [
-        'title' => 'Boat Tickets - Raja Ampat',
-        'bookings' => $bookings,
-        'open_trip_details' => $openTripDetails
-    ];
-    
-    // Load the view
-    $html = view('boats/tickets_pdf', $data);
-    
-    // Setup PDF options
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isRemoteEnabled', true);
-    $options->set('defaultPaperSize', 'a5');
-    $options->set('defaultPaperOrientation', 'portrait');
-    
-    // Instantiate Dompdf
-    $dompdf = new Dompdf($options);
-    
-    // Load HTML content
-    $dompdf->loadHtml($html);
-    
-    // Render PDF
-    $dompdf->render();
-    
-    // Generate filename
-    $filename = 'tickets_' . date('Ymd_His') . '.pdf';
-    
-    // Output PDF for download
-    $dompdf->stream($filename, [
-        'Attachment' => true
-    ]);
-    
-    exit;
 }
 }
