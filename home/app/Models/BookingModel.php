@@ -6,20 +6,21 @@ class BookingModel extends Model
 {
     protected $table = 'bookings';
     protected $primaryKey = 'booking_id';
-    protected $allowedFields = [
-        'booking_code',
-        'user_id',
-        'schedule_id',
-        'passenger_count',
-        'total_price',
-        'booking_status',
-        'payment_method',
-        'payment_status',
-        'is_open_trip',
-        'open_trip_id',
-        'open_trip_type',
-        'notes'
-    ];
+   protected $allowedFields = [
+    'booking_code',
+    'user_id',
+    'schedule_id',
+    'passenger_count',
+    'custom_price', // Tambahkan ini
+    'total_price',
+    'booking_status',
+    'payment_method',
+    'payment_status',
+    'is_open_trip',
+    'open_trip_id',
+    'open_trip_type',
+    'notes'
+];
     protected $returnType = 'array';
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
@@ -142,14 +143,19 @@ class BookingModel extends Model
     /**
      * Create new booking for open trip
      */
-    public function createOpenTripBooking($data)
-    {
-        // Generate booking code
-        $data['booking_code'] = 'BOOK-' . strtoupper(uniqid());
-        $data['is_open_trip'] = 1;
-        
-        return $this->insert($data);
+public function createOpenTripBooking($data)
+{
+    // Generate booking code
+    $data['booking_code'] = 'BOOK-' . strtoupper(uniqid());
+    $data['is_open_trip'] = 1;
+    
+    // Hitung total price jika custom_price diset
+    if (isset($data['custom_price']) && $data['custom_price'] > 0) {
+        $data['total_price'] = $data['custom_price'] * $data['passenger_count'];
     }
+    
+    return $this->insert($data);
+}
 
     /**
      * Get bookings for a specific open trip
@@ -186,7 +192,7 @@ class BookingModel extends Model
         
         return $totalCapacity['capacity'] - ($bookedSeats->passenger_count ?? 0);
     }
-    public function getOpenTripMembers($openTripId)
+public function getOpenTripMembers($openTripId)
 {
     return $this->select('bookings.*, 
                         users.full_name, 

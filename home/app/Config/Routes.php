@@ -50,6 +50,8 @@ $routes->post('add-member', 'Boats::addMember');
 $routes->get('get-member-edit/(:num)', 'Boats::getMemberEdit/$1');
 $routes->post('update-member', 'Boats::updateMember');
 $routes->post('delete-member', 'Boats::deleteMember');
+$routes->post('update-open-trip-price', 'Boats::updateOpenTripPrice');
+
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {

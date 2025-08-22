@@ -54,4 +54,22 @@ class UserModel extends Model
     {
         return $this->where('email', $email)->first();
     }
+    // UserModel.php - tambahkan method untuk guest
+public function createGuestAccount($userData)
+{
+    // Untuk guest, kita tidak perlu hash password karena tidak akan login
+    $data = [
+        'username' => $userData['username'],
+        'email' => $userData['email'],
+        'password' => $userData['password'], // Plain text
+        'full_name' => $userData['full_name'],
+        'phone' => $userData['phone'],
+        'role' => 'customer',
+        'email_verified' => 1,
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+    
+    return $this->insert($data);
+}
 }

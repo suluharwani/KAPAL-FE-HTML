@@ -20,6 +20,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('edit/(:num)', 'Admin::editBoat/$1');
         $routes->post('update/(:num)', 'Admin::updateBoat/$1');
         $routes->get('delete/(:num)', 'Admin::deleteBoat/$1');
+        
     });
     
     // Blogs

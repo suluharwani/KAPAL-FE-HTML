@@ -146,22 +146,32 @@ public function book()
     }
 }
 
+
 private function calculateTotalPrice()
 {
-    // Calculate based on schedule or open trip price
-    // This is a simplified version - adjust according to your business logic
     $passengers = $this->request->getPost('passengers');
     
     if ($this->request->getPost('open_trip_id')) {
         $openTripModel = new \App\Models\OpenTripSchedulesModel();
-        $openTrip = $openTripModel->select('b.price_per_trip')
-                       ->join('schedules s', 's.schedule_id = open_trip_schedules.schedule_id')
-                       ->join('boats b', 'b.boat_id = s.boat_id')
+        $openTrip = $openTripModel->select('price_per_person, agreed_price, commission_rate')
                        ->where('open_trip_id', $this->request->getPost('open_trip_id'))
                        ->first();
         
-        return $openTrip['price_per_trip'] * $passengers;
+        // Gunakan harga per orang jika ada, jika tidak gunakan harga default
+        if ($openTrip && $openTrip['price_per_person'] > 0) {
+            return $openTrip['price_per_person'] * $passengers;
+        } else {
+            // Fallback ke harga default
+            $openTrip = $openTripModel->select('b.price_per_trip')
+                           ->join('schedules s', 's.schedule_id = open_trip_schedules.schedule_id')
+                           ->join('boats b', 'b.boat_id = s.boat_id')
+                           ->where('open_trip_id', $this->request->getPost('open_trip_id'))
+                           ->first();
+            
+            return $openTrip['price_per_trip'] * $passengers;
+        }
     } else {
+        // Regular booking logic
         $scheduleModel = new \App\Models\ScheduleModel();
         $schedule = $scheduleModel->select('b.price_per_trip')
                       ->join('boats b', 'b.boat_id = schedules.boat_id')
@@ -271,8 +281,18 @@ public function manageOpenTripMembers($openTripId)
         return redirect()->back()->with('error', 'Open trip not found');
     }
     
-    // Get members for this open trip
-    $members = $bookingModel->getOpenTripMembers($openTripId);
+    // Get members for this open trip dengan informasi harga yang lengkap
+    $members = $bookingModel->select('bookings.*, 
+                                    users.full_name, 
+                                    users.email, 
+                                    users.phone,
+                                    COUNT(passengers.passenger_id) as passenger_count')
+                           ->join('users', 'users.user_id = bookings.user_id', 'left')
+                           ->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left')
+                           ->where('bookings.open_trip_id', $openTripId)
+                           ->groupBy('bookings.booking_id')
+                           ->orderBy('bookings.created_at', 'DESC')
+                           ->findAll();
     
     // Get capacity information
     $capacityInfo = $this->getCapacityInfo($openTripId);
@@ -525,10 +545,16 @@ public function getMemberDetails($bookingId)
 }
 
 // Boats.php - full version of addMember method
+// Boats.php - Updated addMember method
+// Boats.php - Perbaiki method addMember
 public function addMember()
 {
-    // Check if request is AJAX
-    if (!$this->request->isAJAX()) {
+    // Check if request is AJAX - gunakan method yang lebih reliable
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+              strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    
+    if (!$isAjax) {
+        log_message('error', 'Non-AJAX request to addMember');
         return $this->response->setStatusCode(403)->setJSON([
             'success' => false, 
             'error' => 'Forbidden: Only AJAX requests are allowed'
@@ -539,10 +565,7 @@ public function addMember()
     $bookingModel = new \App\Models\BookingModel();
     $userModel = new \App\Models\UserModel();
     $openTripModel = new \App\Models\OpenTripSchedulesModel();
-    $scheduleModel = new \App\Models\ScheduleModel();
     $passengerModel = new \App\Models\PassengerModel();
-    $routeModel = new \App\Models\RouteModel();
-    $islandModel = new \App\Models\IslandModel();
 
     // Set validation rules
     $validation = \Config\Services::validation();
@@ -581,19 +604,28 @@ public function addMember()
         ],
         'guest_name' => [
             'label' => 'Guest Name',
-            'rules' => 'permit_empty|min_length[3]|max_length[100]',
+            'rules' => 'permit_empty|min_length[2]|max_length[100]',
             'errors' => [
-                'min_length' => 'Guest name must be at least 3 characters long',
+                'min_length' => 'Guest name must be at least 2 characters long',
                 'max_length' => 'Guest name cannot exceed 100 characters'
             ]
         ],
         'phone' => [
             'label' => 'Phone Number',
-            'rules' => 'permit_empty|min_length[10]|max_length[15]|regex_match[/^[0-9+() -]+$/]',
+            'rules' => 'required|min_length[8]|max_length[15]|regex_match[/^[0-9+() -]+$/]',
             'errors' => [
-                'min_length' => 'Phone number must be at least 10 digits',
+                'required' => 'Phone number is required',
+                'min_length' => 'Phone number must be at least 8 digits',
                 'max_length' => 'Phone number cannot exceed 15 digits',
                 'regex_match' => 'Phone number contains invalid characters'
+            ]
+        ],
+        'custom_price' => [
+            'label' => 'Custom Price',
+            'rules' => 'permit_empty|numeric|greater_than_equal_to[0]',
+            'errors' => [
+                'numeric' => 'Custom price must be a number',
+                'greater_than_equal_to' => 'Custom price cannot be negative'
             ]
         ]
     ]);
@@ -603,7 +635,7 @@ public function addMember()
         return $this->response->setJSON([
             'success' => false, 
             'errors' => $validation->getErrors(),
-            'message' => 'Validation failed'
+            'message' => 'Validation failed. Please check your input.'
         ]);
     }
 
@@ -614,25 +646,25 @@ public function addMember()
     $email = $this->request->getPost('email');
     $guestName = $this->request->getPost('guest_name');
     $phone = $this->request->getPost('phone');
+    $customPrice = $this->request->getPost('custom_price');
 
     // Start database transaction
     $db = \Config\Database::connect();
     $db->transStart();
 
     try {
-        // Get complete open trip details with route information
+        // Get complete open trip details
         $openTrip = $openTripModel->select('open_trip_schedules.*, 
-                                          boats.price_per_trip, 
                                           boats.capacity,
                                           boats.boat_name,
                                           schedules.schedule_id,
                                           schedules.departure_date,
                                           schedules.departure_time,
                                           routes.route_id,
-                                          routes.departure_island_id,
-                                          routes.arrival_island_id,
                                           dep.island_name as departure_island,
-                                          arr.island_name as arrival_island')
+                                          arr.island_name as arrival_island,
+                                          open_trip_schedules.agreed_price,
+                                          open_trip_schedules.commission_rate')
                                  ->join('schedules', 'schedules.schedule_id = open_trip_schedules.schedule_id')
                                  ->join('boats', 'boats.boat_id = schedules.boat_id')
                                  ->join('routes', 'routes.route_id = schedules.route_id')
@@ -642,7 +674,7 @@ public function addMember()
                                  ->first();
 
         if (!$openTrip) {
-            throw new \Exception('Open trip not found or has been deleted');
+            throw new \Exception('Open trip not found. Please check the trip ID.');
         }
 
         // Check if open trip is still upcoming
@@ -650,7 +682,7 @@ public function addMember()
         $tripDateTime = $openTrip['departure_date'] . ' ' . $openTrip['departure_time'];
         
         if (strtotime($tripDateTime) <= strtotime($currentDateTime)) {
-            throw new \Exception('Cannot add members to a trip that has already departed or is in progress');
+            throw new \Exception('Cannot add members to a trip that has already departed or is in progress.');
         }
 
         // Check total booked seats for this open trip
@@ -672,10 +704,11 @@ public function addMember()
 
         // Validate member type specific requirements
         $userId = null;
+        $fullName = '';
         
         if ($memberType === 'registered') {
             if (empty($email)) {
-                throw new \Exception('Email is required for registered users');
+                throw new \Exception('Email is required for registered users.');
             }
 
             $user = $userModel->where('email', $email)->first();
@@ -694,35 +727,28 @@ public function addMember()
             }
 
             $userId = $user['user_id'];
+            $fullName = $user['full_name'];
+            $phone = $user['phone'] ?? $phone;
 
         } else {
             // Guest user validation
             if (empty($guestName)) {
-                throw new \Exception('Guest name is required');
-            }
-
-            if (empty($phone)) {
-                throw new \Exception('Phone number is required for guest registration');
-            }
-
-            // Validate phone format
-            if (!preg_match('/^[0-9+() -]+$/', $phone)) {
-                throw new \Exception('Phone number contains invalid characters. Only numbers, plus, parentheses, spaces, and hyphens are allowed.');
+                throw new \Exception('Guest name is required for guest registration.');
             }
 
             // Create a temporary user account for the guest
             $tempUsername = 'guest_' . time() . '_' . rand(1000, 9999);
             $tempEmail = $tempUsername . '@guest.rajaampatboats.com';
-            $tempPassword = bin2hex(random_bytes(12)); // Generate secure random password
+            $tempPassword = bin2hex(random_bytes(12));
 
             $tempUserData = [
                 'username' => $tempUsername,
                 'email' => $tempEmail,
-                'password' => password_hash($tempPassword, PASSWORD_DEFAULT),
+                'password' => $tempPassword,
                 'full_name' => $guestName,
                 'phone' => $phone,
                 'role' => 'customer',
-                'email_verified' => 1, // Mark as verified since we're creating it
+                'email_verified' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ];
@@ -730,16 +756,30 @@ public function addMember()
             $userId = $userModel->insert($tempUserData);
             
             if (!$userId) {
-                throw new \Exception('Failed to create temporary guest account');
+                throw new \Exception('Failed to create temporary guest account. Please try again.');
             }
+            
+            $fullName = $guestName;
+        }
+
+        // Calculate price per person
+        $pricePerPerson = 0;
+        $agreedPrice = $openTrip['agreed_price'] ?? 0;
+        
+        // Use custom price if provided, otherwise calculate from agreed price
+        if (!empty($customPrice) && $customPrice > 0) {
+            $pricePerPerson = (float) $customPrice;
+        } else if ($agreedPrice > 0) {
+            $pricePerPerson = $agreedPrice / $openTrip['capacity'];
+        } else {
+            throw new \Exception('No price set for this trip. Please set a price first.');
         }
 
         // Calculate total price
-        $pricePerTrip = (float) $openTrip['price_per_trip'];
-        $totalPrice = $pricePerTrip * $passengerCount;
+        $totalPrice = $pricePerPerson * $passengerCount;
 
         // Generate unique booking code
-        $bookingCode = 'BOOK-' . strtoupper(uniqid()) . '-' . strtoupper(substr(md5(time()), 0, 4));
+        $bookingCode = 'BOOK-' . strtoupper(uniqid());
 
         // Prepare booking data
         $bookingData = [
@@ -748,13 +788,14 @@ public function addMember()
             'schedule_id' => $openTrip['schedule_id'],
             'open_trip_id' => $openTripId,
             'passenger_count' => $passengerCount,
+            'custom_price' => !empty($customPrice) && $customPrice > 0 ? $customPrice : null,
             'total_price' => $totalPrice,
             'booking_status' => 'confirmed',
             'payment_status' => 'paid',
-            'payment_method' => 'cash', // Assuming cash payment for admin-added members
+            'payment_method' => 'cash',
             'is_open_trip' => 1,
-            'open_trip_type' => $memberType === 'registered' ? 'reserved' : 'public',
-            'notes' => 'Added by admin: ' . $this->session->get('userData')['full_name'],
+            'open_trip_type' => $memberType === 'registered' ? 'registered' : 'guest',
+            'notes' => 'Added by admin: ' . (session('userData')['full_name'] ?? 'System'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
@@ -766,16 +807,18 @@ public function addMember()
             throw new \Exception('Failed to create booking. Please try again.');
         }
 
-        // Add passenger details (for both registered and guest users)
+        // Add passenger details
         $passengerData = [
             'booking_id' => $bookingId,
-            'full_name' => $memberType === 'registered' ? $user['full_name'] : $guestName,
-            'phone' => $memberType === 'registered' ? $user['phone'] : $phone,
+            'full_name' => $fullName,
+            'phone' => $phone,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
 
-        $passengerModel->insert($passengerData);
+        if (!$passengerModel->insert($passengerData)) {
+            throw new \Exception('Failed to add passenger details. Please try again.');
+        }
 
         // Update available seats in the open trip schedule
         $openTripModel->set('available_seats', 'available_seats - ' . $passengerCount, false)
@@ -789,6 +832,20 @@ public function addMember()
             throw new \Exception('Transaction failed. Please try again.');
         }
 
+        // Get updated available seats
+        $updatedOpenTrip = $openTripModel->find($openTripId);
+        $updatedAvailableSeats = $updatedOpenTrip['available_seats'];
+
+        // Log the activity
+        $this->logActivity('add_member', [
+            'open_trip_id' => $openTripId,
+            'booking_id' => $bookingId,
+            'user_id' => $userId,
+            'passenger_count' => $passengerCount,
+            'total_price' => $totalPrice,
+            'member_type' => $memberType
+        ]);
+
         // Prepare success response
         $response = [
             'success' => true,
@@ -798,9 +855,10 @@ public function addMember()
                 'booking_code' => $bookingCode,
                 'member_type' => $memberType,
                 'passenger_count' => $passengerCount,
-                'total_price' => number_format($totalPrice, 2),
+                'price_per_person' => $pricePerPerson,
+                'total_price' => $totalPrice,
                 'user_id' => $userId,
-                'available_seats' => $availableSeats - $passengerCount,
+                'available_seats' => $updatedAvailableSeats,
                 'trip_details' => [
                     'route' => $openTrip['departure_island'] . ' - ' . $openTrip['arrival_island'],
                     'date' => $openTrip['departure_date'],
@@ -817,7 +875,8 @@ public function addMember()
         $db->transRollback();
 
         // Log the error
-        log_message('error', 'Add Member Error: ' . $e->getMessage() . ' - ' . $e->getTraceAsString());
+        log_message('error', 'Add Member Error: ' . $e->getMessage());
+        log_message('error', 'Trace: ' . $e->getTraceAsString());
 
         return $this->response->setJSON([
             'success' => false,
@@ -826,13 +885,98 @@ public function addMember()
         ]);
     }
 }
-// Boats.php - helper method for logging
+// Boats.php - updateMember method
+public function updateMember()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'booking_id' => 'required|numeric',
+        'passenger_count' => 'required|numeric|greater_than[0]',
+        'custom_price' => 'permit_empty|numeric'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $bookingId = $this->request->getPost('booking_id');
+    $passengerCount = $this->request->getPost('passenger_count');
+    $customPrice = $this->request->getPost('custom_price');
+    $openTripId = $this->request->getPost('open_trip_id');
+    
+    // Get current booking
+    $currentBooking = $bookingModel->find($bookingId);
+    if (!$currentBooking) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Booking not found']);
+    }
+    
+    // Calculate seat difference
+    $seatDifference = $passengerCount - $currentBooking['passenger_count'];
+    
+    // Check available seats
+    $openTrip = $openTripModel->find($openTripId);
+    if ($openTrip['available_seats'] < $seatDifference) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Not enough available seats']);
+    }
+    
+    // Calculate total price
+    $totalPrice = 0;
+    if (!empty($customPrice) && $customPrice > 0) {
+        $totalPrice = $customPrice * $passengerCount;
+    } else {
+        // Get default price per person
+        $tripDetails = $openTripModel->getOpenTripDetails($openTripId);
+        $pricePerPerson = $tripDetails['agreed_price'] / $tripDetails['capacity'];
+        $totalPrice = $pricePerPerson * $passengerCount;
+    }
+    
+    // Update booking
+    $updateData = [
+        'passenger_count' => $passengerCount,
+        'total_price' => $totalPrice,
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+    
+    if (!empty($customPrice)) {
+        $updateData['custom_price'] = $customPrice;
+    } else {
+        $updateData['custom_price'] = null;
+    }
+    
+    try {
+        $bookingModel->update($bookingId, $updateData);
+        
+        // Update available seats
+        $openTripModel->set('available_seats', 'available_seats - ' . $seatDifference, false)
+                     ->where('open_trip_id', $openTripId)
+                     ->update();
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Member updated successfully'
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setJSON([
+            'success' => false,
+            'error' => 'Failed to update member: ' . $e->getMessage()
+        ]);
+    }
+}
+
+// Helper method untuk logging
 private function logActivity($action, $details, $userId = null)
 {
-    $logModel = new \App\Models\LogModel(); // Anda perlu membuat model Log jika belum ada
+    $logModel = new \App\Models\LogModel();
     
     $logData = [
-        'user_id' => $userId ?? $this->session->get('userData')['user_id'],
+        'user_id' => $userId ?? session('userData')['user_id'],
         'action' => $action,
         'details' => is_array($details) ? json_encode($details) : $details,
         'ip_address' => $this->request->getIPAddress(),
@@ -846,6 +990,7 @@ private function logActivity($action, $details, $userId = null)
         // Silent fail for logging errors
     }
 }
+
 public function getCapacityInfo($openTripId)
 {
     $openTripModel = new \App\Models\OpenTripSchedulesModel();
@@ -873,6 +1018,52 @@ public function getCapacityInfo($openTripId)
         'booked' => $totalBookedSeats,
         'available' => $availableSeats
     ];
+}
+// Boats.php - tambahkan method untuk mengelola harga open trip
+public function updateOpenTripPrice($openTripId)
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'agreed_price' => 'required|numeric',
+        'commission_rate' => 'required|numeric|less_than_equal_to[100]',
+        'show_contact_admin' => 'required|in_list[0,1]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $data = [
+        'agreed_price' => $this->request->getPost('agreed_price'),
+        'commission_rate' => $this->request->getPost('commission_rate'),
+        'show_contact_admin' => $this->request->getPost('show_contact_admin')
+    ];
+
+    // Hitung harga per orang
+    $openTrip = $openTripModel->find($openTripId);
+    if ($openTrip) {
+        $capacity = $this->getBoatCapacity($openTripId);
+        if ($capacity) {
+            $data['price_per_person'] = $data['agreed_price'] / $capacity['capacity'];
+        }
+    }
+
+    try {
+        $openTripModel->update($openTripId, $data);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Harga open trip berhasil diperbarui'
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    }
 }
 // Add other CRUD methods (update, delete) similarly
 }
