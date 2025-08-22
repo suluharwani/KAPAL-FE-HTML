@@ -51,11 +51,19 @@ if (isset($tripInfo) && !empty($tripInfo)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    
+     -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- Bootstrap Bundle (includes Bootstrap JavaScript) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <!-- Pastikan ini di load sebelum script custom Anda -->
 
 
@@ -932,13 +940,13 @@ $('#addMemberForm').submit(function(e) {
         $('#editTotalPriceDisplay').text('Rp 0');
     });
 });
-// Delete All functionality
-$('#deleteAllBtn').on('click', function() {
+  $(document).on('click', '#deleteAllBtn', function() {
         console.log('Delete All button clicked');
-        $('#deleteAllModal').modal('show');
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteAllModal'));
+        deleteModal.show();
     });
 
-    $('#confirmDeleteAll').on('click', function() {
+    $(document).on('click', '#confirmDeleteAll', function() {
         console.log('Confirm Delete All clicked');
         const openTripId = '<?= $tripInfo['open_trip_id'] ?? '' ?>';
         
@@ -953,13 +961,14 @@ $('#deleteAllBtn').on('click', function() {
             } else {
                 alert(response.error || 'Failed to delete all members');
             }
-            $('#deleteAllModal').modal('hide');
+            // Tutup modal menggunakan Bootstrap JavaScript
+            var deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteAllModal'));
+            deleteModal.hide();
         }).fail(function(xhr, status, error) {
             console.error('AJAX error:', error);
             alert('Network error: ' + error);
         });
     });
-
 
 
 // Print All functionality
