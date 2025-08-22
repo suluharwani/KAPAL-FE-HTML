@@ -4,7 +4,8 @@ use App\Models\BoatModel;
 use App\Models\IslandModel;
 use App\Models\RouteModel;
 use App\Models\ScheduleModel;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class Boats extends BaseController
 {
     public function index()
@@ -1364,5 +1365,75 @@ public function deleteMember()
             'message' => 'Failed to delete member. Please try again.'
         ]);
     }
+}
+public function downloadTicketsPdf($openTripId = null)
+{
+    $bookingIds = $this->request->getGet('booking_ids');
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    // Get bookings to print
+    if (!empty($bookingIds)) {
+        $bookingIds = is_array($bookingIds) ? $bookingIds : explode(',', $bookingIds);
+        $bookings = $bookingModel->whereIn('booking_id', $bookingIds)->findAll();
+    } else if (!empty($openTripId)) {
+        // Get all bookings for this open trip
+        $bookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
+    } else {
+        return redirect()->back()->with('error', 'No bookings selected');
+    }
+    
+    if (empty($bookings)) {
+        return redirect()->back()->with('error', 'No bookings found');
+    }
+    
+    // Get open trip details
+    $openTripDetails = [];
+    if (!empty($openTripId)) {
+        $openTripDetails = $openTripModel->getOpenTripDetails($openTripId);
+    }
+    
+    // Get passenger details for each booking
+    foreach ($bookings as &$booking) {
+        $booking['passengers'] = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
+    }
+    
+    // Prepare data for PDF
+    $data = [
+        'title' => 'Boat Tickets - Raja Ampat',
+        'bookings' => $bookings,
+        'open_trip_details' => $openTripDetails
+    ];
+    
+    // Load the view
+    $html = view('boats/tickets_pdf', $data);
+    
+    // Setup PDF options
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    $options->set('defaultPaperSize', 'a5');
+    $options->set('defaultPaperOrientation', 'portrait');
+    
+    // Instantiate Dompdf
+    $dompdf = new Dompdf($options);
+    
+    // Load HTML content
+    $dompdf->loadHtml($html);
+    
+    // Render PDF
+    $dompdf->render();
+    
+    // Generate filename
+    $filename = 'tickets_' . date('Ymd_His') . '.pdf';
+    
+    // Output PDF for download
+    $dompdf->stream($filename, [
+        'Attachment' => true
+    ]);
+    
+    exit;
 }
 }

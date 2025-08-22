@@ -359,26 +359,32 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                                         </span>
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-info view-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-primary edit-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    data-passenger-count="<?= $member['passenger_count'] ?>"
-                                                    data-custom-price="<?= $member['custom_price'] ?? 0 ?>"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger delete-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+    <div class="btn-group">
+        <button class="btn btn-sm btn-info view-member" 
+                data-booking-id="<?= $member['booking_id'] ?>"
+                title="View Details">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-primary edit-member" 
+                data-booking-id="<?= $member['booking_id'] ?>"
+                data-passenger-count="<?= $member['passenger_count'] ?>"
+                data-custom-price="<?= $member['custom_price'] ?? 0 ?>"
+                title="Edit">
+            <i class="fas fa-edit"></i>
+        </button>
+        <!-- TOMBOL PRINT TIKET BARU -->
+        <button class="btn btn-sm btn-success print-ticket" 
+                data-booking-id="<?= $member['booking_id'] ?>"
+                title="Print Ticket">
+            <i class="fas fa-print"></i>
+        </button>
+        <button class="btn btn-sm btn-danger delete-member" 
+                data-booking-id="<?= $member['booking_id'] ?>"
+                title="Delete">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -1003,5 +1009,20 @@ $('#sendWhatsAppBtn').click(function() {
 $(document).on('click', '.print-ticket', function() {
     const bookingId = $(this).data('booking-id');
     window.open('<?= base_url('boats/print-tickets') ?>?booking_ids=' + bookingId, '_blank');
+});
+// Print individual ticket
+$(document).on('click', '.print-ticket', function() {
+    const bookingId = $(this).data('booking-id');
+    
+    // Download PDF
+    window.open('<?= base_url('boats/download-tickets-pdf') ?>?booking_ids=' + bookingId, '_blank');
+});
+
+// Print all tickets
+$(document).on('click', '#printAllBtn', function() {
+    const openTripId = '<?= $tripInfo['open_trip_id'] ?? '' ?>';
+    
+    // Download PDF for all members
+    window.open('<?= base_url('boats/download-tickets-pdf') ?>/' + openTripId, '_blank');
 });
 </script>
