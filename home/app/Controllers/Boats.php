@@ -273,6 +273,7 @@ public function manageOpenTripMembers($openTripId)
 
     $openTripModel = new \App\Models\OpenTripSchedulesModel();
     $bookingModel = new \App\Models\BookingModel();
+    $db = \Config\Database::connect();
     
     // Get trip information
     $tripInfo = $openTripModel->getOpenTripDetails($openTripId);
@@ -281,18 +282,20 @@ public function manageOpenTripMembers($openTripId)
         return redirect()->back()->with('error', 'Open trip not found');
     }
     
-    // Get members for this open trip dengan informasi harga yang lengkap
-    $members = $bookingModel->select('bookings.*, 
-                                    users.full_name, 
-                                    users.email, 
-                                    users.phone,
-                                    COUNT(passengers.passenger_id) as passenger_count')
-                           ->join('users', 'users.user_id = bookings.user_id', 'left')
-                           ->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left')
-                           ->where('bookings.open_trip_id', $openTripId)
-                           ->groupBy('bookings.booking_id')
-                           ->orderBy('bookings.created_at', 'DESC')
-                           ->findAll();
+    // Get members for this open trip menggunakan Query Builder
+    $builder = $db->table('bookings');
+    $builder->select('bookings.*, 
+                     users.full_name, 
+                     users.email, 
+                     users.phone,
+                     COUNT(passengers.passenger_id) as actual_passenger_count'); // Ubah alias untuk menghindari konflik
+    $builder->join('users', 'users.user_id = bookings.user_id', 'left');
+    $builder->join('passengers', 'passengers.booking_id = bookings.booking_id', 'left');
+    $builder->where('bookings.open_trip_id', $openTripId);
+    $builder->groupBy('bookings.booking_id');
+    $builder->orderBy('bookings.created_at', 'DESC');
+    
+    $members = $builder->get()->getResultArray();
     
     // Get capacity information
     $capacityInfo = $this->getCapacityInfo($openTripId);
@@ -896,7 +899,8 @@ public function updateMember()
     $validation->setRules([
         'booking_id' => 'required|numeric',
         'passenger_count' => 'required|numeric|greater_than[0]',
-        'custom_price' => 'permit_empty|numeric'
+        'custom_price' => 'permit_empty|numeric',
+        'open_trip_id' => 'required|numeric'
     ]);
 
     if (!$validation->withRequest($this->request)->run()) {
@@ -917,13 +921,21 @@ public function updateMember()
         return $this->response->setJSON(['success' => false, 'error' => 'Booking not found']);
     }
     
-    // Calculate seat difference
+    // Calculate seat difference - FIXED LOGIC
     $seatDifference = $passengerCount - $currentBooking['passenger_count'];
     
-    // Check available seats
+    // Get current available seats
     $openTrip = $openTripModel->find($openTripId);
+    if (!$openTrip) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Open trip not found']);
+    }
+    
+    // Check available seats - FIXED: Use current available seats instead of capacity
     if ($openTrip['available_seats'] < $seatDifference) {
-        return $this->response->setJSON(['success' => false, 'error' => 'Not enough available seats']);
+        return $this->response->setJSON([
+            'success' => false, 
+            'error' => 'Not enough available seats. Only ' . $openTrip['available_seats'] . ' seats left.'
+        ]);
     }
     
     // Calculate total price
@@ -931,10 +943,18 @@ public function updateMember()
     if (!empty($customPrice) && $customPrice > 0) {
         $totalPrice = $customPrice * $passengerCount;
     } else {
-        // Get default price per person
+        // Get default price per person from open trip details
         $tripDetails = $openTripModel->getOpenTripDetails($openTripId);
-        $pricePerPerson = $tripDetails['agreed_price'] / $tripDetails['capacity'];
-        $totalPrice = $pricePerPerson * $passengerCount;
+        if ($tripDetails && $tripDetails['agreed_price'] > 0 && $tripDetails['capacity'] > 0) {
+            $pricePerPerson = $tripDetails['agreed_price'] / $tripDetails['capacity'];
+            $totalPrice = $pricePerPerson * $passengerCount;
+        } else {
+            // Fallback to boat price
+            $boatModel = new BoatModel();
+            $boat = $boatModel->find($tripDetails['boat_id']);
+            $pricePerPerson = $boat['price_per_trip'] / $tripDetails['capacity'];
+            $totalPrice = $pricePerPerson * $passengerCount;
+        }
     }
     
     // Update booking
@@ -953,14 +973,18 @@ public function updateMember()
     try {
         $bookingModel->update($bookingId, $updateData);
         
-        // Update available seats
-        $openTripModel->set('available_seats', 'available_seats - ' . $seatDifference, false)
-                     ->where('open_trip_id', $openTripId)
-                     ->update();
+        // Update available seats - FIXED: Use correct calculation
+        $newAvailableSeats = $openTrip['available_seats'] - $seatDifference;
+        $openTripModel->update($openTripId, [
+            'available_seats' => $newAvailableSeats
+        ]);
         
         return $this->response->setJSON([
             'success' => true,
-            'message' => 'Member updated successfully'
+            'message' => 'Member updated successfully',
+            'data' => [
+                'available_seats' => $newAvailableSeats
+            ]
         ]);
     } catch (\Exception $e) {
         return $this->response->setJSON([
@@ -1065,5 +1089,280 @@ public function updateOpenTripPrice($openTripId)
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
     }
 }
-// Add other CRUD methods (update, delete) similarly
+public function deleteAllMembers()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'open_trip_id' => 'required|numeric'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    
+    $openTripId = $this->request->getPost('open_trip_id');
+    
+    // Get all bookings for this open trip
+    $bookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
+    
+    if (empty($bookings)) {
+        return $this->response->setJSON(['success' => false, 'error' => 'No members found to delete']);
+    }
+    
+    // Get open trip details
+    $openTrip = $openTripModel->find($openTripId);
+    if (!$openTrip) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Open trip not found']);
+    }
+    
+    // Calculate total seats to restore
+    $totalSeatsToRestore = 0;
+    foreach ($bookings as $booking) {
+        $totalSeatsToRestore += $booking['passenger_count'];
+    }
+    
+    try {
+        // Delete all passengers for these bookings
+        $bookingIds = array_column($bookings, 'booking_id');
+        if (!empty($bookingIds)) {
+            $passengerModel->whereIn('booking_id', $bookingIds)->delete();
+        }
+        
+        // Delete all bookings
+        $bookingModel->where('open_trip_id', $openTripId)->delete();
+        
+        // Restore available seats
+        $newAvailableSeats = $openTrip['available_seats'] + $totalSeatsToRestore;
+        $openTripModel->update($openTripId, [
+            'available_seats' => $newAvailableSeats
+        ]);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'All members deleted successfully',
+            'data' => [
+                'deleted_count' => count($bookings),
+                'available_seats' => $newAvailableSeats
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setJSON([
+            'success' => false,
+            'error' => 'Failed to delete all members: ' . $e->getMessage()
+        ]);
+    }
+}
+public function printTickets()
+{
+    $bookingIds = $this->request->getGet('booking_ids');
+    $openTripId = $this->request->getGet('open_trip_id');
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    // Get bookings to print
+    if (!empty($bookingIds)) {
+        $bookingIds = is_array($bookingIds) ? $bookingIds : explode(',', $bookingIds);
+        $bookings = $bookingModel->whereIn('booking_id', $bookingIds)->findAll();
+    } else if (!empty($openTripId)) {
+        // Get all bookings for this open trip
+        $bookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
+    } else {
+        return redirect()->back()->with('error', 'No bookings selected for printing');
+    }
+    
+    if (empty($bookings)) {
+        return redirect()->back()->with('error', 'No bookings found');
+    }
+    
+    // Get open trip details
+    $openTripDetails = [];
+    if (!empty($openTripId)) {
+        $openTripDetails = $openTripModel->getOpenTripDetails($openTripId);
+    }
+    
+    // Get passenger details for each booking
+    foreach ($bookings as &$booking) {
+        $booking['passengers'] = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
+    }
+    
+    $data = [
+        'title' => 'Print Tickets',
+        'bookings' => $bookings,
+        'open_trip_details' => $openTripDetails
+    ];
+    
+    return view('boats/print_tickets', $data);
+}
+public function sendWhatsAppTickets()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'booking_ids' => 'required',
+        'open_trip_id' => 'required|numeric'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingIds = $this->request->getPost('booking_ids');
+    $openTripId = $this->request->getPost('open_trip_id');
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    
+    // Get bookings
+    $bookingIds = is_array($bookingIds) ? $bookingIds : explode(',', $bookingIds);
+    $bookings = $bookingModel->whereIn('booking_id', $bookingIds)->findAll();
+    
+    if (empty($bookings)) {
+        return $this->response->setJSON(['success' => false, 'error' => 'No bookings found']);
+    }
+    
+    $results = [];
+    
+    foreach ($bookings as $booking) {
+        // Get passenger details
+        $passengers = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
+        
+        if (!empty($passengers)) {
+            $phone = $passengers[0]['phone'];
+            
+            // Format phone number (replace 0 with +62)
+            if (substr($phone, 0, 1) === '0') {
+                $phone = '+62' . substr($phone, 1);
+            }
+            
+            // Create WhatsApp message
+            $message = "Halo! Berikut adalah tiket perjalanan Anda:\n\n";
+            $message .= "Kode Booking: " . $booking['booking_code'] . "\n";
+            $message .= "Jumlah Penumpang: " . $booking['passenger_count'] . "\n";
+            $message .= "Status: " . ucfirst($booking['booking_status']) . "\n\n";
+            $message .= "Terima kasih telah menggunakan layanan kami!";
+            
+            // Create WhatsApp link
+            $whatsappLink = "https://wa.me/" . $phone . "?text=" . urlencode($message);
+            
+            $results[] = [
+                'booking_code' => $booking['booking_code'],
+                'phone' => $phone,
+                'whatsapp_link' => $whatsappLink,
+                'status' => 'success'
+            ];
+        }
+    }
+    
+    return $this->response->setJSON([
+        'success' => true,
+        'message' => 'WhatsApp links generated successfully',
+        'data' => $results
+    ]);
+}
+public function deleteMember()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'booking_id' => 'required|numeric',
+        'open_trip_id' => 'required|numeric'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setStatusCode(400)->setJSON(['errors' => $validation->getErrors()]);
+    }
+
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    $bookingId = $this->request->getPost('booking_id');
+    $openTripId = $this->request->getPost('open_trip_id');
+    
+    // Start database transaction
+    $db = \Config\Database::connect();
+    $db->transStart();
+
+    try {
+        // Get booking details
+        $booking = $bookingModel->find($bookingId);
+        if (!$booking) {
+            throw new \Exception('Booking not found');
+        }
+        
+        // Get open trip details
+        $openTrip = $openTripModel->find($openTripId);
+        if (!$openTrip) {
+            throw new \Exception('Open trip not found');
+        }
+        
+        $passengerCount = $booking['passenger_count'];
+        
+        // Delete all passengers for this booking
+        $passengerModel->where('booking_id', $bookingId)->delete();
+        
+        // Delete the booking
+        $bookingModel->delete($bookingId);
+        
+        // Restore available seats
+        $newAvailableSeats = $openTrip['available_seats'] + $passengerCount;
+        $openTripModel->update($openTripId, [
+            'available_seats' => $newAvailableSeats
+        ]);
+        
+        // Commit transaction
+        $db->transComplete();
+        
+        if ($db->transStatus() === false) {
+            throw new \Exception('Transaction failed');
+        }
+        
+        // Log the activity
+        $this->logActivity('delete_member', [
+            'open_trip_id' => $openTripId,
+            'booking_id' => $bookingId,
+            'passenger_count' => $passengerCount,
+            'restored_seats' => $passengerCount
+        ]);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Member successfully deleted',
+            'data' => [
+                'deleted_booking_id' => $bookingId,
+                'restored_seats' => $passengerCount,
+                'available_seats' => $newAvailableSeats
+            ]
+        ]);
+        
+    } catch (\Exception $e) {
+        // Rollback transaction on error
+        $db->transRollback();
+        
+        // Log the error
+        log_message('error', 'Delete Member Error: ' . $e->getMessage());
+        
+        return $this->response->setJSON([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'message' => 'Failed to delete member. Please try again.'
+        ]);
+    }
+}
 }

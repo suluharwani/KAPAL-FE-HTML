@@ -1,11 +1,12 @@
 <?php
-// Hitung statistik
+// Hitung statistik berdasarkan data aktual dari database
 $totalBooked = 0;
 $totalRevenue = 0;
 $totalCommission = 0;
 $pricePerPerson = 0;
 
 if (isset($tripInfo) && !empty($tripInfo)) {
+    // Hitung total booked seats dari data members yang ada
     foreach ($members as $member) {
         $totalBooked += $member['passenger_count'];
         
@@ -24,13 +25,86 @@ if (isset($tripInfo) && !empty($tripInfo)) {
         }
     }
     
-    $availableSeats = $tripInfo['capacity'] - $totalBooked;
-    $pricePerPerson = $tripInfo['agreed_price'] / $tripInfo['capacity'];
+    // Dapatkan kapasitas boat yang sebenarnya
+    $boatCapacity = $tripInfo['capacity'];
+    $availableSeats = $boatCapacity - $totalBooked;
+    
+    // Hitung harga per orang berdasarkan agreed_price dan kapasitas
+    if ($tripInfo['agreed_price'] > 0 && $boatCapacity > 0) {
+        $pricePerPerson = $tripInfo['agreed_price'] / $boatCapacity;
+    } else {
+        // Fallback ke harga default boat jika agreed_price tidak ada
+        $pricePerPerson = $tripInfo['price_per_trip'] / $boatCapacity;
+    }
+    
     $netRevenue = $totalRevenue - $totalCommission;
 }
 ?>
 
-<div class="container my-5">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Open Trip Members</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Pastikan ini di load sebelum script custom Anda -->
+
+
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+        }
+        #membersTable {
+            width: 100% !important;
+            table-layout: fixed;
+        }
+        #membersTable th, #membersTable td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .avatar-sm {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress {
+            height: 20px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .btn-group .btn {
+                margin-bottom: 5px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .card-header .btn-group {
+                margin-top: 10px;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Manage Open Trip Members</h2>
         <div>
@@ -63,7 +137,7 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                     </div>
                     <div class="col-md-3">
                         <p><strong>Boat:</strong> <?= $tripInfo['boat_name'] ?> (<?= $tripInfo['boat_type'] ?>)</p>
-                        <p><strong>Capacity:</strong> <?= $tripInfo['capacity'] ?> seats</p>
+                        <p><strong>Capacity:</strong> <?= $boatCapacity ?> seats</p>
                         <p><strong>Available:</strong> 
                             <span class="badge bg-<?= $availableSeats > 0 ? 'success' : 'danger' ?>">
                                 <?= $availableSeats ?> seats
@@ -86,15 +160,15 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                 <div class="mt-3">
                     <div class="d-flex justify-content-between mb-1">
                         <span>Booking Progress</span>
-                        <span><?= $totalBooked ?> / <?= $tripInfo['capacity'] ?> (<?= round(($totalBooked / $tripInfo['capacity']) * 100) ?>%)</span>
+                        <span><?= $totalBooked ?> / <?= $boatCapacity ?> (<?= round(($totalBooked / $boatCapacity) * 100) ?>%)</span>
                     </div>
                     <div class="progress" style="height: 20px;">
                         <div class="progress-bar 
-                            <?= ($totalBooked / $tripInfo['capacity']) * 100 >= 80 ? 'bg-success' : 
-                               (($totalBooked / $tripInfo['capacity']) * 100 >= 50 ? 'bg-info' : 'bg-warning') ?>" 
+                            <?= ($totalBooked / $boatCapacity) * 100 >= 80 ? 'bg-success' : 
+                               (($totalBooked / $boatCapacity) * 100 >= 50 ? 'bg-info' : 'bg-warning') ?>" 
                             role="progressbar" 
-                            style="width: <?= ($totalBooked / $tripInfo['capacity']) * 100 ?>%;" 
-                            aria-valuenow="<?= ($totalBooked / $tripInfo['capacity']) * 100 ?>" 
+                            style="width: <?= ($totalBooked / $boatCapacity) * 100 ?>%;" 
+                            aria-valuenow="<?= ($totalBooked / $boatCapacity) * 100 ?>" 
                             aria-valuemin="0" 
                             aria-valuemax="100">
                         </div>
@@ -174,11 +248,20 @@ if (isset($tripInfo) && !empty($tripInfo)) {
     <div class="card">
         <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
             <h4 class="mb-0">Trip Members (<?= count($members) ?>)</h4>
-            <div>
+            <div class="btn-group">
                 <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
                     <i class="fas fa-plus me-1"></i> Add Member
                 </button>
-                <button class="btn btn-sm btn-outline-light ms-2" id="exportBtn">
+                <button class="btn btn-sm btn-danger" id="deleteAllBtn">
+                    <i class="fas fa-trash me-1"></i> Delete All
+                </button>
+                <button class="btn btn-sm btn-primary" id="printAllBtn">
+                    <i class="fas fa-print me-1"></i> Print All
+                </button>
+                <button class="btn btn-sm btn-info" id="sendWhatsAppBtn">
+                    <i class="fab fa-whatsapp me-1"></i> Send WhatsApp
+                </button>
+                <button class="btn btn-sm btn-outline-light" id="exportBtn">
                     <i class="fas fa-download me-1"></i> Export
                 </button>
             </div>
@@ -198,16 +281,16 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                     <table class="table table-striped table-hover" id="membersTable">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Booking Code</th>
-                                <th>Type</th>
-                                <th>Name</th>
-                                <th>Contact</th>
-                                <th>Passengers</th>
-                                <th>Price/Person</th>
-                                <th>Total Price</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th width="5%">#</th>
+                                <th width="10%">Booking Code</th>
+                                <th width="8%">Type</th>
+                                <th width="15%">Name</th>
+                                <th width="15%">Contact</th>
+                                <th width="8%">Passengers</th>
+                                <th width="12%">Price/Person</th>
+                                <th width="12%">Total Price</th>
+                                <th width="8%">Status</th>
+                                <th width="7%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -229,7 +312,7 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-sm bg-<?= $member['user_id'] ? 'primary' : 'warning' ?> text-white rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                            <div class="avatar-sm bg-<?= $member['user_id'] ? 'primary' : 'warning' ?> text-white rounded-circle me-2 d-flex align-items-center justify-content-center">
                                                 <?= strtoupper(substr($member['full_name'], 0, 1)) ?>
                                             </div>
                                             <div>
@@ -309,7 +392,7 @@ if (isset($tripInfo) && !empty($tripInfo)) {
 
 <!-- Add Member Modal -->
 <div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add New Member</h5>
@@ -571,10 +654,31 @@ if (isset($tripInfo) && !empty($tripInfo)) {
         </div>
     </div>
 </div>
+
+<!-- Delete All Confirmation Modal -->
+<div class="modal fade" id="deleteAllModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete All</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete ALL members from this trip? This action cannot be undone.</p>
+                <div class="alert alert-danger">
+                    <strong>Warning:</strong> This will remove all booking records and passenger data for this trip.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAll">Delete All Members</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Pastikan ini ada di header -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
 <script>
 $(document).ready(function() {
     // Constants
@@ -827,5 +931,68 @@ $('#addMemberForm').submit(function(e) {
         $('#editPricePerPersonDisplay').text('Rp 0');
         $('#editTotalPriceDisplay').text('Rp 0');
     });
+});
+// Delete All functionality
+$('#deleteAllBtn').on('click', function() {
+        console.log('Delete All button clicked');
+        $('#deleteAllModal').modal('show');
+    });
+
+    $('#confirmDeleteAll').on('click', function() {
+        console.log('Confirm Delete All clicked');
+        const openTripId = '<?= $tripInfo['open_trip_id'] ?? '' ?>';
+        
+        $.post('<?= base_url('boats/delete-all-members') ?>', {
+            open_trip_id: openTripId,
+            _token: '<?= csrf_hash() ?>'
+        }, function(response) {
+            console.log('Delete all response:', response);
+            if (response.success) {
+                alert(response.message);
+                location.reload();
+            } else {
+                alert(response.error || 'Failed to delete all members');
+            }
+            $('#deleteAllModal').modal('hide');
+        }).fail(function(xhr, status, error) {
+            console.error('AJAX error:', error);
+            alert('Network error: ' + error);
+        });
+    });
+
+
+
+// Print All functionality
+$('#printAllBtn').click(function() {
+    const openTripId = '<?= $tripInfo['open_trip_id'] ?? '' ?>';
+    window.open('<?= base_url('boats/print-tickets') ?>?open_trip_id=' + openTripId, '_blank');
+});
+
+// Send WhatsApp functionality
+$('#sendWhatsAppBtn').click(function() {
+    const openTripId = '<?= $tripInfo['open_trip_id'] ?? '' ?>';
+    
+    $.post('<?= base_url('boats/send-whatsapp-tickets') ?>', {
+        open_trip_id: openTripId,
+        _token: '<?= csrf_hash() ?>'
+    }, function(response) {
+        if (response.success) {
+            // Open all WhatsApp links
+            response.data.forEach(function(item) {
+                if (item.status === 'success') {
+                    window.open(item.whatsapp_link, '_blank');
+                }
+            });
+            alert('WhatsApp messages opened in new tabs');
+        } else {
+            alert(response.error || 'Failed to generate WhatsApp links');
+        }
+    });
+});
+
+// Print selected tickets
+$(document).on('click', '.print-ticket', function() {
+    const bookingId = $(this).data('booking-id');
+    window.open('<?= base_url('boats/print-tickets') ?>?booking_ids=' + bookingId, '_blank');
 });
 </script>

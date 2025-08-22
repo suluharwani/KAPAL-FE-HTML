@@ -45,13 +45,15 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->get('get-open-trip-id', 'Boats::getOpenTripId');
 
     $routes->get('open-trip-members/(:num)', 'Boats::manageOpenTripMembers/$1');
-$routes->get('get-member-details/(:num)', 'Boats::getMemberDetails/$1');
-$routes->post('add-member', 'Boats::addMember');
-$routes->get('get-member-edit/(:num)', 'Boats::getMemberEdit/$1');
-$routes->post('update-member', 'Boats::updateMember');
-$routes->post('delete-member', 'Boats::deleteMember');
-$routes->post('update-open-trip-price', 'Boats::updateOpenTripPrice');
-
+    $routes->get('get-member-details/(:num)', 'Boats::getMemberDetails/$1');
+    $routes->post('add-member', 'Boats::addMember');
+    $routes->get('get-member-edit/(:num)', 'Boats::getMemberEdit/$1');
+    $routes->post('update-member', 'Boats::updateMember');
+    $routes->post('delete-member', 'Boats::deleteMember');
+    $routes->post('update-open-trip-price', 'Boats::updateOpenTripPrice');
+    $routes->post('delete-all-members', 'Boats::deleteAllMembers');
+    $routes->get('print-tickets', 'Boats::printTickets');
+    $routes->post('send-whatsapp-tickets', 'Boats::sendWhatsAppTickets');
 });
 // Halaman Wisata
 $routes->group('tour', function($routes) {
