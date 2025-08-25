@@ -41,7 +41,9 @@ class Blog extends BaseController
             'title' => $blog['title'] . ' - Raja Ampat Boat Services',
             'blog' => $blog,
             'categories' => $this->blogCategoryModel->getCategoriesWithCount(),
-            'recentPosts' => $this->blogModel->getRecentPosts(5)
+            'recentPosts' => $this->blogModel->getRecentPosts(5),
+            'relatedPosts' => $this->blogModel->getBlogsByCategory($blog['category_id'], 2)
+
         ];
         
         return $this->render('blog/single', $data);
@@ -63,7 +65,7 @@ class Blog extends BaseController
             'blogs' => $blogs,
             'category' => $category,
             'categories' => $this->blogCategoryModel->getCategoriesWithCount(),
-            'recentPosts' => $this->blogModel->getRecentPosts(5)
+            'recentPosts' => $this->blogModel->getRecentPosts(5),
         ];
         
        return $this->render('blog/category', $data);

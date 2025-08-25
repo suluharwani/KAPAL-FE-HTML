@@ -69,7 +69,7 @@
                 
                 <!-- Related Posts - Show posts from same category -->
                 <?php
-                $relatedPosts = $this->blogModel->getBlogsByCategory($blog['category_id'], 2);
+                
                 if (!empty($relatedPosts)): 
                 ?>
                 <div class="mt-5">
