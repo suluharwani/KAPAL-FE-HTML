@@ -494,3 +494,95 @@ a {
 .breadcrumb-item.active {
     color: #495057;
 }
+/* About Page Styles */
+.about-hero {
+    background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%);
+}
+
+.team-hero,
+.testimonials-hero {
+    background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%);
+}
+
+.team-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.team-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.team-image-wrapper img {
+    transition: transform 0.3s ease;
+    height: 300px;
+    object-fit: cover;
+}
+
+.team-card:hover .team-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(59, 130, 246, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-overlay {
+    opacity: 1;
+}
+
+.team-social a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.team-social a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Testimonial Cards */
+.testimonial-card {
+    border-left: 4px solid #3b82f6;
+}
+
+/* Values Icons */
+.values-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+/* Mission & Vision Cards */
+.mission-vision-card {
+    transition: transform 0.3s ease;
+}
+
+.mission-vision-card:hover {
+    transform: translateY(-5px);
+}

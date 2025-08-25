@@ -18,6 +18,7 @@
         <div class="row">
             <!-- Main Content -->
             <div class="col-lg-8">
+   
                 <?php if (!empty($blogs)): ?>
                     <div class="row">
                         <?php foreach ($blogs as $blog): ?>

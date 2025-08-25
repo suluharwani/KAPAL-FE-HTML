@@ -23,7 +23,7 @@ class BlogModel extends Model
         $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
         $builder->join('users u', 'b.author_id = u.user_id', 'left');
         $builder->where('b.status', 'published');
-        $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
+        // $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
         $builder->orderBy('b.published_at', 'DESC');
         
         if ($limit) {

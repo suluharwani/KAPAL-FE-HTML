@@ -1,43 +1,53 @@
-<?php namespace App\Controllers;
+<?php
+namespace App\Controllers;
 
 use App\Models\TeamModel;
 use App\Models\TestimonialModel;
 
 class About extends BaseController
 {
+    protected $teamModel;
+    protected $testimonialModel;
+    
+    public function __construct()
+    {
+        $this->teamModel = new TeamModel();
+        $this->testimonialModel = new TestimonialModel();
+    }
+    
+    // About Us page
     public function index()
     {
         $data = [
             'title' => 'Tentang Kami - Raja Ampat Boat Services',
-            'active' => 'about'
+            'page' => 'about',
+            'testimonials' => $this->testimonialModel->getApprovedTestimonials(6)
         ];
         
-        return $this->render('about/index', $data);
+        $this->render('about/index', $data);
     }
     
+    // Team page
     public function team()
     {
-        $model = new TeamModel();
-        
         $data = [
             'title' => 'Tim Kami - Raja Ampat Boat Services',
-            'team' => $model->findAll(),
-            'active' => 'about'
+            'page' => 'team',
+            'teamMembers' => $this->teamModel->getActiveTeamMembers()
         ];
         
-        return $this->render('about/team', $data);
+        $this->render('about/team', $data);
     }
     
+    // Testimonials page
     public function testimonials()
     {
-        $model = new TestimonialModel();
-        
         $data = [
             'title' => 'Testimonial - Raja Ampat Boat Services',
-            'testimonials' => $model->where('status', 'approved')->findAll(),
-            'active' => 'about'
+            'page' => 'testimonials',
+            'testimonials' => $this->testimonialModel->getApprovedTestimonials()
         ];
         
-        return $this->render('about/testimonials', $data);
+        $this->render('about/testimonials', $data);
     }
 }
