@@ -67,22 +67,26 @@ if (isset($tripInfo) && !empty($tripInfo)) {
     <!-- Pastikan ini di load sebelum script custom Anda -->
 
 
-    <style>
+ <style>
         .table-responsive {
             overflow-x: auto;
         }
         #membersTable {
             width: 100% !important;
-            table-layout: fixed;
+            table-layout: auto;
+            font-size: 0.85rem;
         }
         #membersTable th, #membersTable td {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 150px;
+            padding: 0.5rem;
         }
         .avatar-sm {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -95,6 +99,70 @@ if (isset($tripInfo) && !empty($tripInfo)) {
             justify-content: space-between;
             align-items: center;
         }
+        
+        /* Improved table styling */
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background-color: #2c3e50;
+            z-index: 10;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        
+        /* Column width adjustments */
+        .col-index {
+            width: 4% !important;
+        }
+        .col-booking-code {
+            width: 9% !important;
+        }
+        .col-type {
+            width: 7% !important;
+        }
+        .col-name {
+            width: 14% !important;
+        }
+        .col-contact {
+            width: 14% !important;
+        }
+        .col-passengers {
+            width: 7% !important;
+        }
+        .col-price {
+            width: 11% !important;
+        }
+        .col-total {
+            width: 11% !important;
+        }
+        .col-status {
+            width: 8% !important;
+        }
+        .col-actions {
+            width: 15% !important;
+        }
+        
+        /* Action buttons styling */
+        .btn-group .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        @media (max-width: 992px) {
+            #membersTable {
+                font-size: 0.8rem;
+            }
+            #membersTable th, #membersTable td {
+                padding: 0.3rem;
+                max-width: 120px;
+            }
+            .btn-group .btn {
+                margin-bottom: 2px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .btn-group .btn {
                 margin-bottom: 5px;
@@ -108,6 +176,21 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                 width: 100%;
                 flex-wrap: wrap;
             }
+            
+            /* Force horizontal scroll on mobile */
+            .table-responsive {
+                overflow-x: scroll;
+            }
+            
+            #membersTable {
+                width: max-content !important;
+                min-width: 100%;
+            }
+        }
+        
+        /* Tooltip for truncated text */
+        [data-bs-toggle="tooltip"] {
+            cursor: help;
         }
     </style>
 </head>

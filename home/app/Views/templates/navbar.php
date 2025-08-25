@@ -28,9 +28,8 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link <?= (current_url() == base_url('blog')) ? 'active' : '' ?>" href="<?= base_url('blog') ?>">Blog</a>
-                </li>
-                
+    <a class="nav-link <?= (current_url() == base_url('blog')) ? 'active' : '' ?>" href="<?= base_url('blog') ?>">Blog</a>
+</li>
                 <!-- Tentang Kami Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?= (strpos(current_url(), 'about') !== false) ? 'active' : '' ?>" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown">
