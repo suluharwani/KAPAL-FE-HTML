@@ -5,10 +5,12 @@ use App\Models\ContactModel;
 class Contact extends BaseController
 {
     protected $contactModel;
+    protected $validation;
     
     public function __construct()
     {
         $this->contactModel = new ContactModel();
+        $this->validation = \Config\Services::validation();
     }
     
     public function index()
@@ -16,7 +18,7 @@ class Contact extends BaseController
         $data = [
             'title' => 'Kontak Kami - Raja Ampat Boat Services',
             'active' => 'contact',
-            'validation' => \Config\Services::validation()
+            'validation' => $this->validation
         ];
         
         return $this->render('contact/index', $data);
@@ -24,7 +26,12 @@ class Contact extends BaseController
     
     public function submit()
     {
-        // Validasi input
+        // Check if it's a POST request
+        if (!$this->request->is('post')) {
+            return redirect()->to('/contact');
+        }
+        
+        // Validation rules
         $rules = [
             'name' => [
                 'rules' => 'required|min_length[3]|max_length[100]',
@@ -35,10 +42,11 @@ class Contact extends BaseController
                 ]
             ],
             'email' => [
-                'rules' => 'required|valid_email',
+                'rules' => 'required|valid_email|max_length[100]',
                 'errors' => [
                     'required' => 'Email harus diisi',
-                    'valid_email' => 'Format email tidak valid'
+                    'valid_email' => 'Format email tidak valid',
+                    'max_length' => 'Email maksimal 100 karakter'
                 ]
             ],
             'phone' => [
@@ -65,6 +73,7 @@ class Contact extends BaseController
             ]
         ];
         
+        // Validate input
         if (!$this->validate($rules)) {
             return redirect()->back()
                 ->withInput()
@@ -72,20 +81,21 @@ class Contact extends BaseController
         }
         
         try {
-            // Data untuk disimpan
+            // Prepare data
             $data = [
-                'name' => $this->request->getPost('name'),
-                'email' => $this->request->getPost('email'),
-                'phone' => $this->request->getPost('phone'),
-                'subject' => $this->request->getPost('subject'),
-                'message' => $this->request->getPost('message'),
-                'status' => 'unread',
-                'created_at' => date('Y-m-d H:i:s')
+                'name' => $this->request->getPost('name', FILTER_SANITIZE_STRING),
+                'email' => $this->request->getPost('email', FILTER_SANITIZE_EMAIL),
+                'phone' => $this->request->getPost('phone', FILTER_SANITIZE_STRING),
+                'subject' => $this->request->getPost('subject', FILTER_SANITIZE_STRING),
+                'message' => $this->request->getPost('message', FILTER_SANITIZE_STRING),
+                'status' => 'unread'
             ];
             
-            // Simpan ke database
-            if ($this->contactModel->save($data)) {
-                // Opsional: Kirim email notifikasi ke admin
+            // Save to database using model method
+            $result = $this->contactModel->saveContact($data);
+            
+            if ($result['success']) {
+                // Optional: Send notification email
                 $this->sendNotificationEmail($data);
                 
                 return redirect()->to('/contact')
@@ -93,11 +103,14 @@ class Contact extends BaseController
             } else {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+                    ->with('errors', $result['errors'])
+                    ->with('error', 'Terjadi kesalahan saat mengirim pesan.');
             }
             
         } catch (\Exception $e) {
-            log_message('error', 'Error sending contact message: ' . $e->getMessage());
+            log_message('error', 'Contact Controller Error: ' . $e->getMessage());
+            log_message('error', 'Trace: ' . $e->getTraceAsString());
+            
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi nanti.');
@@ -112,26 +125,79 @@ class Contact extends BaseController
         try {
             $email = \Config\Services::email();
             
+            $config = [
+                'protocol' => 'smtp',
+                'SMTPHost' => 'smtp.gmail.com',
+                'SMTPUser' => 'your-email@gmail.com',
+                'SMTPPass' => 'your-password',
+                'SMTPPort' => 587,
+                'SMTPCrypto' => 'tls',
+                'mailType' => 'text'
+            ];
+            
+            $email->initialize($config);
+            
             $email->setFrom('noreply@rajaampatboats.com', 'Raja Ampat Boat Services');
-            $email->setTo('admin@rajaampatboats.com'); // Ganti dengan email admin
+            $email->setTo('admin@rajaampatboats.com');
             
             $email->setSubject('Pesan Kontak Baru: ' . $contactData['subject']);
             
-            $message = "Anda memiliki pesan kontak baru:\n\n";
+            $message = "PESAN KONTAK BARU\n";
+            $message .= "================\n\n";
             $message .= "Nama: " . $contactData['name'] . "\n";
             $message .= "Email: " . $contactData['email'] . "\n";
             $message .= "Telepon: " . ($contactData['phone'] ?: 'Tidak diisi') . "\n";
-            $message .= "Subjek: " . $contactData['subject'] . "\n";
-            $message .= "Pesan:\n" . $contactData['message'] . "\n\n";
-            $message .= "Tanggal: " . date('d/m/Y H:i');
+            $message .= "Subjek: " . $contactData['subject'] . "\n\n";
+            $message .= "Pesan:\n";
+            $message .= str_repeat("-", 50) . "\n";
+            $message .= $contactData['message'] . "\n";
+            $message .= str_repeat("-", 50) . "\n\n";
+            $message .= "Tanggal: " . date('d/m/Y H:i:s') . "\n";
+            $message .= "IP Address: " . $this->request->getIPAddress() . "\n";
             
             $email->setMessage($message);
             
-            return $email->send();
+            if (!$email->send()) {
+                log_message('error', 'Email Error: ' . $email->printDebugger(['headers']));
+            }
             
         } catch (\Exception $e) {
-            log_message('error', 'Failed to send notification email: ' . $e->getMessage());
-            return false;
+            log_message('error', 'Email Notification Error: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Debug method untuk testing
+     */
+    public function test()
+    {
+        // Test database connection
+        try {
+            $db = \Config\Database::connect();
+            $db->query('SELECT 1');
+            echo "Database connection: OK<br>";
+        } catch (\Exception $e) {
+            echo "Database connection failed: " . $e->getMessage() . "<br>";
+        }
+        
+        // Test table exists
+        try {
+            $tables = $db->listTables();
+            if (in_array('contacts', $tables)) {
+                echo "Table 'contacts' exists<br>";
+            } else {
+                echo "Table 'contacts' does NOT exist<br>";
+            }
+        } catch (\Exception $e) {
+            echo "Table check failed: " . $e->getMessage() . "<br>";
+        }
+        
+        // Test model
+        try {
+            $model = new ContactModel();
+            echo "Model loaded successfully<br>";
+        } catch (\Exception $e) {
+            echo "Model load failed: " . $e->getMessage() . "<br>";
         }
     }
 }

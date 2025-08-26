@@ -76,9 +76,11 @@ $routes->group('about', function($routes) {
 });
 
 // Kontak
+// Kontak
 $routes->group('contact', function($routes) {
     $routes->get('/', 'Contact::index');
     $routes->post('submit', 'Contact::submit');
+    $routes->get('test', 'Contact::test'); // Untuk debugging
 });
 
 // FAQ
