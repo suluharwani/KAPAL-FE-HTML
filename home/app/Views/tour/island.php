@@ -7,7 +7,6 @@
                 <p class="lead">Momen indah yang diabadikan di pulau ini</p>
             </div>
         </div>
-        
         <div class="row">
             <?php if (!empty($gallery) && is_array($gallery)): ?>
                 <?php foreach ($gallery as $item): ?>
