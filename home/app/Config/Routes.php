@@ -59,14 +59,15 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->get('download-tickets-pdf', 'Boats::downloadTicketsPdf');
 });
 // Halaman Wisata
+// Halaman Wisata
 $routes->group('tour', function($routes) {
     $routes->get('waigeo', 'Tour::waigeo');
     $routes->get('misool', 'Tour::misool');
     $routes->get('salawati', 'Tour::salawati');
     $routes->get('batanta', 'Tour::batanta');
     $routes->get('packages', 'Tour::packages');
+    $routes->get('detail/(:segment)', 'Tour::detail/$1');
 });
-
 // Tentang Kami
 $routes->group('about', function($routes) {
     $routes->get('/', 'About::index');
@@ -89,4 +90,7 @@ $routes->group('blog', function($routes) {
     $routes->get('(:segment)', 'Blog::post/$1');
     $routes->get('category/(:segment)', 'Blog::category/$1');
 });
+// Gallery routes
+$routes->get('gallery', 'Gallery::index');
+$routes->get('gallery/category/(:segment)', 'Gallery::category/$1');
 // Blog Routes

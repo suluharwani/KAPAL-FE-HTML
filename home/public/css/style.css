@@ -586,3 +586,100 @@ a {
 .mission-vision-card:hover {
     transform: translateY(-5px);
 }
+/* Gallery Styles */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-overlay {
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1 !important;
+}
+
+/* Transition utilities */
+.transition-opacity {
+    transition: opacity 0.3s ease;
+}
+
+/* Package card hover effect */
+.package-card {
+    transition: all 0.3s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+/* Gallery Styles */
+.gallery-hero {
+    background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%);
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-3px);
+}
+
+.gallery-item img {
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-overlay {
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1 !important;
+}
+
+.gallery-caption h6 {
+    font-size: 0.9rem;
+}
+
+/* Category buttons */
+.btn-outline-primary.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+/* Transition utilities */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Responsive gallery */
+@media (max-width: 768px) {
+    .gallery-item {
+        margin-bottom: 1rem;
+    }
+    
+    .gallery-caption h6 {
+        font-size: 0.8rem;
+    }
+}

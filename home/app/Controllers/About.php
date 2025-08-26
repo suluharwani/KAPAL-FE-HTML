@@ -30,15 +30,21 @@ class About extends BaseController
     // Team page
     public function team()
     {
+        try {
+            $teamMembers = $this->teamModel->getActiveTeamMembers();
+        } catch (\Exception $e) {
+            // Jika tabel tidak ada, gunakan array kosong
+            $teamMembers = [];
+        }
+        
         $data = [
             'title' => 'Tim Kami - Raja Ampat Boat Services',
             'page' => 'team',
-            'teamMembers' => $this->teamModel->getActiveTeamMembers()
+            'teamMembers' => $teamMembers
         ];
         
-        $this->render('about/team', $data);
+         $this->render('about/team', $data);
     }
-    
     // Testimonials page
     public function testimonials()
     {

@@ -1,32 +1,43 @@
-<div class="container my-5">
-    <h1 class="mb-4">Wisata <?= $island['island_name'] ?></h1>
-    
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <img src="<?= base_url('uploads/islands/' . $island['image_url']) ?>" class="img-fluid rounded shadow" alt="<?= $island['island_name'] ?>">
+<!-- Gallery Section -->
+<section id="gallery" class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold">Galeri Pulau <?= $island['island_name'] ?? 'Raja Ampat' ?></h2>
+                <p class="lead">Momen indah yang diabadikan di pulau ini</p>
+            </div>
         </div>
-        <div class="col-md-8 mb-4">
-            <p><?= $island['description'] ?></p>
-        </div>
-    </div>
-    
-    <h2 class="mb-4">Paket Wisata</h2>
-    
-    <div class="row">
-        <?php foreach ($packages as $package): ?>
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <img src="<?= base_url('uploads/packages/' . $package['image']) ?>" class="card-img-top" alt="<?= $package['package_name'] ?>">
-                    <div class="card-body">
-                        <h3 class="h5 card-title"><?= $package['package_name'] ?></h3>
-                        <p class="card-text"><?= $package['description'] ?></p>
-                        <p class="text-primary fw-bold">Rp <?= number_format($package['price'], 0, ',', '.') ?></p>
-                    </div>
-                    <div class="card-footer bg-white">
-                        <a href="<?= base_url('booking?package=' . $package['package_id']) ?>" class="btn btn-primary w-100">Pesan Sekarang</a>
+        
+        <div class="row">
+            <?php if (!empty($gallery) && is_array($gallery)): ?>
+                <?php foreach ($gallery as $item): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="gallery-item position-relative">
+                        <img src="<?= base_url($item['image_url'] ?? 'images/gallery-placeholder.jpg') ?>" 
+                             class="img-fluid rounded shadow-sm" 
+                             alt="<?= $item['title'] ?? 'Gallery Image' ?>" 
+                             style="height: 250px; width: 100%; object-fit: cover;">
+                        <div class="gallery-overlay position-absolute top-0 start-0 end-0 bottom-0 bg-dark bg-opacity-50 d-flex align-items-end p-3 opacity-0 transition-opacity">
+                            <div class="gallery-caption text-white">
+                                <h6 class="mb-0"><?= $item['title'] ?? 'Image Title' ?></h6>
+                                <?php if (!empty($item['description'])): ?>
+                                <small class="text-white-50"><?= $item['description'] ?></small>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12 text-center py-3">
+                    <i class="fas fa-images fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Galeri foto akan segera diupdate.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="<?= base_url('gallery') ?>" class="btn btn-outline-primary">Lihat Galeri Lengkap</a>
+        </div>
     </div>
-</div>
+</section>
