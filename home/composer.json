@@ -13,8 +13,8 @@
         "php": "^8.1",
         "codeigniter4/framework": "^4.0",
         "dompdf/dompdf": "^3.1",
-        "endroid/qr-code": "^6.0",
-        "google/apiclient": "^2.18"
+        "google/apiclient": "^2.18",
+        "picqer/php-barcode-generator": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

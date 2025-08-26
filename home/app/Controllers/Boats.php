@@ -6,13 +6,7 @@ use App\Models\RouteModel;
 use App\Models\ScheduleModel;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
-use Endroid\QrCode\Writer\Result\ResultInterface;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class Boats extends BaseController
 {
@@ -1375,6 +1369,7 @@ public function deleteMember()
     }
 }
 
+// Boats.php - Ubah method downloadTicketsPdf
 public function downloadTicketsPdf($openTripId = null)
 {
     try {
@@ -1405,15 +1400,25 @@ public function downloadTicketsPdf($openTripId = null)
             $openTripDetails = $openTripModel->getOpenTripDetails($openTripId);
         }
         
-        // Get passenger details for each booking
+        // Initialize barcode generator
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        
+        // Get passenger details and generate barcodes for each booking
         foreach ($bookings as &$booking) {
             $booking['passengers'] = $passengerModel->where('booking_id', $booking['booking_id'])->findAll();
             
-            // Generate QR codes for each passenger
-            $booking['qr_codes'] = [];
+            // Generate barcodes for each passenger
+            $booking['barcodes'] = [];
             for ($i = 0; $i < $booking['passenger_count']; $i++) {
-                $qrText = $booking['booking_code'] . '-' . ($i + 1) . '-' . date('Ymd');
-                $booking['qr_codes'][$i] = $this->generateQrCode($qrText);
+                $barcodeText = $booking['booking_code'] . '-' . ($i + 1);
+                try {
+                    $barcodeImage = $barcodeGenerator->getBarcode($barcodeText, $barcodeGenerator::TYPE_CODE_128);
+                    $booking['barcodes'][$i] = 'data:image/png;base64,' . base64_encode($barcodeImage);
+                } catch (Exception $e) {
+                    // Fallback to text barcode if image generation fails
+                    $booking['barcodes'][$i] = null;
+                    log_message('error', 'Barcode generation failed: ' . $e->getMessage());
+                }
             }
         }
         
@@ -1427,14 +1432,15 @@ public function downloadTicketsPdf($openTripId = null)
         // Load the view
         $html = view('boats/tickets_pdf', $data);
         
-        // Setup PDF options
+        // Setup PDF options - UBAH KE A5
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
-        $options->set('defaultPaperSize', 'a5');
+        $options->set('defaultPaperSize', 'a4');
         $options->set('defaultPaperOrientation', 'portrait');
-        $options->set('dpi', 96);
+        $options->set('dpi', 150);
         $options->set('isPhpEnabled', true);
+        $options->set('isFontSubsettingEnabled', true);
         
         // Instantiate Dompdf
         $dompdf = new Dompdf($options);
@@ -1466,29 +1472,6 @@ public function downloadTicketsPdf($openTripId = null)
     } catch (\Exception $e) {
         log_message('error', 'PDF Generation Error: ' . $e->getMessage());
         return redirect()->back()->with('error', 'Failed to generate PDF: ' . $e->getMessage());
-    }
-}
-
-private function generateQrCode($text)
-{
-    try {
-        $qrCode = QrCode::create($text)
-            ->setEncoding(new Encoding('UTF-8'))
-            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-            ->setSize(150)
-            ->setMargin(10)
-            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
-            ->setForegroundColor(new Color(0, 0, 0))
-            ->setBackgroundColor(new Color(255, 255, 255));
-        
-        $writer = new PngWriter();
-        $result = $writer->write($qrCode);
-        
-        return 'data:image/png;base64,' . base64_encode($result->getString());
-        
-    } catch (\Exception $e) {
-        log_message('error', 'QR Code Generation Error: ' . $e->getMessage());
-        return null;
     }
 }
 }
