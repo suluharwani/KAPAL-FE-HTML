@@ -23,7 +23,7 @@
                         <li><a class="dropdown-item <?= (current_url() == base_url('tour/salawati')) ? 'active' : '' ?>" href="<?= base_url('tour/salawati') ?>">Wisata Pulau Salawati</a></li>
                         <li><a class="dropdown-item <?= (current_url() == base_url('tour/batanta')) ? 'active' : '' ?>" href="<?= base_url('tour/batanta') ?>">Wisata Pulau Batanta</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item <?= (current_url() == base_url('tour/packages')) ? 'active' : '' ?>" href="<?= base_url('tour/packages') ?>">Paket Wisata Lengkap</a></li>
+                        <li><a class="dropdown-item <?= (current_url() == base_url('gallery')) ? 'active' : '' ?>" href="<?= base_url('gallery') ?>">Lihat Galeri</a></li>
                     </ul>
                 </li>
                 
@@ -52,9 +52,6 @@
                 
                 <!-- Booking CTA Button -->
                 <?php if (session()->get('isLoggedIn')): ?>
-                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                        <a class="btn btn-primary" href="<?= base_url('booking') ?>">Pesan Sekarang</a>
-                    </li>
                     <li class="nav-item">
     <a class="nav-link" href="<?= base_url('boats/open-trip') ?>">
         <i class="fas fa-users me-1"></i> Open Trip
