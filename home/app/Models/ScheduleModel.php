@@ -269,4 +269,184 @@ class ScheduleModel extends Model
         
         return $builder->get()->getRowArray();
     }
+    // ... dalam ScheduleModel.php
+
+/**
+ * Get regular schedules (non-open trip) with complete details
+ */
+public function getRegularSchedulesWithDetails($routeId = null, $date = null)
+{
+    $builder = $this->db->table('schedules s');
+    $builder->select('
+        s.schedule_id,
+        s.departure_time,
+        s.departure_date,
+        s.available_seats,
+        s.status,
+        s.is_open_trip,
+        b.boat_id,
+        b.boat_name,
+        b.boat_type,
+        b.capacity,
+        b.price_per_trip,
+        b.image_url,
+        b.facilities,
+        b.is_featured,
+        r.route_id,
+        r.estimated_duration,
+        r.distance,
+        dep.island_name as departure_island,
+        arr.island_name as arrival_island
+    ');
+    
+    $builder->join('boats b', 's.boat_id = b.boat_id');
+    $builder->join('routes r', 's.route_id = r.route_id');
+    $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+    $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+    
+    // Filter khusus regular trip
+    $builder->where('s.is_open_trip', 0);
+    $builder->where('s.status', 'available');
+    $builder->where('s.departure_date >=', date('Y-m-d'));
+    $builder->where('s.available_seats >', 0);
+    
+    // Filter berdasarkan rute
+    if (!empty($routeId)) {
+        $builder->where('s.route_id', $routeId);
+    }
+    
+    // Filter berdasarkan tanggal
+    if (!empty($date)) {
+        $builder->where('s.departure_date', $date);
+    }
+    
+    // Urutkan berdasarkan tanggal dan waktu
+    $builder->orderBy('s.departure_date', 'ASC');
+    $builder->orderBy('s.departure_time', 'ASC');
+    
+    return $builder->get()->getResultArray();
+}
+
+/**
+ * Get open trip schedules with complete details
+ */
+public function getOpenTripSchedulesWithDetails($routeId = null, $date = null)
+{
+    $builder = $this->db->table('schedules s');
+    $builder->select('
+        s.schedule_id,
+        s.departure_time,
+        s.departure_date,
+        s.available_seats,
+        s.status,
+        s.is_open_trip,
+        b.boat_id,
+        b.boat_name,
+        b.boat_type,
+        b.capacity,
+        b.price_per_trip,
+        b.image_url,
+        b.facilities,
+        b.is_featured,
+        r.route_id,
+        r.estimated_duration,
+        r.distance,
+        dep.island_name as departure_island,
+        arr.island_name as arrival_island,
+        ots.open_trip_id,
+        ots.reserved_seats,
+        ots.available_seats as open_trip_available_seats,
+        ots.agreed_price,
+        ots.price_per_person,
+        ots.status as open_trip_status
+    ');
+    
+    $builder->join('boats b', 's.boat_id = b.boat_id');
+    $builder->join('routes r', 's.route_id = r.route_id');
+    $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+    $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+    $builder->join('open_trip_schedules ots', 's.schedule_id = ots.schedule_id', 'left');
+    
+    // Filter khusus open trip
+    $builder->where('s.is_open_trip', 1);
+    $builder->where('s.status', 'available');
+    $builder->where('s.departure_date >=', date('Y-m-d'));
+    $builder->where('s.available_seats >', 0);
+    
+    // Filter berdasarkan rute
+    if (!empty($routeId)) {
+        $builder->where('s.route_id', $routeId);
+    }
+    
+    // Filter berdasarkan tanggal
+    if (!empty($date)) {
+        $builder->where('s.departure_date', $date);
+    }
+    
+    // Urutkan berdasarkan tanggal dan waktu
+    $builder->orderBy('s.departure_date', 'ASC');
+    $builder->orderBy('s.departure_time', 'ASC');
+    
+    return $builder->get()->getResultArray();
+}
+
+/**
+ * Get all available routes for regular trips
+ */
+public function getAvailableRegularRoutes()
+{
+    $builder = $this->db->table('routes r');
+    $builder->select('
+        r.route_id,
+        r.estimated_duration,
+        r.distance,
+        dep.island_name as departure_island,
+        arr.island_name as arrival_island
+    ');
+    
+    $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+    $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+    $builder->join('schedules s', 'r.route_id = s.route_id');
+    
+    $builder->where('s.is_open_trip', 0);
+    $builder->where('s.status', 'available');
+    $builder->where('s.departure_date >=', date('Y-m-d'));
+    $builder->where('s.available_seats >', 0);
+    
+    $builder->groupBy('r.route_id');
+    $builder->orderBy('dep.island_name', 'ASC');
+    $builder->orderBy('arr.island_name', 'ASC');
+    
+    return $builder->get()->getResultArray();
+}
+
+/**
+ * Get all available routes for open trips
+ */
+public function getAvailableOpenTripRoutes()
+{
+    $builder = $this->db->table('routes r');
+    $builder->select('
+        r.route_id,
+        r.estimated_duration,
+        r.distance,
+        dep.island_name as departure_island,
+        arr.island_name as arrival_island
+    ');
+    
+    $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+    $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+    $builder->join('schedules s', 'r.route_id = s.route_id');
+    
+    $builder->where('s.is_open_trip', 1);
+    $builder->where('s.status', 'available');
+    $builder->where('s.departure_date >=', date('Y-m-d'));
+    $builder->where('s.available_seats >', 0);
+    
+    $builder->groupBy('r.route_id');
+    $builder->orderBy('dep.island_name', 'ASC');
+    $builder->orderBy('arr.island_name', 'ASC');
+    
+    return $builder->get()->getResultArray();
+}
 }

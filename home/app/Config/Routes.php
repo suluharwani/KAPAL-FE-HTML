@@ -91,3 +91,13 @@ $routes->group('blog', function($routes) {
 $routes->get('gallery', 'Gallery::index');
 $routes->get('gallery/category/(:segment)', 'Gallery::category/$1');
 // Blog Routes
+// Booking routes - require auth
+$routes->group('booking', ['filter' => 'auth'], function($routes) {
+    $routes->get('create/(:num)', 'Booking::create/$1'); // schedule_id
+    $routes->post('process', 'Booking::process');
+    $routes->get('success/(:any)', 'Booking::success/$1'); // booking_code
+    $routes->get('my-bookings', 'Booking::myBookings');
+    $routes->get('detail/(:any)', 'Booking::detail/$1'); // booking_code
+    $routes->get('print/(:any)', 'Booking::printTicket/$1'); // booking_code
+    $routes->post('cancel', 'Booking::cancel');
+});

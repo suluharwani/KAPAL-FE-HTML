@@ -44,4 +44,8 @@ class PassengerModel extends Model
         
         return $this->insertBatch($data);
     }
+    public function countPassengers($bookingId)
+    {
+        return $this->where('booking_id', $bookingId)->countAllResults();
+    }
 }

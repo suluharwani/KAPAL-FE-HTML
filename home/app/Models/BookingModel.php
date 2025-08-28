@@ -214,4 +214,72 @@ public function getBookingWithUser($bookingId)
                ->where('bookings.booking_id', $bookingId)
                ->first();
 }
+ public function getBookingWithDetails($bookingCode)
+    {
+        $builder = $this->db->table('bookings b');
+        $builder->select('
+            b.*,
+            u.full_name as user_name,
+            u.email as user_email,
+            u.phone as user_phone,
+            s.departure_time,
+            s.departure_date,
+            boat.boat_name,
+            boat.boat_type,
+            boat.price_per_trip,
+            boat.image_url as boat_image,
+            r.route_id,
+            r.estimated_duration,
+            dep.island_name as departure_island,
+            arr.island_name as arrival_island,
+            (SELECT COUNT(*) FROM passengers p WHERE p.booking_id = b.booking_id) as actual_passengers
+        ');
+        
+        $builder->join('users u', 'b.user_id = u.user_id');
+        $builder->join('schedules s', 'b.schedule_id = s.schedule_id');
+        $builder->join('boats boat', 's.boat_id = boat.boat_id');
+        $builder->join('routes r', 's.route_id = r.route_id');
+        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+        
+        $builder->where('b.booking_code', $bookingCode);
+        
+        return $builder->get()->getRowArray();
+    }
+
+    /**
+     * Get bookings with details for user
+     */
+    public function getUserBookingsWithDetails($userId)
+    {
+        $builder = $this->db->table('bookings b');
+        $builder->select('
+            b.*,
+            s.departure_time,
+            s.departure_date,
+            boat.boat_name,
+            dep.island_name as departure_island,
+            arr.island_name as arrival_island
+        ');
+        
+        $builder->join('schedules s', 'b.schedule_id = s.schedule_id');
+        $builder->join('boats boat', 's.boat_id = boat.boat_id');
+        $builder->join('routes r', 's.route_id = r.route_id');
+        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+        
+        $builder->where('b.user_id', $userId);
+        $builder->orderBy('b.created_at', 'DESC');
+        
+        return $builder->get()->getResultArray();
+    }
+
+    public function canCancel($bookingId)
+    {
+        $booking = $this->find($bookingId);
+        if (!$booking) return false;
+
+        return in_array($booking['booking_status'], ['pending', 'confirmed']) &&
+               in_array($booking['payment_status'], ['pending', 'partial']);
+    }
 }
