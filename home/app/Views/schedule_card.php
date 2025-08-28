@@ -70,9 +70,12 @@ $schedule = $schedule ?? [];
                         0, ',', '.'
                     ) ?>
                 </span>
-                <button class="btn <?= $isOpenTrip ? 'btn-danger' : 'btn-primary' ?> btn-sm">
-                    <?= $isOpenTrip ? 'Join Trip' : 'Pesan Sekarang' ?>
-                </button>
+                <button class="btn <?= $isOpenTrip ? 'btn-danger' : 'btn-primary' ?> btn-sm book-btn" 
+        data-schedule-id="<?= $schedule['schedule_id'] ?>"
+        data-boat-name="<?= $schedule['boat_name'] ?>"
+        data-is-open-trip="<?= $isOpenTrip ? '1' : '0' ?>">
+    <?= $isOpenTrip ? 'Join Trip' : 'Pesan Sekarang' ?>
+</button>
             </div>
         </div>
     </div>

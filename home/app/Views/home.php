@@ -217,7 +217,41 @@
             </div>
         </div>
     </section>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Anda harus login terlebih dahulu untuk melakukan pemesanan.</p>
+                <div class="text-center">
+                    <a href="/auth/login" class="btn btn-primary me-2">Login</a>
+                    <a href="/auth/register" class="btn btn-outline-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pesan Tiket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="bookingModalContent">
+                    <!-- Content will be loaded via AJAX -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Bootstrap & JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -402,6 +436,151 @@
         function formatPrice(price) {
             return new Intl.NumberFormat('id-ID').format(price);
         }
+        // Fungsi untuk menangani klik tombol pesan
+function setupBookingButtons() {
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('book-btn')) {
+            const scheduleId = e.target.getAttribute('data-schedule-id');
+            const boatName = e.target.getAttribute('data-boat-name');
+            const isOpenTrip = e.target.getAttribute('data-is-open-trip') === '1';
+            
+            // Cek apakah user sudah login
+            checkLoginStatus().then(isLoggedIn => {
+                if (isLoggedIn) {
+                    // Jika sudah login, buka modal booking
+                    openBookingModal(scheduleId, boatName, isOpenTrip);
+                } else {
+                    // Jika belum login, tampilkan modal login
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+            });
+        }
+    });
+}
+
+// Fungsi untuk cek status login
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('/auth/check');
+        const result = await response.json();
+        return result.isLoggedIn;
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        return false;
+    }
+}
+
+// Fungsi untuk membuka modal booking
+async function openBookingModal(scheduleId, boatName, isOpenTrip) {
+    try {
+        // Tampilkan loading
+        document.getElementById('bookingModalContent').innerHTML = `
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Memuat form pemesanan...</p>
+            </div>
+        `;
+
+        const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+        bookingModal.show();
+
+        // Load form booking via AJAX
+        const response = await fetch(`/booking/create/${scheduleId}`);
+        const html = await response.text();
+        
+        document.getElementById('bookingModalContent').innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error loading booking form:', error);
+        document.getElementById('bookingModalContent').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Terjadi kesalahan saat memuat form pemesanan. Silakan coba lagi.
+            </div>
+        `;
+    }
+}
+
+// Panggil fungsi setup saat DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+    setupBookingButtons();
+});
+function setupBookingButtons() {
+    document.addEventListener('click', async function(e) {
+        if (e.target.classList.contains('book-btn')) {
+            const button = e.target;
+            const scheduleId = button.getAttribute('data-schedule-id');
+            
+            // Set loading state
+            button.classList.add('loading');
+            button.disabled = true;
+            
+            try {
+                const isLoggedIn = await checkLoginStatus();
+                
+                if (isLoggedIn) {
+                    window.location.href = `/booking/create/${scheduleId}`;
+                } else {
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                    sessionStorage.setItem('redirectAfterLogin', `/booking/create/${scheduleId}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            } finally {
+                // Remove loading state
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+    });
+}
+// Simple implementation - langsung redirect dengan cek login
+function setupBookingButtons() {
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('book-btn')) {
+            const scheduleId = e.target.getAttribute('data-schedule-id');
+            
+            // Cek login sederhana (asumsi ada global variable)
+            const isLoggedIn = <?= session()->get('isLoggedIn') ? 'true' : 'false' ?>;
+            
+            if (isLoggedIn) {
+                window.location.href = `/booking/create/${scheduleId}`;
+            } else {
+                // Simpan URL tujuan dan redirect ke login
+                sessionStorage.setItem('redirectAfterLogin', `/booking/create/${scheduleId}`);
+                window.location.href = '/auth/login';
+            }
+        }
+    });
+}
+
+// Panggil saat DOM ready
+document.addEventListener('DOMContentLoaded', setupBookingButtons);
+// Di halaman login (auth/login.php)
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a redirect URL
+    const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+    if (redirectUrl) {
+        // Simpan di form hidden
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'redirect';
+        hiddenInput.value = redirectUrl;
+        document.querySelector('form').appendChild(hiddenInput);
+        
+        // Bersihkan storage setelah digunakan
+        sessionStorage.removeItem('redirectAfterLogin');
+    }
+});
     </script>
 </body>
 </html>

@@ -4,7 +4,6 @@ use App\Models\BookingModel;
 use App\Models\ScheduleModel;
 use App\Models\BoatModel;
 use App\Models\RouteModel;
-use App\Models\PaymentModel;
 use App\Models\PassengerModel;
 
 class Booking extends BaseController
@@ -13,7 +12,6 @@ class Booking extends BaseController
     protected $scheduleModel;
     protected $boatModel;
     protected $routeModel;
-    protected $paymentModel;
     protected $passengerModel;
 
     public function __construct()
@@ -22,7 +20,6 @@ class Booking extends BaseController
         $this->scheduleModel = new ScheduleModel();
         $this->boatModel = new BoatModel();
         $this->routeModel = new RouteModel();
-        $this->paymentModel = new PaymentModel();
         $this->passengerModel = new PassengerModel();
         
         helper(['form', 'text']);
@@ -52,114 +49,109 @@ class Booking extends BaseController
             'validation' => \Config\Services::validation()
         ];
 
-        return view('booking/create', $data);
+        $this->render('booking/create', $data);
     }
 
     /**
      * Proses pemesanan
      */
-    public function process()
-    {
-        if (!$this->request->isAJAX()) {
-            return redirect()->back();
+/**
+ * Proses pemesanan
+ */
+public function process()
+{
+    if (!$this->request->isAJAX()) {
+        return redirect()->back();
+    }
+
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'schedule_id' => 'required|numeric',
+        'passenger_count' => 'required|numeric|greater_than[0]',
+        'passengers' => 'required',
+        'payment_method' => 'required|in_list[transfer,cash]'
+    ]);
+
+    if (!$validation->withRequest($this->request)->run()) {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Validasi gagal',
+            'errors' => $validation->getErrors()
+        ]);
+    }
+
+    $scheduleId = $this->request->getPost('schedule_id');
+    $passengerCount = $this->request->getPost('passenger_count');
+    $passengers = json_decode($this->request->getPost('passengers'), true);
+    $paymentMethod = $this->request->getPost('payment_method');
+
+    // Cek schedule
+    $schedule = $this->scheduleModel->find($scheduleId);
+    if (!$schedule || $schedule['available_seats'] < $passengerCount) {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Kursi tidak tersedia'
+        ]);
+    }
+
+    // Generate booking code
+    $bookingCode = $this->bookingModel->generateBookingCode();
+
+    // Hitung total harga
+    $scheduleDetails = $this->scheduleModel->getScheduleWithDetails($scheduleId);
+    $totalPrice = $scheduleDetails['price_per_trip'] * $passengerCount;
+
+    // Data booking
+    $bookingData = [
+        'booking_code' => $bookingCode,
+        'user_id' => session()->get('user')['user_id'],
+        'schedule_id' => $scheduleId,
+        'passenger_count' => $passengerCount,
+        'total_price' => $totalPrice,
+        'payment_method' => $paymentMethod,
+        'booking_status' => 'pending',
+        'payment_status' => 'pending',
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+
+    // Start transaction
+    $this->db->transStart();
+
+    try {
+        // Simpan booking
+        if (!$this->bookingModel->save($bookingData)) {
+            throw new \Exception('Gagal menyimpan booking: ' . implode(', ', $this->bookingModel->errors()));
         }
 
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'schedule_id' => 'required|numeric',
-            'passenger_count' => 'required|numeric|greater_than[0]',
-            'passengers' => 'required',
-            'payment_method' => 'required|in_list[transfer,cash]'
+        $bookingId = $this->bookingModel->getInsertID();
+
+        // Simpan data penumpang menggunakan method baru
+        if (!$this->passengerModel->addPassengers($bookingId, $passengers)) {
+            throw new \Exception('Gagal menyimpan data penumpang');
+        }
+
+        // Kurangi kursi tersedia
+        if (!$this->scheduleModel->decrementSeats($scheduleId, $passengerCount)) {
+            throw new \Exception('Gagal update kursi tersedia');
+        }
+
+        $this->db->transComplete();
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Booking berhasil dibuat',
+            'booking_code' => $bookingCode
         ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Validasi gagal',
-                'errors' => $validation->getErrors()
-            ]);
-        }
-
-        $scheduleId = $this->request->getPost('schedule_id');
-        $passengerCount = $this->request->getPost('passenger_count');
-        $passengers = json_decode($this->request->getPost('passengers'), true);
-        $paymentMethod = $this->request->getPost('payment_method');
-
-        // Cek schedule
-        $schedule = $this->scheduleModel->find($scheduleId);
-        if (!$schedule || $schedule['available_seats'] < $passengerCount) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Kursi tidak tersedia'
-            ]);
-        }
-
-        // Generate booking code
-        $bookingCode = 'BOOK-' . strtoupper(random_string('alnum', 12));
-
-        // Hitung total harga
-        $scheduleDetails = $this->scheduleModel->getScheduleWithDetails($scheduleId);
-        $totalPrice = $scheduleDetails['price_per_trip'] * $passengerCount;
-
-        // Data booking
-        $bookingData = [
-            'booking_code' => $bookingCode,
-            'user_id' => session()->get('user')['user_id'],
-            'schedule_id' => $scheduleId,
-            'passenger_count' => $passengerCount,
-            'total_price' => $totalPrice,
-            'payment_method' => $paymentMethod,
-            'booking_status' => 'pending',
-            'payment_status' => 'pending'
-        ];
-
-        // Start transaction
-        $this->db->transStart();
-
-        try {
-            // Simpan booking
-            if (!$this->bookingModel->save($bookingData)) {
-                throw new \Exception('Gagal menyimpan booking');
-            }
-
-            $bookingId = $this->bookingModel->getInsertID();
-
-            // Simpan data penumpang
-            foreach ($passengers as $passenger) {
-                $passengerData = [
-                    'booking_id' => $bookingId,
-                    'full_name' => $passenger['name'],
-                    'identity_number' => $passenger['identity'] ?? null,
-                    'phone' => $passenger['phone'] ?? null,
-                    'age' => $passenger['age'] ?? null
-                ];
-
-                if (!$this->passengerModel->save($passengerData)) {
-                    throw new \Exception('Gagal menyimpan data penumpang');
-                }
-            }
-
-            // Kurangi kursi tersedia
-            if (!$this->scheduleModel->decrementSeats($scheduleId, $passengerCount)) {
-                throw new \Exception('Gagal update kursi tersedia');
-            }
-
-            $this->db->transComplete();
-
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Booking berhasil dibuat',
-                'booking_code' => $bookingCode
-            ]);
-
-        } catch (\Exception $e) {
-            $this->db->transRollback();
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ]);
-        }
+    } catch (\Exception $e) {
+        $this->db->transRollback();
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
     }
+}
 
     /**
      * Halaman sukses booking
@@ -178,7 +170,7 @@ class Booking extends BaseController
             'booking' => $booking
         ];
 
-        return view('booking/success', $data);
+        $this->render('booking/success', $data);
     }
 
     /**
@@ -197,7 +189,7 @@ class Booking extends BaseController
             'bookings' => $bookings
         ];
 
-        return view('booking/my_bookings', $data);
+        $this->render('booking/my_bookings', $data);
     }
 
     /**
@@ -217,7 +209,7 @@ class Booking extends BaseController
             'booking' => $booking
         ];
 
-        return view('booking/detail', $data);
+        $this->render('booking/detail', $data);
     }
 
     /**
@@ -243,7 +235,7 @@ class Booking extends BaseController
             'booking' => $booking
         ];
 
-        return view('booking/print_ticket', $data);
+        $this->render('booking/print_ticket', $data);
     }
 
     /**

@@ -140,4 +140,12 @@ class Auth extends BaseController
         $this->session->destroy();
         return redirect()->to('/');
     }
+    // Di dalam Auth controller
+public function check()
+{
+    return $this->response->setJSON([
+        'isLoggedIn' => session()->get('isLoggedIn') ?? false
+    ]);
+}
+
 }

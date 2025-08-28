@@ -26,7 +26,6 @@
     </style>
 </head>
 <body>
-    <?= $this->include('layouts/header') ?>
 
     <div class="container py-5">
         <div class="row">

@@ -101,3 +101,4 @@ $routes->group('booking', ['filter' => 'auth'], function($routes) {
     $routes->get('print/(:any)', 'Booking::printTicket/$1'); // booking_code
     $routes->post('cancel', 'Booking::cancel');
 });
+$routes->get('auth/check', 'Auth::check');
