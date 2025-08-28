@@ -1,233 +1,309 @@
-<!-- About Hero Section -->
-<section class="about-hero">
-    <div class="container">
-        <h1 class="display-4 fw-bold">Selamat Datang di Raja Ampat Boat Services</h1>
-        <p class="lead">Layanan Transportasi Kapal Terbaik di Kepulauan Raja Ampat</p>
-    </div>
-</section>
-
-<!-- Main Content -->
-<main class="container my-5">
-    <!-- Image Slider -->
-    <section class="mb-5">
-        <div id="mainSlider" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <?php foreach ($sliders as $key => $slider): ?>
-                    <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="<?= $key ?>" <?= $key === 0 ? 'class="active"' : '' ?>></button>
-                <?php endforeach; ?>
-            </div>
-            <div class="carousel-inner rounded-3">
-                <?php foreach ($sliders as $key => $slider): ?>
-                    <div class="carousel-item <?= $key === 0 ? 'active' : '' ?>">
-                        <img src="<?= base_url('uploads/sliders/' . $slider['image']) ?>" class="d-block w-100" alt="<?= $slider['title'] ?>">
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
-                            <h5><?= $slider['title'] ?></h5>
-                            <p><?= $slider['description'] ?></p>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Jadwal Kapal - Raja Ampat Boat Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .search-section {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .search-card {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 10px;
+        }
+        .search-btn {
+            background-color: #0d6efd;
+            border: none;
+            padding: 10px 20px;
+        }
+        .search-btn:hover {
+            background-color: #0b5ed7;
+        }
+        .result-card {
+            transition: transform 0.3s;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .boat-img {
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #198754;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+        .feature-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-ship me-2"></i>Raja Ampat Boat Services
+            </a>
         </div>
-    </section>
+    </nav>
 
-    <!-- Quick Booking Section -->
-    <section class="booking-form mb-5">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Pesan Kapal Sekarang</h3>
-            </div>
-            <div class="card-body">
-                <form id="quickBookingForm">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="quickFrom" class="form-label">Dari Pulau</label>
-                            <select class="form-select" id="quickFrom" required>
-                                <option value="" selected disabled>Pilih Pulau Asal</option>
-                                <?php foreach ($islands as $island): ?>
-                                    <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="quickTo" class="form-label">Ke Pulau</label>
-                            <select class="form-select" id="quickTo" required>
-                                <option value="" selected disabled>Pilih Pulau Tujuan</option>
-                                <?php foreach ($islands as $island): ?>
-                                    <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="quickDate" class="form-label">Tanggal Keberangkatan</label>
-                            <input type="date" class="form-control" id="quickDate" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="quickPassengers" class="form-label">Jumlah Penumpang</label>
-                            <input type="number" class="form-control" id="quickPassengers" min="1" max="20" required>
-                        </div>
-                    </div>
-                    
-                    <div class="d-grid">
-                        <?php if (session()->get('isLoggedIn')): ?>
-                            <button type="submit" class="btn btn-primary btn-lg">Cek Jadwal & Harga</button>
-                        <?php else: ?>
-                            <a href="<?= base_url('auth/login') ?>" class="btn btn-primary btn-lg">Login untuk Memesan</a>
-                        <?php endif; ?>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section mb-5">
-        <h2 class="text-center mb-4">Mengapa Memilih Kami?</h2>
-        <div class="row text-center">
-            <?php foreach ($features as $feature): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="feature-icon mb-3">
-                                <i class="<?= $feature['icon'] ?> fa-3x text-primary"></i>
-                            </div>
-                            <h3><?= $feature['title'] ?></h3>
-                            <p><?= $feature['description'] ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
-    <!-- Popular Routes Section -->
-    <section class="routes-section mb-5">
-        <h2 class="text-center mb-4">Rute Populer</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Rute</th>
-                        <th>Jadwal</th>
-                        <th>Durasi</th>
-                        <th>Harga Kapal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($popularRoutes as $route): ?>
-                        <tr>
-                            <td><?= $route['departure_island'] ?> - <?= $route['arrival_island'] ?></td>
-                            <td><?= $route['schedule'] ?></td>
-                            <td><?= $route['duration'] ?></td>
-                            <td>Rp <?= number_format($route['price'], 0, ',', '.') ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="cta-section mb-5 py-4 bg-primary text-white rounded text-center">
-        <h3 class="mb-3">Siap Memulai Perjalanan Anda?</h3>
-        <p class="lead mb-4">Pesan kapal sekarang dan nikmati pengalaman tak terlupakan di Raja Ampat</p>
-        <?php if (session()->get('isLoggedIn')): ?>
-            <a href="<?= base_url('boats') ?>" class="btn btn-light btn-lg">Pesan Sekarang</a>
-        <?php else: ?>
-            <a href="<?= base_url('auth/register') ?>" class="btn btn-light btn-lg">Daftar Sekarang</a>
-        <?php endif; ?>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section mb-5">
-        <h2 class="text-center mb-4">Apa Kata Pelanggan Kami?</h2>
-        <div class="row">
-            <?php foreach ($testimonials as $testimonial): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-3">
-                                <img src="<?= base_url('uploads/testimonials/' . $testimonial['image']) ?>" class="rounded-circle me-3" width="60" height="60" alt="<?= $testimonial['guest_name'] ?>">
-                                <div>
-                                    <h5 class="mb-0"><?= $testimonial['guest_name'] ?></h5>
-                                    <div class="text-warning">
-                                        <?php for ($i = 0; $i < 5; $i++): ?>
-    <?php if ($i < floor($testimonial['rating'])): ?>
-        <i class="fas fa-star"></i> <!-- bintang penuh -->
-    <?php elseif ($i < $testimonial['rating']): ?>
-        <i class="fas fa-star-half-alt"></i> <!-- setengah bintang -->
-    <?php else: ?>
-        <i class="far fa-star"></i> <!-- bintang kosong -->
-    <?php endif; ?>
-<?php endfor; ?>
-
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="search-card card">
+                        <div class="card-body p-4">
+                            <h2 class="card-title text-center mb-4">Cari Jadwal Kapal</h2>
+                            <form id="searchForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="routeSelect" class="form-label">Rute</label>
+                                        <select class="form-select" id="routeSelect">
+                                            <option value="" selected>Semua Rute</option>
+                                            <option value="1">Waigeo - Misool</option>
+                                            <option value="2">Waigeo - Salawati</option>
+                                            <option value="3">Waigeo - Batanta</option>
+                                            <option value="4">Misool - Salawati</option>
+                                            <option value="5">Misool - Batanta</option>
+                                            <option value="6">Salawati - Batanta</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dateInput" class="form-label">Tanggal Keberangkatan</label>
+                                        <input type="date" class="form-control" id="dateInput">
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-primary w-100 search-btn">
+                                            <i class="fas fa-search me-2"></i>Cari Jadwal
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            <p class="card-text">"<?= $testimonial['content'] ?>"</p>
+                            </form>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
         </div>
     </section>
-</main>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Quick booking form handling
-    const quickBookingForm = document.getElementById('quickBookingForm');
-    if (quickBookingForm) {
-        quickBookingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    <!-- Results Section -->
+    <section class="results-section mb-5">
+        <div class="container">
+            <h2 class="mb-4">Hasil Pencarian</h2>
+            <div id="resultsContainer" class="row">
+                <!-- Results will be displayed here -->
+                <div class="no-results col-12">
+                    <i class="fas fa-search fa-3x mb-3"></i>
+                    <p>Silakan pilih rute dan/atau tanggal untuk melihat jadwal kapal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateInput').min = today;
             
-            // Get form values
-            const fromIsland = document.getElementById('quickFrom').value;
-            const toIsland = document.getElementById('quickTo').value;
-            const departureDate = document.getElementById('quickDate').value;
-            const passengers = document.getElementById('quickPassengers').value;
+            // Form submission handler
+            const searchForm = document.getElementById('searchForm');
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                performSearch();
+            });
             
-            if (fromIsland === toIsland) {
-                alert('Pulau tujuan tidak boleh sama dengan pulau asal');
+            // Perform search when route or date changes
+            document.getElementById('routeSelect').addEventListener('change', performSearch);
+            document.getElementById('dateInput').addEventListener('change', performSearch);
+            
+            // Initial search to show all available schedules
+            performSearch();
+        });
+        
+        function performSearch() {
+            const routeId = document.getElementById('routeSelect').value;
+            const date = document.getElementById('dateInput').value;
+            
+            // In a real application, you would fetch data from the server
+            // For this example, we'll use mock data
+            const mockData = getMockScheduleData();
+            
+            // Filter results based on selection
+            let filteredResults = mockData;
+            
+            if (routeId) {
+                filteredResults = filteredResults.filter(schedule => schedule.routeId == routeId);
+            }
+            
+            if (date) {
+                filteredResults = filteredResults.filter(schedule => schedule.departureDate === date);
+            }
+            
+            displayResults(filteredResults);
+        }
+        
+        function displayResults(schedules) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            
+            if (schedules.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results col-12">
+                        <i class="fas fa-times-circle fa-3x mb-3 text-muted"></i>
+                        <p>Tidak ada jadwal yang ditemukan</p>
+                        <small class="text-muted">Coba ubah kriteria pencarian Anda</small>
+                    </div>
+                `;
                 return;
             }
             
-            // Redirect to boats page with parameters if logged in
-            if (<?= session()->get('isLoggedIn') ? 'true' : 'false' ?>) {
-                window.location.href = `<?= base_url('boats') ?>?from=${fromIsland}&to=${toIsland}&date=${departureDate}&passengers=${passengers}`;
-            }
-        });
-    }
-    
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('quickDate').min = today;
-    
-    // Prevent selecting same island for from and to
-    const quickFrom = document.getElementById('quickFrom');
-    const quickTo = document.getElementById('quickTo');
-    
-    if (quickFrom && quickTo) {
-        quickFrom.addEventListener('change', function() {
-            if (this.value === quickTo.value) {
-                quickTo.value = '';
-            }
-        });
+            let html = '';
+            
+            schedules.forEach(schedule => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 result-card">
+                            ${schedule.isFeatured ? '<span class="feature-badge badge bg-warning"><i class="fas fa-star me-1"></i>Featured</span>' : ''}
+                            <img src="${schedule.image}" class="boat-img card-img-top" alt="${schedule.boatName}">
+                            <div class="card-body">
+                                <h5 class="card-title">${schedule.boatName}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${schedule.routeName}</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted"><i class="fas fa-calendar-alt me-1"></i> ${formatDate(schedule.departureDate)}</span>
+                                    <span class="text-muted"><i class="fas fa-clock me-1"></i> ${schedule.departureTime}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted"><i class="fas fa-users me-1"></i> ${schedule.availableSeats} kursi tersedia</span>
+                                    <span class="text-muted"><i class="fas fa-hourglass-half me-1"></i> ${schedule.duration}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="price-tag">Rp ${formatPrice(schedule.price)}</span>
+                                    <button class="btn btn-outline-primary btn-sm">Pesan Sekarang</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resultsContainer.innerHTML = html;
+        }
         
-        quickTo.addEventListener('change', function() {
-            if (this.value === quickFrom.value) {
-                alert('Pulau tujuan tidak boleh sama dengan pulau asal');
-                this.value = '';
-            }
-        });
-    }
-});
-</script>
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+        
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        
+        // Mock data function - in a real application, this would be an API call
+        function getMockScheduleData() {
+            return [
+                {
+                    id: 1,
+                    boatName: "Speedboat Merah",
+                    routeId: 1,
+                    routeName: "Waigeo - Misool",
+                    departureDate: "2025-09-10",
+                    departureTime: "08:00",
+                    duration: "2 jam",
+                    availableSeats: 12,
+                    price: 350000,
+                    image: "https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: true
+                },
+                {
+                    id: 2,
+                    boatName: "Kapal Biru",
+                    routeId: 2,
+                    routeName: "Waigeo - Salawati",
+                    departureDate: "2025-09-10",
+                    departureTime: "09:30",
+                    duration: "1.5 jam",
+                    availableSeats: 8,
+                    price: 250000,
+                    image: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: false
+                },
+                {
+                    id: 3,
+                    boatName: "Phinisi Tradisional",
+                    routeId: 3,
+                    routeName: "Waigeo - Batanta",
+                    departureDate: "2025-09-11",
+                    departureTime: "10:00",
+                    duration: "3 jam",
+                    availableSeats: 15,
+                    price: 450000,
+                    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: true
+                },
+                {
+                    id: 4,
+                    boatName: "Speedboat Express",
+                    routeId: 1,
+                    routeName: "Waigeo - Misool",
+                    departureDate: "2025-09-11",
+                    departureTime: "13:30",
+                    duration: "1.75 jam",
+                    availableSeats: 6,
+                    price: 400000,
+                    image: "https://images.unsplash.com/photo-1469796466635-455ede0284a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: false
+                },
+                {
+                    id: 5,
+                    boatName: "Kapal Wisata",
+                    routeId: 4,
+                    routeName: "Misool - Salawati",
+                    departureDate: "2025-09-12",
+                    departureTime: "14:00",
+                    duration: "2.5 jam",
+                    availableSeats: 20,
+                    price: 300000,
+                    image: "https://images.unsplash.com/photo-1501426027426-829a8163a072?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: false
+                },
+                {
+                    id: 6,
+                    boatName: "Speedboat Luxury",
+                    routeId: 5,
+                    routeName: "Misool - Batanta",
+                    departureDate: "2025-09-12",
+                    departureTime: "16:00",
+                    duration: "2.25 jam",
+                    availableSeats: 4,
+                    price: 550000,
+                    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                    isFeatured: true
+                }
+            ];
+        }
+    </script>
+</body>
+</html>

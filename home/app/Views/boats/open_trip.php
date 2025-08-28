@@ -122,76 +122,65 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="openTripRequestForm">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="requestBoat" class="form-label">Kapal</label>
-                                <select class="form-select" id="requestBoat" name="boat_id" required>
-                                    <option value="" selected disabled>Pilih Kapal</option>
-                                    <?php foreach ($boats as $boat): ?>
-                                        <option value="<?= $boat['boat_id'] ?>" data-capacity="<?= $boat['capacity'] ?>">
-                                            <?= $boat['boat_name'] ?> (<?= $boat['boat_type'] ?> - Kapasitas: <?= $boat['capacity'] ?> orang)
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="requestRoute" class="form-label">Rute</label>
-                                <select class="form-select" id="requestRoute" name="route_id" required>
-                                    <option value="" selected disabled>Pilih Rute</option>
-                                    <?php foreach ($routes as $route): ?>
-                                        <option value="<?= $route['route_id'] ?>">
-                                            <?= $route['departure_island_name'] ?> - <?= $route['arrival_island_name'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="proposedDate" class="form-label">Tanggal</label>
-                                <input type="date" class="form-control" id="proposedDate" name="proposed_date" min="<?= date('Y-m-d') ?>" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="proposedTime" class="form-label">Waktu</label>
-                                <input type="time" class="form-control" id="proposedTime" name="proposed_time" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="minPassengers" class="form-label">Minimal Penumpang</label>
-                                <input type="number" class="form-control" id="minPassengers" name="min_passengers" min="2" required>
-                                <div class="form-text">Minimal jumlah penumpang untuk trip ini</div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="maxPassengers" class="form-label">Maksimal Penumpang</label>
-                                <input type="number" class="form-control" id="maxPassengers" name="max_passengers" min="2" required>
-                                <div class="form-text">Maksimal sesuai kapasitas kapal</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="requestNotes" class="form-label">Catatan (Opsional)</label>
-                            <textarea class="form-control" id="requestNotes" name="notes" rows="3" placeholder="Tambahkan catatan atau permintaan khusus"></textarea>
-                        </div>
-                        
-                        <div class="alert alert-info">
-                            <h6><i class="fas fa-info-circle"></i> Informasi Penting:</h6>
-                            <ul class="mb-0">
-                                <li>Request akan diverifikasi oleh admin terlebih dahulu</li>
-                                <li>Harga akan ditentukan melalui kesepakatan dengan admin</li>
-                                <li>Anda akan mendapatkan komisi dari setiap penumpang yang bergabung</li>
-                                <li>Status request akan dikirim via email</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Ajukan Request</button>
-                    </div>
-                </form>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="requestBoat" class="form-label">Kapal</label>
+                <select class="form-select" id="requestBoat" name="boat_id" required>
+                    <option value="" selected disabled>Pilih Kapal</option>
+                    <?php foreach ($boats as $boat): ?>
+                        <option value="<?= $boat['boat_id'] ?>" data-capacity="<?= $boat['capacity'] ?>">
+                            <?= $boat['boat_name'] ?> (<?= $boat['boat_type'] ?> - Kapasitas: <?= $boat['capacity'] ?> orang)
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="form-text">Kapasitas: <span id="boatCapacityText">-</span> orang</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="requestRoute" class="form-label">Rute</label>
+                <select class="form-select" id="requestRoute" name="route_id" required>
+                    <option value="" selected disabled>Pilih Rute</option>
+                    <?php foreach ($routes as $route): ?>
+                        <option value="<?= $route['route_id'] ?>">
+                            <?= $route['departure_island_name'] ?> - <?= $route['arrival_island_name'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="proposedDate" class="form-label">Tanggal</label>
+                <input type="date" class="form-control" id="proposedDate" name="proposed_date" min="<?= date('Y-m-d') ?>" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="proposedTime" class="form-label">Waktu</label>
+                <input type="time" class="form-control" id="proposedTime" name="proposed_time" required>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="requestNotes" class="form-label">Catatan (Opsional)</label>
+            <textarea class="form-control" id="requestNotes" name="notes" rows="3" placeholder="Tambahkan catatan atau permintaan khusus"></textarea>
+        </div>
+        
+        <div class="alert alert-info">
+            <h6><i class="fas fa-info-circle"></i> Informasi Penting:</h6>
+            <ul class="mb-0">
+                <li>Request akan diverifikasi oleh admin terlebih dahulu</li>
+                <li>Jumlah penumpang mengikuti kapasitas kapal yang dipilih</li>
+                <li>Harga akan ditentukan melalui kesepakatan dengan admin</li>
+                <li>Anda akan mendapatkan komisi dari setiap penumpang yang bergabung</li>
+                <li>Status request akan dikirim via email</li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" class="btn btn-primary">Ajukan Request</button>
+    </div>
+</form>
             </div>
         </div>
     </div>
@@ -274,25 +263,10 @@
 
 <script>
 $(document).ready(function() {
+
     // Handle open trip request form submission
-    $('#openTripRequestForm').submit(function(e) {
+     $('#openTripRequestForm').submit(function(e) {
         e.preventDefault();
-        
-        // Validasi form
-        const minPassengers = parseInt($('#minPassengers').val());
-        const maxPassengers = parseInt($('#maxPassengers').val());
-        const selectedBoat = $('#requestBoat option:selected');
-        const boatCapacity = parseInt(selectedBoat.data('capacity'));
-        
-        if (minPassengers > maxPassengers) {
-            alert('Minimal penumpang tidak boleh lebih besar dari maksimal penumpang');
-            return;
-        }
-        
-        if (maxPassengers > boatCapacity) {
-            alert('Maksimal penumpang tidak boleh melebihi kapasitas kapal (' + boatCapacity + ' orang)');
-            return;
-        }
         
         const formData = $(this).serialize();
         
@@ -317,6 +291,7 @@ $(document).ready(function() {
                     
                     // Reset form
                     $('#openTripRequestForm')[0].reset();
+                    $('#boatCapacityText').text('-');
                     
                     // Reload page after 3 seconds
                     setTimeout(() => {
@@ -348,12 +323,9 @@ $(document).ready(function() {
         const capacity = selectedOption.data('capacity');
         
         if (capacity) {
-            $('#maxPassengers').attr('max', capacity);
-            $('#minPassengers').attr('max', capacity);
-            
-            // Set default values
-            $('#minPassengers').val(Math.max(2, Math.floor(capacity * 0.3)));
-            $('#maxPassengers').val(capacity);
+            $('#boatCapacityText').text(capacity);
+        } else {
+            $('#boatCapacityText').text('-');
         }
     });
     

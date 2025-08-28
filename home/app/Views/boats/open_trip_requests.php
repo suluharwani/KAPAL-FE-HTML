@@ -15,7 +15,7 @@
                     <th>Kapal</th>
                     <th>Tanggal</th>
                     <th>Waktu</th>
-                    <th>Penumpang</th>
+                    <th>Kapasitas</th>
                     <th>Status</th>
                     <th>Catatan</th>
                     <th class="text-center">Aksi</th>
@@ -30,11 +30,11 @@
                     <?php foreach ($requests as $request): ?>
                         <tr>
                             <td>REQ-<?= str_pad($request['request_id'], 5, '0', STR_PAD_LEFT) ?></td>
-                            <td><?= $request['departure_island_name'] ?> - <?= $request['arrival_island_name'] ?></td>
-                            <td><?= $request['boat_name'] ?> (<?= $request['boat_type'] ?>)</td>
+                            <td><?= $request['departure_island_name'] ?? 'N/A' ?> - <?= $request['arrival_island_name'] ?? 'N/A' ?></td>
+                            <td><?= $request['boat_name'] ?? 'N/A' ?> (<?= $request['boat_type'] ?? 'N/A' ?>)</td>
                             <td><?= date('d M Y', strtotime($request['proposed_date'])) ?></td>
                             <td><?= date('H:i', strtotime($request['proposed_time'])) ?></td>
-                            <td><?= $request['min_passengers'] ?>-<?= $request['max_passengers'] ?> orang</td>
+                            <td><?= isset($request['capacity']) ? $request['capacity'] . ' orang' : 'N/A' ?></td>
                             <td>
                                 <?php 
                                     $badgeClass = [
@@ -45,7 +45,7 @@
                                     ];
                                     $status = $request['status'] ?? 'pending';
                                 ?>
-                                <span class="badge <?= $badgeClass[$status] ?>">
+                                <span class="badge <?= $badgeClass[$status] ?? 'bg-secondary' ?>">
                                     <?= ucfirst($status) ?>
                                 </span>
                             </td>
@@ -64,11 +64,7 @@
                                     <?php endif; ?>
                                     
                                     <?php if ($status == 'pending'): ?>
-                                        <button class="btn btn-sm btn-warning edit-request" 
-                                                data-request-id="<?= $request['request_id'] ?>"
-                                                title="Edit Request" data-bs-toggle="tooltip">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                   
                                         <button class="btn btn-sm btn-danger cancel-request" 
                                                 data-request-id="<?= $request['request_id'] ?>"
                                                 title="Batalkan Request" data-bs-toggle="tooltip">
@@ -126,20 +122,7 @@ $(document).ready(function() {
     $('[data-bs-toggle="tooltip"]').tooltip();
     
     // Handle edit request button
-    $('.edit-request').click(function() {
-        const requestId = $(this).data('request-id');
-        
-        $.get('<?= base_url('boats/get-request-details') ?>/' + requestId, function(response) {
-            if (response.success) {
-                $('#editRequestContent').html(response.html);
-                $('#editRequestModal').modal('show');
-            } else {
-                alert(response.error || 'Gagal memuat data request');
-            }
-        }).fail(function() {
-            alert('Error loading request details');
-        });
-    });
+
     
     // Handle cancel request button
     $('.cancel-request').click(function() {
