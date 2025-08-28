@@ -4,29 +4,45 @@ use App\Models\IslandModel;
 use App\Models\PopularRouteModel;
 use App\Models\SliderModel;
 use App\Models\TestimonialModel;
+use App\Models\ScheduleModel; 
+use App\Models\RouteModel; 
 class Home extends BaseController
 {
-     public function index()
-    {
-        // Load models
-        $sliderModel = new SliderModel();
-        $islandModel = new IslandModel();
-        $featureModel = new FeatureModel();
-        $popularRouteModel = new PopularRouteModel();
-        $testimonialModel = new TestimonialModel();
+    public function index()
+{
+    // Load models
+    $sliderModel = new SliderModel();
+    $islandModel = new IslandModel();
+    $featureModel = new FeatureModel();
+    $testimonialModel = new TestimonialModel();
+    $scheduleModel = new ScheduleModel(); 
+    $routeModel = new RouteModel();
 
-        // Get data from database
-        $data = [
-            'title' => 'Pemesanan Kapal Raja Ampat',
-            'active' => 'home',
-            'sliders' => $sliderModel->where('is_active', 1)->findAll(),
-            'islands' => $islandModel->findAll(),
-            'features' => $featureModel->where('is_active', 1)->findAll(),
-            'popularRoutes' => $popularRouteModel->getPopularRoutes(),
-            'testimonials' => $testimonialModel->where('status', 'approved')->orderBy('created_at', 'DESC')->findAll(3)
-        ];
+    // Get data from database
+    $data = [
+        'title' => 'Pemesanan Kapal Raja Ampat',
+        'active' => 'home',
+        'sliders' => $sliderModel->where('is_active', 1)->findAll(),
+        'islands' => $islandModel->findAll(),
+        'features' => $featureModel->where('is_active', 1)->findAll(),
+        'popularRoutes' => $routeModel->getPopularRoutes(6), // Menggunakan RouteModel
+        'testimonials' => $testimonialModel->where('status', 'approved')->orderBy('created_at', 'DESC')->findAll(3),
+        'availableRoutes' => $scheduleModel->getAvailableRoutes(),
+        'schedules' => $scheduleModel->getSchedulesWithDetails()
+    ];
+    
+    $this->render('home', $data);
+}
+public function searchSchedules()
+    {
+        $scheduleModel = new ScheduleModel();
         
-        $this->render('home', $data);
+        $routeId = $this->request->getGet('route');
+        $date = $this->request->getGet('date');
+        
+        $schedules = $scheduleModel->getSchedulesWithDetails($routeId, $date);
+        
+        return $this->response->setJSON($schedules);
     }
 
     public function about()

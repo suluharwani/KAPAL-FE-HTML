@@ -57,6 +57,11 @@
             right: 10px;
             z-index: 1;
         }
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -83,12 +88,12 @@
                                         <label for="routeSelect" class="form-label">Rute</label>
                                         <select class="form-select" id="routeSelect">
                                             <option value="" selected>Semua Rute</option>
-                                            <option value="1">Waigeo - Misool</option>
-                                            <option value="2">Waigeo - Salawati</option>
-                                            <option value="3">Waigeo - Batanta</option>
-                                            <option value="4">Misool - Salawati</option>
-                                            <option value="5">Misool - Batanta</option>
-                                            <option value="6">Salawati - Batanta</option>
+                                            <?php foreach ($availableRoutes as $route): ?>
+                                                <option value="<?= $route['route_id'] ?>">
+                                                    <?= $route['departure_island'] ?> - <?= $route['arrival_island'] ?>
+                                                    (<?= $route['estimated_duration'] ?> jam)
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
@@ -113,12 +118,73 @@
     <section class="results-section mb-5">
         <div class="container">
             <h2 class="mb-4">Hasil Pencarian</h2>
+            
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Sedang mencari jadwal...</p>
+            </div>
+            
             <div id="resultsContainer" class="row">
                 <!-- Results will be displayed here -->
-                <div class="no-results col-12">
-                    <i class="fas fa-search fa-3x mb-3"></i>
-                    <p>Silakan pilih rute dan/atau tanggal untuk melihat jadwal kapal</p>
-                </div>
+                <?php if (empty($schedules)): ?>
+                    <div class="no-results col-12">
+                        <i class="fas fa-search fa-3x mb-3"></i>
+                        <p>Silakan pilih rute dan/atau tanggal untuk melihat jadwal kapal</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($schedules as $schedule): ?>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 result-card">
+                                <?php if ($schedule['is_featured']): ?>
+                                    <span class="feature-badge badge bg-warning">
+                                        <i class="fas fa-star me-1"></i>Featured
+                                    </span>
+                                <?php endif; ?>
+                                
+                                <img src="<?= $schedule['image_url'] ?: 'https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' ?>" 
+                                     class="boat-img card-img-top" 
+                                     alt="<?= $schedule['boat_name'] ?>">
+                                
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $schedule['boat_name'] ?></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                        <?= $schedule['departure_island'] ?> - <?= $schedule['arrival_island'] ?>
+                                    </h6>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted">
+                                            <i class="fas fa-calendar-alt me-1"></i> 
+                                            <?= date('d M Y', strtotime($schedule['departure_date'])) ?>
+                                        </span>
+                                        <span class="text-muted">
+                                            <i class="fas fa-clock me-1"></i> 
+                                            <?= date('H:i', strtotime($schedule['departure_time'])) ?>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted">
+                                            <i class="fas fa-users me-1"></i> 
+                                            <?= $schedule['available_seats'] ?> kursi tersedia
+                                        </span>
+                                        <span class="text-muted">
+                                            <i class="fas fa-hourglass-half me-1"></i> 
+                                            <?= $schedule['estimated_duration'] ?> jam
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="price-tag">Rp <?= number_format($schedule['price_per_trip'], 0, ',', '.') ?></span>
+                                        <button class="btn btn-outline-primary btn-sm">Pesan Sekarang</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -139,31 +205,33 @@
             // Perform search when route or date changes
             document.getElementById('routeSelect').addEventListener('change', performSearch);
             document.getElementById('dateInput').addEventListener('change', performSearch);
-            
-            // Initial search to show all available schedules
-            performSearch();
         });
         
         function performSearch() {
             const routeId = document.getElementById('routeSelect').value;
             const date = document.getElementById('dateInput').value;
             
-            // In a real application, you would fetch data from the server
-            // For this example, we'll use mock data
-            const mockData = getMockScheduleData();
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('resultsContainer').innerHTML = '';
             
-            // Filter results based on selection
-            let filteredResults = mockData;
-            
-            if (routeId) {
-                filteredResults = filteredResults.filter(schedule => schedule.routeId == routeId);
-            }
-            
-            if (date) {
-                filteredResults = filteredResults.filter(schedule => schedule.departureDate === date);
-            }
-            
-            displayResults(filteredResults);
+            // Fetch data from server
+            fetch(`/home/searchSchedules?route=${routeId}&date=${date}`)
+                .then(response => response.json())
+                .then(schedules => {
+                    displayResults(schedules);
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('resultsContainer').innerHTML = `
+                        <div class="no-results col-12">
+                            <i class="fas fa-exclamation-triangle fa-3x mb-3 text-danger"></i>
+                            <p>Terjadi kesalahan saat memuat data</p>
+                        </div>
+                    `;
+                });
         }
         
         function displayResults(schedules) {
@@ -183,24 +251,43 @@
             let html = '';
             
             schedules.forEach(schedule => {
+                const departureDate = new Date(schedule.departure_date);
+                const formattedDate = departureDate.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const formattedTime = new Date('2000-01-01T' + schedule.departure_time).toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
                 html += `
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card h-100 result-card">
-                            ${schedule.isFeatured ? '<span class="feature-badge badge bg-warning"><i class="fas fa-star me-1"></i>Featured</span>' : ''}
-                            <img src="${schedule.image}" class="boat-img card-img-top" alt="${schedule.boatName}">
+                            ${schedule.is_featured ? '<span class="feature-badge badge bg-warning"><i class="fas fa-star me-1"></i>Featured</span>' : ''}
+                            
+                            <img src="${schedule.image_url || 'https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" 
+                                 class="boat-img card-img-top" 
+                                 alt="${schedule.boat_name}">
+                                 
                             <div class="card-body">
-                                <h5 class="card-title">${schedule.boatName}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${schedule.routeName}</h6>
+                                <h5 class="card-title">${schedule.boat_name}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${schedule.departure_island} - ${schedule.arrival_island}</h6>
+                                
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-muted"><i class="fas fa-calendar-alt me-1"></i> ${formatDate(schedule.departureDate)}</span>
-                                    <span class="text-muted"><i class="fas fa-clock me-1"></i> ${schedule.departureTime}</span>
+                                    <span class="text-muted"><i class="fas fa-calendar-alt me-1"></i> ${formattedDate}</span>
+                                    <span class="text-muted"><i class="fas fa-clock me-1"></i> ${formattedTime}</span>
                                 </div>
+                                
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-muted"><i class="fas fa-users me-1"></i> ${schedule.availableSeats} kursi tersedia</span>
-                                    <span class="text-muted"><i class="fas fa-hourglass-half me-1"></i> ${schedule.duration}</span>
+                                    <span class="text-muted"><i class="fas fa-users me-1"></i> ${schedule.available_seats} kursi tersedia</span>
+                                    <span class="text-muted"><i class="fas fa-hourglass-half me-1"></i> ${schedule.estimated_duration} jam</span>
                                 </div>
+                                
                                 <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="price-tag">Rp ${formatPrice(schedule.price)}</span>
+                                    <span class="price-tag">Rp ${formatPrice(schedule.price_per_trip)}</span>
                                     <button class="btn btn-outline-primary btn-sm">Pesan Sekarang</button>
                                 </div>
                             </div>
@@ -212,97 +299,8 @@
             resultsContainer.innerHTML = html;
         }
         
-        function formatDate(dateString) {
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
-        }
-        
         function formatPrice(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-        
-        // Mock data function - in a real application, this would be an API call
-        function getMockScheduleData() {
-            return [
-                {
-                    id: 1,
-                    boatName: "Speedboat Merah",
-                    routeId: 1,
-                    routeName: "Waigeo - Misool",
-                    departureDate: "2025-09-10",
-                    departureTime: "08:00",
-                    duration: "2 jam",
-                    availableSeats: 12,
-                    price: 350000,
-                    image: "https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: true
-                },
-                {
-                    id: 2,
-                    boatName: "Kapal Biru",
-                    routeId: 2,
-                    routeName: "Waigeo - Salawati",
-                    departureDate: "2025-09-10",
-                    departureTime: "09:30",
-                    duration: "1.5 jam",
-                    availableSeats: 8,
-                    price: 250000,
-                    image: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: false
-                },
-                {
-                    id: 3,
-                    boatName: "Phinisi Tradisional",
-                    routeId: 3,
-                    routeName: "Waigeo - Batanta",
-                    departureDate: "2025-09-11",
-                    departureTime: "10:00",
-                    duration: "3 jam",
-                    availableSeats: 15,
-                    price: 450000,
-                    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: true
-                },
-                {
-                    id: 4,
-                    boatName: "Speedboat Express",
-                    routeId: 1,
-                    routeName: "Waigeo - Misool",
-                    departureDate: "2025-09-11",
-                    departureTime: "13:30",
-                    duration: "1.75 jam",
-                    availableSeats: 6,
-                    price: 400000,
-                    image: "https://images.unsplash.com/photo-1469796466635-455ede0284a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: false
-                },
-                {
-                    id: 5,
-                    boatName: "Kapal Wisata",
-                    routeId: 4,
-                    routeName: "Misool - Salawati",
-                    departureDate: "2025-09-12",
-                    departureTime: "14:00",
-                    duration: "2.5 jam",
-                    availableSeats: 20,
-                    price: 300000,
-                    image: "https://images.unsplash.com/photo-1501426027426-829a8163a072?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: false
-                },
-                {
-                    id: 6,
-                    boatName: "Speedboat Luxury",
-                    routeId: 5,
-                    routeName: "Misool - Batanta",
-                    departureDate: "2025-09-12",
-                    departureTime: "16:00",
-                    duration: "2.25 jam",
-                    availableSeats: 4,
-                    price: 550000,
-                    image: "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                    isFeatured: true
-                }
-            ];
         }
     </script>
 </body>

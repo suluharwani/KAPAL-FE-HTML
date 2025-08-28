@@ -52,23 +52,96 @@ class ScheduleModel extends Model
             'numeric' => 'Available seats must be a number'
         ]
     ];
-    
+
     /**
-     * Get schedules with related data (boat and route information)
+     * Get schedules with complete details including boat, route, and island information
      */
-    public function getSchedulesWithDetails($conditions = [])
+    public function getSchedulesWithDetails($routeId = null, $date = null)
     {
-        $builder = $this->db->table('schedules s')
-            ->select('s.*, b.boat_name, r.departure_island_id, r.arrival_island_id, 
-                     di.island_name as departure_island, ai.island_name as arrival_island')
-            ->join('boats b', 'b.boat_id = s.boat_id')
-            ->join('routes r', 'r.route_id = s.route_id')
-            ->join('islands di', 'di.island_id = r.departure_island_id')
-            ->join('islands ai', 'ai.island_id = r.arrival_island_id');
+        $builder = $this->db->table('schedules s');
+        $builder->select('
+            s.schedule_id,
+            s.departure_time,
+            s.departure_date,
+            s.available_seats,
+            s.status,
+            s.is_open_trip,
+            b.boat_id,
+            b.boat_name,
+            b.boat_type,
+            b.capacity,
+            b.price_per_trip,
+            b.image_url,
+            b.facilities,
+            b.is_featured,
+            r.route_id,
+            r.estimated_duration,
+            r.distance,
+            r.notes as route_notes,
+            dep.island_id as departure_island_id,
+            dep.island_name as departure_island,
+            dep.slug as departure_slug,
+            arr.island_id as arrival_island_id,
+            arr.island_name as arrival_island,
+            arr.slug as arrival_slug
+        ');
         
-        if (!empty($conditions)) {
-            $builder->where($conditions);
+        $builder->join('boats b', 's.boat_id = b.boat_id');
+        $builder->join('routes r', 's.route_id = r.route_id');
+        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+        
+        // Filter berdasarkan status available dan tanggal tidak lewat
+        $builder->where('s.status', 'available');
+        $builder->where('s.departure_date >=', date('Y-m-d'));
+        $builder->where('s.available_seats >', 0);
+        
+        // Filter berdasarkan rute
+        if (!empty($routeId)) {
+            $builder->where('s.route_id', $routeId);
         }
+        
+        // Filter berdasarkan tanggal
+        if (!empty($date)) {
+            $builder->where('s.departure_date', $date);
+        }
+        
+        // Urutkan berdasarkan tanggal dan waktu
+        $builder->orderBy('s.departure_date', 'ASC');
+        $builder->orderBy('s.departure_time', 'ASC');
+        
+        return $builder->get()->getResultArray();
+    }
+
+    /**
+     * Get available routes that have active schedules
+     */
+    public function getAvailableRoutes()
+    {
+        $builder = $this->db->table('routes r');
+        $builder->select('
+            r.route_id,
+            r.estimated_duration,
+            r.distance,
+            dep.island_id as departure_island_id,
+            dep.island_name as departure_island,
+            dep.slug as departure_slug,
+            arr.island_id as arrival_island_id,
+            arr.island_name as arrival_island,
+            arr.slug as arrival_slug
+        ');
+        
+        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+        $builder->join('schedules s', 'r.route_id = s.route_id');
+        
+        $builder->where('s.status', 'available');
+        $builder->where('s.departure_date >=', date('Y-m-d'));
+        $builder->where('s.available_seats >', 0);
+        
+        $builder->groupBy('r.route_id');
+        $builder->orderBy('dep.island_name', 'ASC');
+        $builder->orderBy('arr.island_name', 'ASC');
         
         return $builder->get()->getResultArray();
     }
@@ -80,7 +153,8 @@ class ScheduleModel extends Model
     {
         $builder = $this->where('route_id', $routeId)
                        ->where('status', 'available')
-                       ->where('available_seats >', 0);
+                       ->where('available_seats >', 0)
+                       ->where('departure_date >=', date('Y-m-d'));
         
         if ($date) {
             $builder->where('departure_date', $date);
@@ -115,7 +189,10 @@ class ScheduleModel extends Model
      */
     public function getOpenTripSchedules($date = null)
     {
-        $builder = $this->where('is_open_trip', 1);
+        $builder = $this->where('is_open_trip', 1)
+                       ->where('status', 'available')
+                       ->where('available_seats >', 0)
+                       ->where('departure_date >=', date('Y-m-d'));
         
         if ($date) {
             $builder->where('departure_date >=', $date);
@@ -131,14 +208,17 @@ class ScheduleModel extends Model
      */
     public function decrementSeats($scheduleId, $count = 1)
     {
-        $this->set('available_seats', "available_seats - $count", false)
+        $result = $this->set('available_seats', "available_seats - $count", false)
              ->where('schedule_id', $scheduleId)
+             ->where('available_seats >=', $count)
              ->update();
         
         // Update status if needed
-        $this->updateScheduleStatus($scheduleId);
+        if ($result) {
+            $this->updateScheduleStatus($scheduleId);
+        }
         
-        return $this->db->affectedRows() > 0;
+        return $result;
     }
     
     /**
@@ -146,13 +226,47 @@ class ScheduleModel extends Model
      */
     public function incrementSeats($scheduleId, $count = 1)
     {
-        $this->set('available_seats', "available_seats + $count", false)
+        $result = $this->set('available_seats', "available_seats + $count", false)
              ->where('schedule_id', $scheduleId)
              ->update();
         
         // Update status if needed
-        $this->updateScheduleStatus($scheduleId);
+        if ($result) {
+            $this->updateScheduleStatus($scheduleId);
+        }
         
-        return $this->db->affectedRows() > 0;
+        return $result;
+    }
+
+    /**
+     * Get schedule by ID with complete details
+     */
+    public function getScheduleWithDetails($scheduleId)
+    {
+        $builder = $this->db->table('schedules s');
+        $builder->select('
+            s.*,
+            b.boat_name,
+            b.boat_type,
+            b.capacity,
+            b.price_per_trip,
+            b.image_url,
+            b.facilities,
+            b.is_featured,
+            r.route_id,
+            r.estimated_duration,
+            r.distance,
+            dep.island_name as departure_island,
+            arr.island_name as arrival_island
+        ');
+        
+        $builder->join('boats b', 's.boat_id = b.boat_id');
+        $builder->join('routes r', 's.route_id = r.route_id');
+        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
+        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
+        
+        $builder->where('s.schedule_id', $scheduleId);
+        
+        return $builder->get()->getRowArray();
     }
 }
