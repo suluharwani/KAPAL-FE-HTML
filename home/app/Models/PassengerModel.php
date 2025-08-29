@@ -29,23 +29,32 @@ class PassengerModel extends Model
     /**
      * Add multiple passengers
      */
-    public function addPassengers($bookingId, array $passengers)
-    {
+public function addPassengers($bookingId, $passengers)
+{
+    try {
         $data = [];
-        foreach ($passengers as $passenger) {
-            $data[] = [
-                'booking_id' => $bookingId,
-                'full_name' => $passenger['full_name'],
-                'identity_number' => $passenger['identity_number'] ?? null,
-                'phone' => $passenger['phone'] ?? null,
-                'age' => $passenger['age'] ?? null
-            ];
+        foreach ($passengers as $index => $passenger) {
+            if (!empty($passenger['name'])) {
+                $data[] = [
+                    'booking_id' => $bookingId,
+                    'full_name' => $passenger['name'],
+                    'identity_number' => $passenger['identity'] ?? null,
+                    'phone' => $passenger['phone'] ?? null,
+                    'age' => $passenger['age'] ?? null,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ];
+            }
+        }
+        
+        if (empty($data)) {
+            throw new \Exception('Tidak ada data penumpang yang valid');
         }
         
         return $this->insertBatch($data);
+    } catch (\Exception $e) {
+        log_message('error', 'Error adding passengers: ' . $e->getMessage());
+        return false;
     }
-    public function countPassengers($bookingId)
-    {
-        return $this->where('booking_id', $bookingId)->countAllResults();
-    }
+}
 }

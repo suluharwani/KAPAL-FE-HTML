@@ -161,41 +161,68 @@
             }
 
             document.getElementById('bookingForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(this);
-                const passengers = [];
-                
-                // Collect passenger data
-                const passengerInputs = this.querySelectorAll('input[name^="passengers"]');
-                for (let i = 0; i < passengerInputs.length; i += 4) {
-                    passengers.push({
-                        name: passengerInputs[i].value,
-                        identity: passengerInputs[i+1].value,
-                        phone: passengerInputs[i+2].value,
-                        age: passengerInputs[i+3].value
-                    });
-                }
-                
-                formData.set('passengers', JSON.stringify(passengers));
-                
-                try {
-                    const response = await fetch('/booking/process', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.status === 'success') {
-                        window.location.href = '/booking/success/' + result.booking_code;
-                    } else {
-                        alert('Error: ' + result.message);
-                    }
-                } catch (error) {
-                    alert('Terjadi kesalahan: ' + error.message);
-                }
-            });
+    e.preventDefault();
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+    submitBtn.disabled = true;
+
+    const formData = new FormData(this);
+    const passengers = [];
+    
+    // Collect passenger data
+    const passengerInputs = this.querySelectorAll('input[name^="passengers"]');
+    for (let i = 0; i < passengerInputs.length; i += 4) {
+        passengers.push({
+            name: passengerInputs[i].value,
+            identity: passengerInputs[i+1]?.value || '',
+            phone: passengerInputs[i+2]?.value || '',
+            age: passengerInputs[i+3]?.value || ''
+        });
+    }
+    
+    formData.set('passengers', JSON.stringify(passengers));
+    
+    try {
+        const response = await fetch('/booking/process', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Non-JSON response:', text.substring(0, 200));
+            throw new Error('Server mengembalikan response yang tidak valid');
+        }
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            window.location.href = '/booking/success/' + result.booking_code;
+        } else {
+            // Show error message
+            let errorMessage = result.message || 'Terjadi kesalahan';
+            if (result.errors) {
+                errorMessage += '\n' + Object.values(result.errors).join('\n');
+            }
+            alert('Error: ' + errorMessage);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan: ' + error.message);
+    } finally {
+        // Restore button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
         });
     </script>
 </body>

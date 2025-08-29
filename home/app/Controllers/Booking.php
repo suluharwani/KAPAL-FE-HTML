@@ -52,17 +52,21 @@ class Booking extends BaseController
         $this->render('booking/create', $data);
     }
 
-    /**
-     * Proses pemesanan
-     */
 /**
  * Proses pemesanan
  */
 public function process()
 {
+    // Only allow AJAX requests
     if (!$this->request->isAJAX()) {
-        return redirect()->back();
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Hanya request AJAX yang diperbolehkan'
+        ]);
     }
+
+    // Set content type to JSON
+    $this->response->setContentType('application/json');
 
     $validation = \Config\Services::validation();
     $validation->setRules([
@@ -82,15 +86,31 @@ public function process()
 
     $scheduleId = $this->request->getPost('schedule_id');
     $passengerCount = $this->request->getPost('passenger_count');
-    $passengers = json_decode($this->request->getPost('passengers'), true);
+    $passengers = $this->request->getPost('passengers');
     $paymentMethod = $this->request->getPost('payment_method');
+
+    // Decode passengers JSON
+    $passengersData = json_decode($passengers, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Format data penumpang tidak valid'
+        ]);
+    }
 
     // Cek schedule
     $schedule = $this->scheduleModel->find($scheduleId);
-    if (!$schedule || $schedule['available_seats'] < $passengerCount) {
+    if (!$schedule) {
         return $this->response->setJSON([
             'status' => 'error',
-            'message' => 'Kursi tidak tersedia'
+            'message' => 'Jadwal tidak ditemukan'
+        ]);
+    }
+
+    if ($schedule['available_seats'] < $passengerCount) {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Kursi tidak tersedia. Hanya tersedia ' . $schedule['available_seats'] . ' kursi'
         ]);
     }
 
@@ -99,6 +119,13 @@ public function process()
 
     // Hitung total harga
     $scheduleDetails = $this->scheduleModel->getScheduleWithDetails($scheduleId);
+    if (!$scheduleDetails) {
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => 'Detail jadwal tidak ditemukan'
+        ]);
+    }
+
     $totalPrice = $scheduleDetails['price_per_trip'] * $passengerCount;
 
     // Data booking
@@ -121,18 +148,24 @@ public function process()
     try {
         // Simpan booking
         if (!$this->bookingModel->save($bookingData)) {
-            throw new \Exception('Gagal menyimpan booking: ' . implode(', ', $this->bookingModel->errors()));
+            $errorMessage = 'Gagal menyimpan booking';
+            if ($this->bookingModel->errors()) {
+                $errorMessage .= ': ' . implode(', ', $this->bookingModel->errors());
+            }
+            throw new \Exception($errorMessage);
         }
 
         $bookingId = $this->bookingModel->getInsertID();
 
-        // Simpan data penumpang menggunakan method baru
-        if (!$this->passengerModel->addPassengers($bookingId, $passengers)) {
+        // Simpan data penumpang
+        $passengerSaveResult = $this->passengerModel->addPassengers($bookingId, $passengersData);
+        if (!$passengerSaveResult) {
             throw new \Exception('Gagal menyimpan data penumpang');
         }
 
         // Kurangi kursi tersedia
-        if (!$this->scheduleModel->decrementSeats($scheduleId, $passengerCount)) {
+        $decrementResult = $this->scheduleModel->decrementSeats($scheduleId, $passengerCount);
+        if (!$decrementResult) {
             throw new \Exception('Gagal update kursi tersedia');
         }
 
