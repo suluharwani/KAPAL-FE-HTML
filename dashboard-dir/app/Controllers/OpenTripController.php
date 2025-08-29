@@ -28,26 +28,26 @@ class OpenTripController extends BaseController
     }
 
     public function index()
-{
-    $status = $this->request->getGet('status');
-    
-    if ($status === 'pending') {
-        $openTrips = $this->requestOpenTripModel->getPendingRequests();
-    } else {
-        $openTrips = $this->openTripModel->getOpenTripsWithDetails($status);
-    }
+    {
+        $status = $this->request->getGet('status');
+        
+        if ($status === 'pending') {
+            $openTrips = $this->requestOpenTripModel->getPendingRequests();
+        } else {
+            $openTrips = $this->openTripModel->getOpenTripsWithDetails($status);
+        }
 
-    $data = [
-        'title' => 'Manage Open Trips',
-        'status' => $status,
-        'openTrips' => $openTrips,
-        'user' => [
-            'name' => $this->session->get('full_name'),
-            'role' => $this->session->get('role')
-        ]
-    ];
-    return view('admin/open-trips/index', $data);
-}
+        $data = [
+            'title' => 'Manage Open Trips',
+            'status' => $status,
+            'openTrips' => $openTrips,
+            'user' => [
+                'name' => $this->session->get('full_name'),
+                'role' => $this->session->get('role')
+            ]
+        ];
+        return view('admin/open-trips/index', $data);
+    }
 
     public function show($id)
     {
@@ -69,26 +69,26 @@ class OpenTripController extends BaseController
     }
 
     public function create()
-{
-    // Get all islands and create an associative array with island_id as key
-    $allIslands = $this->islandModel->findAll();
-    $islands = [];
-    foreach ($allIslands as $island) {
-        $islands[$island['island_id']] = $island;
-    }
+    {
+        // Get all islands and create an associative array with island_id as key
+        $allIslands = $this->islandModel->findAll();
+        $islands = [];
+        foreach ($allIslands as $island) {
+            $islands[$island['island_id']] = $island;
+        }
 
-    $data = [
-        'title' => 'Create Open Trip',
-        'boats' => $this->boatModel->findAll(),
-        'routes' => $this->routeModel->getRoutesWithIslands(), // Make sure this returns routes with island info
-        'islands' => $islands, // Pass the formatted islands array
-        'user' => [
-            'name' => $this->session->get('full_name'),
-            'role' => $this->session->get('role')
-        ]
-    ];
-    return view('admin/open-trips/create', $data);
-}
+        $data = [
+            'title' => 'Create Open Trip',
+            'boats' => $this->boatModel->findAll(),
+            'routes' => $this->routeModel->getRoutesWithIslands(),
+            'islands' => $islands,
+            'user' => [
+                'name' => $this->session->get('full_name'),
+                'role' => $this->session->get('role')
+            ]
+        ];
+        return view('admin/open-trips/create', $data);
+    }
 
     public function store()
     {
@@ -96,22 +96,29 @@ class OpenTripController extends BaseController
             'boat_id' => 'required|numeric',
             'route_id' => 'required|numeric',
             'departure_date' => 'required|valid_date',
-            'departure_time' => 'required',
-            'min_passengers' => 'required|numeric',
-            'max_passengers' => 'required|numeric'
+            'departure_time' => 'required'
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Get boat capacity
+        $boatId = $this->request->getPost('boat_id');
+        $boat = $this->boatModel->find($boatId);
+        if (!$boat) {
+            return redirect()->back()->withInput()->with('error', 'Boat not found');
+        }
+
+        $capacity = $boat['capacity'];
+
         // Create schedule first
         $scheduleData = [
             'route_id' => $this->request->getPost('route_id'),
-            'boat_id' => $this->request->getPost('boat_id'),
+            'boat_id' => $boatId,
             'departure_date' => $this->request->getPost('departure_date'),
             'departure_time' => $this->request->getPost('departure_time'),
-            'available_seats' => $this->request->getPost('max_passengers'),
+            'available_seats' => $capacity,
             'is_open_trip' => 1
         ];
 
@@ -120,12 +127,10 @@ class OpenTripController extends BaseController
         // Create open trip request
         $requestData = [
             'user_id' => $this->session->get('user_id'),
-            'boat_id' => $this->request->getPost('boat_id'),
+            'boat_id' => $boatId,
             'route_id' => $this->request->getPost('route_id'),
             'proposed_date' => $this->request->getPost('departure_date'),
             'proposed_time' => $this->request->getPost('departure_time'),
-            'min_passengers' => $this->request->getPost('min_passengers'),
-            'max_passengers' => $this->request->getPost('max_passengers'),
             'notes' => $this->request->getPost('notes'),
             'status' => 'approved'
         ];
@@ -136,8 +141,9 @@ class OpenTripController extends BaseController
         $openTripData = [
             'request_id' => $requestId,
             'schedule_id' => $scheduleId,
+            'boat_id' => $boatId,
             'reserved_seats' => 0,
-            'available_seats' => $this->request->getPost('max_passengers'),
+            'available_seats' => $capacity,
             'status' => 'upcoming'
         ];
 
@@ -164,43 +170,50 @@ class OpenTripController extends BaseController
             return redirect()->back()->with('error', 'Failed to update status');
         }
     }
-    // Add this method to OpenTripController.php
-public function approveRequest($requestId)
-{
-    $request = $this->requestOpenTripModel->find($requestId);
-    if (!$request) {
-        return redirect()->back()->with('error', 'Request not found');
+
+    public function approveRequest($requestId)
+    {
+        $request = $this->requestOpenTripModel->find($requestId);
+        if (!$request) {
+            return redirect()->back()->with('error', 'Request not found');
+        }
+
+        // Get boat capacity
+        $boatId = $request['boat_id'];
+        $boat = $this->boatModel->find($boatId);
+        if (!$boat) {
+            return redirect()->back()->with('error', 'Boat not found');
+        }
+
+        $capacity = $boat['capacity'];
+
+        // Create schedule
+        $scheduleData = [
+            'route_id' => $request['route_id'],
+            'boat_id' => $boatId,
+            'departure_date' => $request['proposed_date'],
+            'departure_time' => $request['proposed_time'],
+            'available_seats' => $capacity,
+            'is_open_trip' => 1
+        ];
+
+        $scheduleId = $this->scheduleModel->insert($scheduleData);
+
+        // Create open trip
+        $openTripData = [
+            'request_id' => $requestId,
+            'schedule_id' => $scheduleId,
+            'boat_id' => $boatId,
+            'reserved_seats' => 0,
+            'available_seats' => $capacity,
+            'status' => 'upcoming'
+        ];
+
+        $openTripId = $this->openTripModel->insert($openTripData);
+
+        // Update request status
+        $this->requestOpenTripModel->update($requestId, ['status' => 'approved']);
+
+        return redirect()->to('/admin/open-trips')->with('success', 'Open trip approved and created successfully');
     }
-
-    // Create schedule
-    $scheduleData = [
-        'route_id' => $request['route_id'],
-        'boat_id' => $request['boat_id'],
-        'departure_date' => $request['proposed_date'],
-        'departure_time' => $request['proposed_time'],
-        'available_seats' => $request['max_passengers'],
-        'is_open_trip' => 1
-    ];
-    // var_dump($scheduleData); // Debugging line to check schedule data
-    // die();
-    $scheduleId = $this->scheduleModel->insert($scheduleData);
-
-    // Create open trip
-    $openTripData = [
-        'request_id' => $requestId,
-        'schedule_id' => $scheduleId,
-        'reserved_seats' => 0,
-        'boat_id' => (int)$request['boat_id'],
-        'available_seats' => $request['max_passengers'],
-        'status' => 'upcoming'
-    ];
-    // var_dump($openTripData); // Debugging line to check schedule data
-    // die();
-    $openTripId = $this->openTripModel->insert($openTripData);
-
-    // Update request status
-    $this->requestOpenTripModel->update($requestId, ['status' => 'approved']);
-
-    return redirect()->to('/admin/open-trips')->with('success', 'Open trip approved and created successfully');
-}
 }

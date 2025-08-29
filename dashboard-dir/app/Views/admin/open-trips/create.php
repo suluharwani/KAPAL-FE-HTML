@@ -13,25 +13,27 @@
                         <select class="form-select" id="boat_id" name="boat_id" required>
                             <option value="">Select Boat</option>
                             <?php foreach ($boats as $boat): ?>
-                            <option value="<?= $boat['boat_id'] ?>"><?= esc($boat['boat_name']) ?> (Capacity: <?= $boat['capacity'] ?>)</option>
+                            <option value="<?= $boat['boat_id'] ?>" data-capacity="<?= $boat['capacity'] ?>">
+                                <?= esc($boat['boat_name']) ?> (Capacity: <?= $boat['capacity'] ?>)
+                            </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
-    <div class="mb-3">
-        <label for="route_id" class="form-label">Route</label>
-        <select class="form-select" id="route_id" name="route_id" required>
-            <option value="">Select Route</option>
-            <?php foreach ($routes as $route): ?>
-                <option value="<?= $route['route_id'] ?>">
-                    <?= esc($route['departure_island']) ?> to <?= esc($route['arrival_island']) ?>
-                    (<?= esc($route['estimated_duration']) ?>)
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-</div>
+                    <div class="mb-3">
+                        <label for="route_id" class="form-label">Route</label>
+                        <select class="form-select" id="route_id" name="route_id" required>
+                            <option value="">Select Route</option>
+                            <?php foreach ($routes as $route): ?>
+                                <option value="<?= $route['route_id'] ?>">
+                                    <?= esc($route['departure_island']) ?> to <?= esc($route['arrival_island']) ?>
+                                    (<?= esc($route['estimated_duration']) ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -49,21 +51,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="min_passengers" class="form-label">Minimum Passengers</label>
-                        <input type="number" class="form-control" id="min_passengers" name="min_passengers" min="1" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="max_passengers" class="form-label">Maximum Passengers</label>
-                        <input type="number" class="form-control" id="max_passengers" name="max_passengers" min="1" required>
-                    </div>
-                </div>
-            </div>
-
             <div class="mb-3">
                 <label for="notes" class="form-label">Notes</label>
                 <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
@@ -74,5 +61,14 @@
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('boat_id').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const capacity = selectedOption.getAttribute('data-capacity');
+    // Anda bisa menggunakan nilai kapasitas ini jika diperlukan di JavaScript
+    console.log('Selected boat capacity:', capacity);
+});
+</script>
 
 <?= $this->include('templates/admin_footer') ?>

@@ -42,10 +42,11 @@
                         <td><?= esc($trip['requester_name']) ?></td>
                         <td>
                             <?php if ($status == 'pending'): ?>
-                                <?= $trip['min_passengers'] ?> - <?= $trip['max_passengers'] ?>
+                                <!-- Untuk pending requests, gunakan max_passengers jika ada, atau capacity boat -->
+                                <?= isset($trip['max_passengers']) ? $trip['max_passengers'] : (isset($trip['capacity']) ? $trip['capacity'] : 'N/A') ?> seats
                             <?php else: ?>
-                                <?= $trip['reserved_seats'] + $trip['available_seats'] - $trip['reserved_seats'] ?> / 
-                                <?= $trip['reserved_seats'] + $trip['available_seats'] ?>
+                                <!-- Untuk open trips yang sudah dibuat -->
+                                <?= ($trip['reserved_seats'] ?? 0) ?> / <?= ($trip['reserved_seats'] ?? 0) + ($trip['available_seats'] ?? 0) ?>
                             <?php endif; ?>
                         </td>
                         <td>

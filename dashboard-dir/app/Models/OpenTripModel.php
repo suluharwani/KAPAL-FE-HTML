@@ -68,11 +68,10 @@ class OpenTripModel extends Model
                        ->get()
                        ->getResultArray();
     }
-    // Add this method to your OpenTripModel
 public function getPendingRequests()
 {
     return $this->db->table('request_open_trips r')
-        ->select('r.*, b.boat_name, di.island_name as departure_island, ai.island_name as arrival_island, u.full_name as requester_name')
+        ->select('r.*, b.boat_name, b.capacity, di.island_name as departure_island, ai.island_name as arrival_island, u.full_name as requester_name')
         ->join('boats b', 'b.boat_id = r.boat_id')
         ->join('routes rt', 'rt.route_id = r.route_id')
         ->join('islands di', 'di.island_id = rt.departure_island_id')

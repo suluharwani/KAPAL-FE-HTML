@@ -57,6 +57,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('admin/checkin') ?>">
+                                <i class="bi bi-check-circle"></i> Check-in Kapal
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('admin/contacts') ?>" class="nav-link <?= (strpos(uri_string(), 'admin/contacts') !== false) ? 'active' : '' ?>">
                                 <i class="bi bi-envelope me-2"></i>Contacts
                             </a>

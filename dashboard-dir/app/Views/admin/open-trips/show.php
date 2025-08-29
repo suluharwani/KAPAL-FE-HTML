@@ -20,8 +20,7 @@
                 <p><strong>Name:</strong> <?= esc($openTrip['requester_name']) ?></p>
                 <p><strong>Email:</strong> <?= esc($openTrip['requester_email']) ?></p>
                 <p><strong>Phone:</strong> <?= esc($openTrip['requester_phone']) ?></p>
-                <p><strong>Min Passengers:</strong> <?= $openTrip['min_passengers'] ?></p>
-                <p><strong>Max Passengers:</strong> <?= $openTrip['max_passengers'] ?></p>
+
                 <p><strong>Status:</strong> 
                     <span class="badge bg-<?= 
                         $openTrip['status'] == 'upcoming' ? 'primary' : 

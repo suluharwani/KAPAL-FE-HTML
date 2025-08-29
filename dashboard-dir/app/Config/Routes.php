@@ -147,3 +147,8 @@ $routes->group('admin/request-open-trips', function($routes) {
     $routes->get('(:num)', 'RequestOpenTripController::show/$1');
     $routes->post('(:num)/status/(:any)', 'RequestOpenTripController::updateStatus/$1/$2');
 });
+
+$routes->group('admin/checkin', function($routes) {
+    $routes->get('/', 'CheckinController::index');
+    $routes->post('process', 'CheckinController::process');
+});
