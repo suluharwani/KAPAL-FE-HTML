@@ -1,0 +1,1590 @@
+DEBUG - 2025-08-11 03:01:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:01:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:01 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\BookingController::$session is deprecated in APPPATH\Controllers\BookingController.php on line 21.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BookingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:13 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:18 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:18 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:37 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:43 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:44 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:51 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:51 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 03:02:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 03:02:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:02:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:02:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:04:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:04:06 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:04:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:04:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:04:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:04:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:04:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:04:14 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:13:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:13:21 --> [DEPRECATED] Creation of dynamic property App\Controllers\Auth::$session is deprecated in APPPATH\Controllers\Auth.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Auth->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:13:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:13:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:13:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:13:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:13:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:13:26 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:02 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:03 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:16 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:15:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:15:27 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:17:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:17:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:18:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:18:15 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:19:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:19:44 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:19:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:19:49 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:23 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:33 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:41 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:42 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:47 --> [DEPRECATED] Creation of dynamic property App\Controllers\BookingController::$session is deprecated in APPPATH\Controllers\BookingController.php on line 21.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BookingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:49 --> [DEPRECATED] Creation of dynamic property App\Controllers\ContactController::$session is deprecated in APPPATH\Controllers\ContactController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ContactController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:51 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:20:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:20:53 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:23 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:44 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:45 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:50 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:21:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:21:52 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:22:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:22:01 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+ERROR - 2025-08-11 09:22:01 --> mysqli_sql_exception: Unknown column 'updated_at' in 'INSERT INTO' in C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `is...', 0)
+#1 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `is...')
+#2 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `is...')
+#3 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `is...', Array, false)
+#4 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\app\Controllers\IslandController.php(66): CodeIgniter\Model->insert(Array)
+#8 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\IslandController->store()
+#9 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\IslandController))
+#10 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\Admini...')
+#15 {main}
+CRITICAL - 2025-08-11 09:22:01 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'INSERT INTO'
+[Method: POST, Route: admin/islands/store]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (:island_name:, :description:, :image_url:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\IslandController.php(66): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\IslandController->store()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\IslandController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:22:01 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'INSERT INTO'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (\'asdsadsadasd\', \'sdsdsdasdas\', \'uploads/islands/1754904121_1bfb3b93f7f921762f3a.png\', \'2025-08-11 09:22:01\', \'2025-08-11 09:22:01\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (\'asdsadsadasd\', \'sdsdsdasdas\', \'uploads/islands/1754904121_1bfb3b93f7f921762f3a.png\', \'2025-08-11 09:22:01\', \'2025-08-11 09:22:01\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (:island_name:, :description:, :image_url:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\IslandController.php(66): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\IslandController->store()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\IslandController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:22:01 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'INSERT INTO'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (\'asdsadsadasd\', \'sdsdsdasdas\', \'uploads/islands/1754904121_1bfb3b93f7f921762f3a.png\', \'2025-08-11 09:22:01\', \'2025-08-11 09:22:01\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (\'asdsadsadasd\', \'sdsdsdasdas\', \'uploads/islands/1754904121_1bfb3b93f7f921762f3a.png\', \'2025-08-11 09:22:01\', \'2025-08-11 09:22:01\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (\'asdsadsadasd\', \'sdsdsdasdas\', \'uploads/islands/1754904121_1bfb3b93f7f921762f3a.png\', \'2025-08-11 09:22:01\', \'2025-08-11 09:22:01\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `islands` (`island_name`, `description`, `image_url`, `created_at`, `updated_at`) VALUES (:island_name:, :description:, :image_url:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\IslandController.php(66): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\IslandController->store()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\IslandController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:22:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:22:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:24:37 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:24:37 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:24:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-08-11 09:24:43 --> Error: Class "App\Models\RequestOpenTripModel" not found
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Controllers\OpenTripController.php on line 22.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:24:54 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-08-11 09:24:56 --> Error: Class "App\Models\RequestOpenTripModel" not found
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Controllers\OpenTripController.php on line 22.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:24:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:24:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-08-11 09:24:59 --> Error: Class "App\Models\RequestOpenTripModel" not found
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Controllers\OpenTripController.php on line 22.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:02 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:05 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:15 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:25:15 --> CodeIgniter\Validation\Exceptions\ValidationException: "different" is not a valid rule.
+[Method: POST, Route: admin/routes/store]
+in SYSTEMPATH\Validation\Validation.php on line 345.
+ 1 SYSTEMPATH\Validation\Validation.php(345): CodeIgniter\Validation\Exceptions\ValidationException::forRuleNotFound('different')
+ 2 SYSTEMPATH\Validation\Validation.php(201): CodeIgniter\Validation\Validation->processRules('arrival_island_id', 'arrival_island_id', '9', [...], [...], 'arrival_island_id')
+ 3 SYSTEMPATH\Controller.php(138): CodeIgniter\Validation\Validation->run()
+ 4 APPPATH\Controllers\RouteController.php(52): CodeIgniter\Controller->validate([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RouteController->store()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:18 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:31 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:31 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:35 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:25:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:25:45 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:25:45 --> CodeIgniter\Validation\Exceptions\ValidationException: "different" is not a valid rule.
+[Method: POST, Route: admin/routes/store]
+in SYSTEMPATH\Validation\Validation.php on line 345.
+ 1 SYSTEMPATH\Validation\Validation.php(345): CodeIgniter\Validation\Exceptions\ValidationException::forRuleNotFound('different')
+ 2 SYSTEMPATH\Validation\Validation.php(201): CodeIgniter\Validation\Validation->processRules('arrival_island_id', 'arrival_island_id', '10', [...], [...], 'arrival_island_id')
+ 3 SYSTEMPATH\Controller.php(138): CodeIgniter\Validation\Validation->run()
+ 4 APPPATH\Controllers\RouteController.php(52): CodeIgniter\Controller->validate([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RouteController->store()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:26:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:26:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+ERROR - 2025-08-11 09:26:24 --> mysqli_sql_exception: Unknown column 'updated_at' in 'INSERT INTO' in C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `ro...', 0)
+#1 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `ro...')
+#2 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `ro...')
+#3 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `ro...', Array, false)
+#4 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\BaseModel.php(838): CodeIgniter\Model->doInsert(Array)
+#6 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Model.php(797): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\app\Controllers\RouteController.php(64): CodeIgniter\Model->insert(Array)
+#8 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\RouteController->store()
+#9 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+#10 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\Users\Administrator\Documents\GITHUB\KAPAL-FE-HTML\dashboard-dir\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\Admini...')
+#15 {main}
+CRITICAL - 2025-08-11 09:26:24 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'INSERT INTO'
+[Method: POST, Route: admin/routes/store]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (:departure_island_id:, :arrival_island_id:, :estimated_duration:, :distance:, :notes:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\RouteController.php(64): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RouteController->store()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:26:24 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'INSERT INTO'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (\'9\', \'10\', \'5\', \'2\', \'2\', \'2025-08-11 09:26:24\', \'2025-08-11 09:26:24\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (\'9\', \'10\', \'5\', \'2\', \'2\', \'2025-08-11 09:26:24\', \'2025-08-11 09:26:24\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (:departure_island_id:, :arrival_island_id:, :estimated_duration:, :distance:, :notes:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 7 APPPATH\Controllers\RouteController.php(64): CodeIgniter\Model->insert([...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RouteController->store()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:26:24 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'INSERT INTO'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (\'9\', \'10\', \'5\', \'2\', \'2\', \'2025-08-11 09:26:24\', \'2025-08-11 09:26:24\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (\'9\', \'10\', \'5\', \'2\', \'2\', \'2025-08-11 09:26:24\', \'2025-08-11 09:26:24\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (\'9\', \'10\', \'5\', \'2\', \'2\', \'2025-08-11 09:26:24\', \'2025-08-11 09:26:24\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `routes` (`departure_island_id`, `arrival_island_id`, `estimated_duration`, `distance`, `notes`, `created_at`, `updated_at`) VALUES (:departure_island_id:, :arrival_island_id:, :estimated_duration:, :distance:, :notes:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(394): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(838): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(797): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH\Controllers\RouteController.php(64): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\RouteController->store()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\RouteController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:03 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:03 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:26 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:38 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:38 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:43 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:43 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:27:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-08-11 09:27:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:27:47 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:33:16 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:33:16 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-08-11 09:33:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:33:26 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:33:29 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:33:33 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:33:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-08-11 09:33:34 --> Error: Class "App\Models\RequestOpenTripModel" not found
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Controllers\OpenTripController.php on line 22.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:38:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:38:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:38:58 --> ErrorException: Undefined property: CodeIgniter\View\View::$request
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Views\admin\open-trips\index.php on line 7.
+ 1 APPPATH\Views\admin\open-trips\index.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: CodeIgniter\\View\\View::$request', 'C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\index.php', 7)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\index.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/index', [], true)
+ 5 APPPATH\Controllers\OpenTripController.php(42): view('admin/open-trips/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:41:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:41:06 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:41:06 --> ErrorException: Undefined variable $openTrips
+[Method: GET, Route: admin/open-trips]
+in APPPATH\Views\admin\open-trips\index.php on line 32.
+ 1 APPPATH\Views\admin\open-trips\index.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $openTrips', 'C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\index.php', 32)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\index.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/index', [], true)
+ 5 APPPATH\Controllers\OpenTripController.php(42): view('admin/open-trips/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:42:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:42:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:42:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:42:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:42:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:42:27 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:42:27 --> ErrorException: Undefined array key 9
+[Method: GET, Route: admin/open-trips/create]
+in APPPATH\Views\admin\open-trips\create.php on line 28.
+ 1 APPPATH\Views\admin\open-trips\create.php(28): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 9', 'C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php', 28)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/create', [], true)
+ 5 APPPATH\Controllers\OpenTripController.php(77): view('admin/open-trips/create', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:49:48 --> ErrorException: Undefined array key 9
+[Method: GET, Route: admin/open-trips/create]
+in APPPATH\Views\admin\open-trips\create.php on line 28.
+ 1 APPPATH\Views\admin\open-trips\create.php(28): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 9', 'C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php', 28)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/create', [], true)
+ 5 APPPATH\Controllers\OpenTripController.php(77): view('admin/open-trips/create', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:50 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:53 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:54 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:56 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:49:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:49:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:49:59 --> ErrorException: Undefined array key 9
+[Method: GET, Route: admin/open-trips/create]
+in APPPATH\Views\admin\open-trips\create.php on line 28.
+ 1 APPPATH\Views\admin\open-trips\create.php(28): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 9', 'C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php', 28)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\app\\Views\\admin\\open-trips\\create.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/create', [], true)
+ 5 APPPATH\Controllers\OpenTripController.php(77): view('admin/open-trips/create', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:54:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:54:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+CRITICAL - 2025-08-11 09:54:48 --> ParseError: syntax error, unexpected token ";", expecting "]"
+[Method: GET, Route: admin/open-trips/create]
+in APPPATH\Views\admin\open-trips\create.php on line 28.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/open-trips/create', [], true)
+ 3 APPPATH\Controllers\OpenTripController.php(77): view('admin/open-trips/create', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\OpenTripController->create()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\OpenTripController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:04 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:15 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:19 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:19 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:21 --> [DEPRECATED] Creation of dynamic property App\Controllers\FaqController::$session is deprecated in APPPATH\Controllers\FaqController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\FaqController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:22 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:55:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:55:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:59:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:59:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:59:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:59:45 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:59:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:59:45 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:59:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:59:49 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 09:59:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 09:59:51 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:41 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:41 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:46 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:46 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:04:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:04:49 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:05:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:05:56 --> [DEPRECATED] Creation of dynamic property App\Controllers\OpenTripController::$session is deprecated in APPPATH\Controllers\OpenTripController.php on line 27.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\OpenTripController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:05:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:05:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\IslandController::$session is deprecated in APPPATH\Controllers\IslandController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\IslandController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:05:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:05:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\GalleryController::$session is deprecated in APPPATH\Controllers\GalleryController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\GalleryController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\BlogController::$session is deprecated in APPPATH\Controllers\BlogController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BlogController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\BookingController::$session is deprecated in APPPATH\Controllers\BookingController.php on line 21.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\BookingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\Admin::$session is deprecated in APPPATH\Controllers\Admin.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Admin->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:13 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:14 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:16 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:26 --> [DEPRECATED] Creation of dynamic property App\Controllers\SettingController::$session is deprecated in APPPATH\Controllers\SettingController.php on line 12.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\SettingController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:27 --> [DEPRECATED] Creation of dynamic property App\Controllers\ScheduleController::$session is deprecated in APPPATH\Controllers\ScheduleController.php on line 18.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\ScheduleController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
+DEBUG - 2025-08-11 10:06:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-08-11 10:06:31 --> [DEPRECATED] Creation of dynamic property App\Controllers\RouteController::$session is deprecated in APPPATH\Controllers\RouteController.php on line 15.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\RouteController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\Administrator\\Documents\\GITHUB\\KAPAL-FE-HTML\\dashboard-dir\\public\\index.php')
