@@ -135,7 +135,6 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
 // Auth Routes
 $routes->group('', function($routes) {
-    $routes->get('login', 'Auth::login');
     $routes->post('login', 'Auth::login');
     $routes->get('logout', 'Auth::logout');
     $routes->get('register', 'Auth::register');
@@ -152,3 +151,4 @@ $routes->group('admin/checkin', function($routes) {
     $routes->get('/', 'CheckinController::index');
     $routes->post('process', 'CheckinController::process');
 });
+$routes->get('/', 'Auth::login');
