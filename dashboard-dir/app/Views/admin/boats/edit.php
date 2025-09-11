@@ -5,7 +5,7 @@
         <h5 class="mb-0">Edit Boat</h5>
     </div>
     <div class="card-body">
-        <form action="<?= base_url('admin/boats/update/' . $boat['boat_id']) ?>" method="post">
+        <form action="<?= base_url('admin/boats/update/' . $boat['boat_id']) ?>" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="boat_name" class="form-label">Boat Name</label>
                 <input type="text" class="form-control" id="boat_name" name="boat_name" value="<?= esc($boat['boat_name']) ?>" required>
@@ -28,6 +28,22 @@
             <div class="mb-3">
                 <label for="price_per_trip" class="form-label">Price per Trip (Rp)</label>
                 <input type="number" class="form-control" id="price_per_trip" name="price_per_trip" value="<?= $boat['price_per_trip'] ?>" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="image" class="form-label">Boat Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                <div class="form-text">Max size: 1MB, Format: JPG, PNG, JPEG</div>
+                <?php if ($boat['image_url']): ?>
+                    <div class="mt-2">
+                        <img src="<?= base_url($boat['image_url']) ?>" alt="Current Image" style="max-width: 200px; max-height: 150px;" class="img-thumbnail">
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" value="1" <?= $boat['is_featured'] ? 'checked' : '' ?>>
+                <label class="form-check-label" for="is_featured">Featured Boat</label>
             </div>
             
             <div class="mb-3">

@@ -130,36 +130,44 @@ private function timeAgo($datetime)
         return view('admin/boats/create', $data);
     }
 
-    public function storeBoat()
-    {
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'boat_name' => 'required',
-            'boat_type' => 'required|in_list[speedboat,traditional,luxury]',
-            'capacity' => 'required|numeric',
-            'price_per_trip' => 'required|numeric'
-        ]);
+public function storeBoat()
+{
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'boat_name' => 'required',
+        'boat_type' => 'required|in_list[speedboat,traditional,luxury]',
+        'capacity' => 'required|numeric',
+        'price_per_trip' => 'required|numeric',
+        'image' => 'max_size[image,1024]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]'
+    ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
-
-        $boatModel = new \App\Models\BoatModel();
-        $data = [
-            'boat_name' => $this->request->getPost('boat_name'),
-            'boat_type' => $this->request->getPost('boat_type'),
-            'capacity' => $this->request->getPost('capacity'),
-            'description' => $this->request->getPost('description'),
-            'price_per_trip' => $this->request->getPost('price_per_trip'),
-            'facilities' => $this->request->getPost('facilities')
-        ];
-
-        if ($boatModel->insert($data)) {
-            return redirect()->to('/admin/boats')->with('success', 'Boat added successfully');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Failed to add boat');
-        }
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
     }
+
+    $boatModel = new \App\Models\BoatModel();
+    $data = [
+        'boat_name' => $this->request->getPost('boat_name'),
+        'boat_type' => $this->request->getPost('boat_type'),
+        'capacity' => $this->request->getPost('capacity'),
+        'description' => $this->request->getPost('description'),
+        'price_per_trip' => $this->request->getPost('price_per_trip'),
+        'facilities' => $this->request->getPost('facilities'),
+        'is_featured' => $this->request->getPost('is_featured') ? 1 : 0
+    ];
+
+    // Handle image upload
+    $imagePath = $this->handleImageUpload();
+    if ($imagePath) {
+        $data['image_url'] = $imagePath;
+    }
+
+    if ($boatModel->insert($data)) {
+        return redirect()->to('/admin/boats')->with('success', 'Boat added successfully');
+    } else {
+        return redirect()->back()->withInput()->with('error', 'Failed to add boat');
+    }
+}
 
     public function editBoat($id)
     {
@@ -181,46 +189,70 @@ private function timeAgo($datetime)
         return view('admin/boats/edit', $data);
     }
 
-    public function updateBoat($id)
-    {
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'boat_name' => 'required',
-            'boat_type' => 'required|in_list[speedboat,traditional,luxury]',
-            'capacity' => 'required|numeric',
-            'price_per_trip' => 'required|numeric'
-        ]);
+public function updateBoat($id)
+{
+    $validation = \Config\Services::validation();
+    $validation->setRules([
+        'boat_name' => 'required',
+        'boat_type' => 'required|in_list[speedboat,traditional,luxury]',
+        'capacity' => 'required|numeric',
+        'price_per_trip' => 'required|numeric',
+        'image' => 'max_size[image,1024]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]'
+    ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
-
-        $boatModel = new \App\Models\BoatModel();
-        $data = [
-            'boat_name' => $this->request->getPost('boat_name'),
-            'boat_type' => $this->request->getPost('boat_type'),
-            'capacity' => $this->request->getPost('capacity'),
-            'description' => $this->request->getPost('description'),
-            'price_per_trip' => $this->request->getPost('price_per_trip'),
-            'facilities' => $this->request->getPost('facilities')
-        ];
-
-        if ($boatModel->update($id, $data)) {
-            return redirect()->to('/admin/boats')->with('success', 'Boat updated successfully');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Failed to update boat');
-        }
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
     }
 
-    public function deleteBoat($id)
-    {
-        $boatModel = new \App\Models\BoatModel();
-        if ($boatModel->delete($id)) {
-            return redirect()->to('/admin/boats')->with('success', 'Boat deleted successfully');
-        } else {
-            return redirect()->to('/admin/boats')->with('error', 'Failed to delete boat');
+    $boatModel = new \App\Models\BoatModel();
+    $data = [
+        'boat_name' => $this->request->getPost('boat_name'),
+        'boat_type' => $this->request->getPost('boat_type'),
+        'capacity' => $this->request->getPost('capacity'),
+        'description' => $this->request->getPost('description'),
+        'price_per_trip' => $this->request->getPost('price_per_trip'),
+        'facilities' => $this->request->getPost('facilities'),
+        'is_featured' => $this->request->getPost('is_featured') ? 1 : 0
+    ];
+
+    // Handle image upload
+    $imagePath = $this->handleImageUpload();
+    if ($imagePath) {
+        // Delete old image if exists
+        $oldBoat = $boatModel->find($id);
+        if ($oldBoat['image_url'] && file_exists(ROOTPATH . 'public/' . $oldBoat['image_url'])) {
+            unlink(ROOTPATH . 'public/' . $oldBoat['image_url']);
         }
+        $data['image_url'] = $imagePath;
     }
+
+    if ($boatModel->update($id, $data)) {
+        return redirect()->to('/admin/boats')->with('success', 'Boat updated successfully');
+    } else {
+        return redirect()->back()->withInput()->with('error', 'Failed to update boat');
+    }
+}
+
+public function deleteBoat($id)
+{
+    $boatModel = new \App\Models\BoatModel();
+    $scheduleModel = new \App\Models\ScheduleModel();
+    
+    // Hapus semua jadwal terkait terlebih dahulu
+    $scheduleModel->where('boat_id', $id)->delete();
+    
+    // Hapus gambar jika ada
+    $boat = $boatModel->find($id);
+    if ($boat['image_url'] && file_exists(ROOTPATH . 'public/' . $boat['image_url'])) {
+        unlink(ROOTPATH . 'public/' . $boat['image_url']);
+    }
+    
+    if ($boatModel->delete($id)) {
+        return redirect()->to('/admin/boats')->with('success', 'Boat and all related schedules deleted successfully');
+    } else {
+        return redirect()->to('/admin/boats')->with('error', 'Failed to delete boat');
+    }
+}
     // Blogs
 public function blogs()
 {
@@ -253,7 +285,16 @@ public function users()
     
     return view('admin/users/index', $data);
 }
-// Method create, store, edit, update, delete serupa dengan boats
-
-    // Metode serupa untuk fitur lainnya (blogs, bookings, contacts, dll)
+private function handleImageUpload($fieldName = 'image')
+{
+    $image = $this->request->getFile($fieldName);
+    
+    if ($image && $image->isValid() && !$image->hasMoved()) {
+        $newName = $image->getRandomName();
+        $image->move(ROOTPATH . 'public/uploads/boats', $newName);
+        return 'uploads/boats/' . $newName;
+    }
+    
+    return null;
+}
 }

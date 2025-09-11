@@ -13,10 +13,12 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Image</th>
                         <th>Boat Name</th>
                         <th>Type</th>
                         <th>Capacity</th>
                         <th>Price/Trip</th>
+                        <th>Featured</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -24,10 +26,24 @@
                     <?php foreach ($boats as $index => $boat): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
+                        <td>
+                            <?php if ($boat['image_url']): ?>
+                                <img src="<?= base_url($boat['image_url']) ?>" alt="<?= esc($boat['boat_name']) ?>" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail">
+                            <?php else: ?>
+                                <span class="text-muted">No Image</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?= esc($boat['boat_name']) ?></td>
                         <td><?= ucfirst($boat['boat_type']) ?></td>
                         <td><?= $boat['capacity'] ?></td>
                         <td>Rp <?= number_format($boat['price_per_trip'], 0, ',', '.') ?></td>
+                        <td>
+                            <?php if ($boat['is_featured']): ?>
+                                <span class="badge bg-success">Yes</span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">No</span>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 <a href="<?= base_url('admin/boats/edit/' . $boat['boat_id']) ?>" class="btn btn-warning">

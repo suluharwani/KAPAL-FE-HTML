@@ -8,7 +8,7 @@ class BoatModel extends Model
     protected $primaryKey = 'boat_id';
     protected $allowedFields = [
         'boat_name', 'boat_type', 'capacity', 'description', 
-        'price_per_trip', 'image_url', 'facilities'
+        'price_per_trip', 'image_url', 'facilities', 'is_featured'
     ];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
