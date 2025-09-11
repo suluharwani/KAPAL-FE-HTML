@@ -43,7 +43,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('admin/boats') ?>" class="nav-link <?= (strpos(uri_string(), 'admin/boats') !== false) ? 'active' : '' ?>">
-                                <i class="bi bi-boat me-2"></i>Boats
+                                <i class="bi bi-rocket-takeoff me-2"></i>Boats
                             </a>
                         </li>
                         <li class="nav-item">

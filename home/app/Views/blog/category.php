@@ -25,9 +25,9 @@
                             <div class="col-md-6 mb-4">
                                 <div class="card h-100 shadow-sm">
                                     <?php if ($blog['featured_image']): ?>
-                                        <img src="<?= base_url('uploads/blogs/' . $blog['featured_image']) ?>" class="card-img-top" alt="<?= $blog['title'] ?>" style="height: 200px; object-fit: cover;">
+                                        <img src="<?= $adminUrl . '/' . $blog['featured_image'] ?>" class="card-img-top" alt="<?= $blog['title'] ?>" style="height: 200px; object-fit: cover;">
                                     <?php else: ?>
-                                        <img src="<?= base_url('images/blog-placeholder.jpg') ?>" class="card-img-top" alt="Blog placeholder" style="height: 200px; object-fit: cover;">
+                                        <img src="<?= $adminUrl ?>/images/blog-placeholder.jpg" class="card-img-top" alt="Blog placeholder" style="height: 200px; object-fit: cover;">
                                     <?php endif; ?>
                                     
                                     <div class="card-body">
@@ -61,8 +61,8 @@
             
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <?= view_cell('App\Libraries\BlogWidgets::categories', ['categories' => $categories]) ?>
-                <?= view_cell('App\Libraries\BlogWidgets::recentPosts', ['recentPosts' => $recentPosts]) ?>
+                <?= view_cell('App\Libraries\BlogWidgets::categories', ['categories' => $categories, 'adminUrl' => $adminUrl]) ?>
+                <?= view_cell('App\Libraries\BlogWidgets::recentPosts', ['recentPosts' => $recentPosts, 'adminUrl' => $adminUrl]) ?>
                 <?= view_cell('App\Libraries\BlogWidgets::newsletter') ?>
             </div>
         </div>

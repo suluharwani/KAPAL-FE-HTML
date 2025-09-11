@@ -7,8 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        
         .search-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ffffffff 0%, #764ba2 100%);
             padding: 2rem 0;
             margin-bottom: 2rem;
             color: white;
@@ -25,7 +26,7 @@
             font-weight: 600;
         }
         .nav-pills .nav-link.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #ffffffff, #aa60f3ff);
         }
         .trip-badge {
             position: absolute;

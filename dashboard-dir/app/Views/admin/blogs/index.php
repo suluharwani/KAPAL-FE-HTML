@@ -17,6 +17,7 @@
                         <th>Category</th>
                         <th>Author</th>
                         <th>Status</th>
+                        <th>Image</th>
                         <th>Published At</th>
                         <th>Actions</th>
                     </tr>
@@ -38,7 +39,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="blogForm">
+                <form id="blogForm" enctype="multipart/form-data">
                     <input type="hidden" name="blog_id" id="blog_id">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
@@ -52,6 +53,15 @@
                             <option value="">Select Category</option>
                         </select>
                         <div class="invalid-feedback"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="featured_image" class="form-label">Featured Image</label>
+                        <input type="file" class="form-control" id="featured_image" name="featured_image" accept="image/*">
+                        <div class="form-text">Max size: 2MB. Supported formats: JPG, JPEG, PNG</div>
+                        <div class="invalid-feedback"></div>
+                        <div id="imagePreview" class="mt-2"></div>
+                        <div id="currentImage" class="mt-2"></div>
                     </div>
                     
                     <div class="mb-3">
@@ -115,6 +125,11 @@ $(document).ready(function() {
             success: function(response) {
                 let html = '';
                 response.data.forEach((blog, index) => {
+                    const imageUrl = blog.thumbnail_image || blog.featured_image;
+                    const imageHtml = imageUrl ? 
+                        `<img src="<?= base_url() ?>${imageUrl}" alt="${escapeHtml(blog.title)}" style="max-width: 60px; max-height: 60px; object-fit: cover;">` : 
+                        'No Image';
+                    
                     html += `
                     <tr>
                         <td>${index + 1}</td>
@@ -126,6 +141,7 @@ $(document).ready(function() {
                                 ${blog.status.charAt(0).toUpperCase() + blog.status.slice(1)}
                             </span>
                         </td>
+                        <td>${imageHtml}</td>
                         <td>${blog.published_at ? formatDate(blog.published_at) : '-'}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
@@ -178,12 +194,26 @@ $(document).ready(function() {
         setTimeout(() => $('.toast').remove(), 3000);
     }
 
+    // Preview image before upload
+    $('#featured_image').change(function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').html(`<img src="${e.target.result}" class="img-thumbnail" style="max-width: 200px;">`);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
     // Add new blog button click
     $('#addBlogBtn').click(function(e) {
         e.preventDefault();
         $('#modalTitle').text('Add New Blog Post');
         $('#blogForm')[0].reset();
         $('#blog_id').val('');
+        $('#imagePreview').html('');
+        $('#currentImage').html('');
         
         // Load categories
         $.ajax({
@@ -208,6 +238,7 @@ $(document).ready(function() {
     // Edit blog
     window.editBlog = function(blogId) {
         $('#modalTitle').text('Edit Blog Post');
+        $('#imagePreview').html('');
         
         // Load blog data and categories
         $.ajax({
@@ -220,6 +251,17 @@ $(document).ready(function() {
                 $('#content').val(response.blog.content);
                 $('#excerpt').val(response.blog.excerpt);
                 $('#status').val(response.blog.status);
+                
+                // Show current image if exists
+                if (response.blog.thumbnail_image || response.blog.featured_image) {
+                    const imageUrl = response.blog.thumbnail_image || response.blog.featured_image;
+                    $('#currentImage').html(`
+                        <p>Current Image:</p>
+                        <img src="<?= base_url() ?>${imageUrl}" class="img-thumbnail" style="max-width: 200px;">
+                    `);
+                } else {
+                    $('#currentImage').html('<p>No image uploaded</p>');
+                }
                 
                 let options = '<option value="">Select Category</option>';
                 response.categories.forEach(category => {
@@ -239,7 +281,7 @@ $(document).ready(function() {
     // Form submission
     $('#blogForm').submit(function(e) {
         e.preventDefault();
-        const formData = $(this).serialize();
+        const formData = new FormData(this);
         const blogId = $('#blog_id').val();
         const url = blogId ? `<?= base_url('admin/blogs/update/') ?>${blogId}` : '<?= base_url('admin/blogs/store') ?>';
         
@@ -247,6 +289,8 @@ $(document).ready(function() {
             url: url,
             type: 'POST',
             data: formData,
+            processData: false,
+            contentType: false,
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
@@ -277,6 +321,8 @@ $(document).ready(function() {
     // Reset form validation on modal hide
     $('#blogModal').on('hidden.bs.modal', function() {
         $('#blogForm input, #blogForm select, #blogForm textarea').removeClass('is-invalid');
+        $('#imagePreview').html('');
+        $('#currentImage').html('');
     });
 
     // Show delete confirmation modal

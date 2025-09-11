@@ -19,11 +19,11 @@ class BlogModel extends Model
     public function getPublishedBlogs($limit = null, $offset = 0)
     {
         $builder = $this->db->table('blogs b');
-        $builder->select('b.*, c.category_name, u.full_name as author_name');
+        $builder->select('b.*, c.category_name, c.slug as category_slug, u.full_name as author_name');
         $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
         $builder->join('users u', 'b.author_id = u.user_id', 'left');
         $builder->where('b.status', 'published');
-        // $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
+        $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
         $builder->orderBy('b.published_at', 'DESC');
         
         if ($limit) {
@@ -34,25 +34,24 @@ class BlogModel extends Model
     }
     
     // Get blog by slug
-// Get blog by slug
-public function getBlogBySlug($slug)
-{
-    $builder = $this->db->table('blogs b');
-    $builder->select('b.*, c.category_name, c.slug as category_slug, u.full_name as author_name');
-    $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
-    $builder->join('users u', 'b.author_id = u.user_id', 'left');
-    $builder->where('b.slug', $slug);
-    $builder->where('b.status', 'published');
-    $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
-    
-    return $builder->get()->getRowArray();
-}
+    public function getBlogBySlug($slug)
+    {
+        $builder = $this->db->table('blogs b');
+        $builder->select('b.*, c.category_name, c.slug as category_slug, u.full_name as author_name');
+        $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
+        $builder->join('users u', 'b.author_id = u.user_id', 'left');
+        $builder->where('b.slug', $slug);
+        $builder->where('b.status', 'published');
+        $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
+        
+        return $builder->get()->getRowArray();
+    }
     
     // Get blogs by category
     public function getBlogsByCategory($category_id, $limit = null, $offset = 0)
     {
         $builder = $this->db->table('blogs b');
-        $builder->select('b.*, c.category_name, u.full_name as author_name');
+        $builder->select('b.*, c.category_name, c.slug as category_slug, u.full_name as author_name');
         $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
         $builder->join('users u', 'b.author_id = u.user_id', 'left');
         $builder->where('b.category_id', $category_id);
@@ -70,10 +69,15 @@ public function getBlogBySlug($slug)
     // Get recent posts
     public function getRecentPosts($limit = 5)
     {
-        return $this->where('status', 'published')
-                    ->where('published_at <=', date('Y-m-d H:i:s'))
-                    ->orderBy('published_at', 'DESC')
-                    ->limit($limit)
-                    ->findAll();
+        $builder = $this->db->table('blogs b');
+        $builder->select('b.*, c.category_name, u.full_name as author_name');
+        $builder->join('blog_categories c', 'b.category_id = c.category_id', 'left');
+        $builder->join('users u', 'b.author_id = u.user_id', 'left');
+        $builder->where('b.status', 'published');
+        $builder->where('b.published_at <=', date('Y-m-d H:i:s'));
+        $builder->orderBy('b.published_at', 'DESC');
+        $builder->limit($limit);
+        
+        return $builder->get()->getResultArray();
     }
 }

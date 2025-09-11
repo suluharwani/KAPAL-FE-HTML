@@ -23,7 +23,8 @@ class Blog extends BaseController
             'blogs' => $this->blogModel->getPublishedBlogs(9),
             'categories' => $this->blogCategoryModel->getCategoriesWithCount(),
             'recentPosts' => $this->blogModel->getRecentPosts(5),
-            'pager' => $this->blogModel->pager
+            'pager' => $this->blogModel->pager,
+            'adminUrl' => $_ENV['adminUrl'] // Tambahkan adminUrl ke data
         ];
         return $this->render('blog/index', $data);
     }
@@ -42,8 +43,8 @@ class Blog extends BaseController
             'blog' => $blog,
             'categories' => $this->blogCategoryModel->getCategoriesWithCount(),
             'recentPosts' => $this->blogModel->getRecentPosts(5),
-            'relatedPosts' => $this->blogModel->getBlogsByCategory($blog['category_id'], 2)
-
+            'relatedPosts' => $this->blogModel->getBlogsByCategory($blog['category_id'], 2),
+            'adminUrl' => $_ENV['adminUrl'] // Tambahkan adminUrl ke data
         ];
         
         return $this->render('blog/single', $data);
@@ -66,6 +67,7 @@ class Blog extends BaseController
             'category' => $category,
             'categories' => $this->blogCategoryModel->getCategoriesWithCount(),
             'recentPosts' => $this->blogModel->getRecentPosts(5),
+            'adminUrl' => $_ENV['adminUrl'] // Tambahkan adminUrl ke data
         ];
         
        return $this->render('blog/category', $data);

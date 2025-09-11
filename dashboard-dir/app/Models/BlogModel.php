@@ -7,7 +7,7 @@ class BlogModel extends Model
     protected $table = 'blogs';
     protected $primaryKey = 'blog_id';
     protected $allowedFields = [
-        'title', 'slug', 'content', 'excerpt', 'featured_image', 
+        'title', 'slug', 'content', 'excerpt', 'featured_image', 'thumbnail_image',
         'author_id', 'category_id', 'status', 'published_at'
     ];
     protected $useTimestamps = true;
@@ -20,7 +20,8 @@ class BlogModel extends Model
                    ->join('blog_categories', 'blog_categories.category_id = blogs.category_id', 'left')
                    ->findAll();
     }
-        public function getBlogCategories()
+    
+    public function getBlogCategories()
     {
         return $this->db->table('blog_categories')->get()->getResultArray();
     }

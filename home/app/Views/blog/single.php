@@ -50,9 +50,9 @@
                     </div>
                     
                     <?php if (!empty($blog['featured_image'])): ?>
-                        <img src="<?= base_url($blog['featured_image']) ?>" class="img-fluid rounded mb-4" alt="<?= $blog['title'] ?>" style="max-height: 400px; width: 100%; object-fit: cover;">
+                        <img src="<?= $adminUrl . '/' . $blog['featured_image'] ?>" class="img-fluid rounded mb-4" alt="<?= $blog['title'] ?>" style="max-height: 400px; width: 100%; object-fit: cover;">
                     <?php else: ?>
-                        <img src="<?= base_url('images/blog-placeholder.jpg') ?>" class="img-fluid rounded mb-4" alt="Blog placeholder" style="max-height: 400px; width: 100%; object-fit: cover;">
+                        <img src="<?= $adminUrl ?>/images/blog-placeholder.jpg" class="img-fluid rounded mb-4" alt="Blog placeholder" style="max-height: 400px; width: 100%; object-fit: cover;">
                     <?php endif; ?>
                     
                     <div class="blog-content mb-5">
@@ -68,10 +68,7 @@
                 </article>
                 
                 <!-- Related Posts - Show posts from same category -->
-                <?php
-                
-                if (!empty($relatedPosts)): 
-                ?>
+                <?php if (!empty($relatedPosts)): ?>
                 <div class="mt-5">
                     <h3 class="mb-4">Artikel Terkait</h3>
                     <div class="row">
@@ -80,9 +77,9 @@
                             <div class="col-md-6 mb-3">
                                 <div class="card h-100">
                                     <?php if (!empty($related['featured_image'])): ?>
-                                        <img src="<?= base_url($related['featured_image']) ?>" class="card-img-top" alt="<?= $related['title'] ?>" style="height: 180px; object-fit: cover;">
+                                        <img src="<?= $adminUrl . '/' . $related['featured_image'] ?>" class="card-img-top" alt="<?= $related['title'] ?>" style="height: 180px; object-fit: cover;">
                                     <?php else: ?>
-                                        <img src="<?= base_url('images/blog-placeholder.jpg') ?>" class="card-img-top" alt="Blog placeholder" style="height: 180px; object-fit: cover;">
+                                        <img src="<?= $adminUrl ?>/images/blog-placeholder.jpg" class="card-img-top" alt="Blog placeholder" style="height: 180px; object-fit: cover;">
                                     <?php endif; ?>
                                     
                                     <div class="card-body">
@@ -166,3 +163,4 @@
             </div>
         </div>
     </div>
+</section>
