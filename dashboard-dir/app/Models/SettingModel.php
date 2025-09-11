@@ -23,7 +23,20 @@ class SettingModel extends Model
     public function updateSettings($data)
     {
         foreach ($data as $key => $value) {
-            $this->where('setting_key', $key)->set('setting_value', $value)->update();
+            // Check if setting exists
+            $existing = $this->where('setting_key', $key)->first();
+            
+            if ($existing) {
+                // Update existing setting
+                $this->update($existing['setting_id'], ['setting_value' => $value]);
+            } else {
+                // Insert new setting
+                $this->insert([
+                    'setting_key' => $key,
+                    'setting_value' => $value,
+                    'description' => 'System setting'
+                ]);
+            }
         }
         return true;
     }
