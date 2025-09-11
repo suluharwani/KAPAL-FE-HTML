@@ -55,13 +55,13 @@ class Auth extends BaseController
             ]
         ]);
 
-        return redirect()->to('/boats')->with('message', 'Login berhasil');
+        return redirect()->to('')->with('message', 'Login berhasil');
     }
 
     public function register()
     {
         if ($this->session->get('isLoggedIn')) {
-            return redirect()->to('/boats');
+            return redirect()->to('');
         }
         
         $data = [

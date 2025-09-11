@@ -8,34 +8,34 @@ use App\Models\ScheduleModel;
 use App\Models\RouteModel; 
 class Home extends BaseController
 {
- public function index()
-    {
-        // Load models
-        $sliderModel = new SliderModel();
-        $islandModel = new IslandModel();
-        $featureModel = new FeatureModel();
-        $testimonialModel = new TestimonialModel();
-        $scheduleModel = new ScheduleModel(); 
-        $routeModel = new RouteModel();
+public function index()
+{
+    // Load models
+    $sliderModel = new SliderModel();
+    $islandModel = new IslandModel();
+    $featureModel = new FeatureModel();
+    $testimonialModel = new TestimonialModel();
+    $scheduleModel = new ScheduleModel(); 
+    $routeModel = new RouteModel();
 
-        // Get data from database
-        $data = [
-            'title' => 'Pemesanan Kapal Raja Ampat',
-            'active' => 'home',
-            'sliders' => $sliderModel->where('is_active', 1)->findAll(),
-            'islands' => $islandModel->findAll(),
-            'features' => $featureModel->where('is_active', 1)->findAll(),
-            'popularRoutes' => $routeModel->getPopularRoutes(6),
-            'testimonials' => $testimonialModel->where('status', 'approved')->orderBy('created_at', 'DESC')->findAll(3),
-            'regularRoutes' => $scheduleModel->getAvailableRegularRoutes(),
-            'openTripRoutes' => $scheduleModel->getAvailableOpenTripRoutes(),
-            'regularSchedules' => $scheduleModel->getRegularSchedulesWithDetails(),
-            'openTripSchedules' => $scheduleModel->getOpenTripSchedulesWithDetails()
-        ];
-        
-        $this->render('home', $data);
-    }
-
+    // Get data from database
+    $data = [
+        'title' => 'Pemesanan Kapal Raja Ampat',
+        'active' => 'home',
+        'sliders' => $sliderModel->where('is_active', 1)->findAll(),
+        'islands' => $islandModel->findAll(),
+        'features' => $featureModel->where('is_active', 1)->findAll(),
+        'popularRoutes' => $routeModel->getPopularRoutes(6),
+        'testimonials' => $testimonialModel->where('status', 'approved')->orderBy('created_at', 'DESC')->findAll(3),
+        'regularRoutes' => $scheduleModel->getAvailableRegularRoutes(),
+        'openTripRoutes' => $scheduleModel->getAvailableOpenTripRoutes(),
+        'regularSchedules' => $scheduleModel->getRegularSchedulesWithDetails(),
+        'openTripSchedules' => $scheduleModel->getOpenTripSchedulesWithDetails(),
+        'adminUrl' => $_ENV['adminUrl'] // Tambahkan ini untuk mengirim adminUrl ke view
+    ];
+    
+    $this->render('home', $data);
+}
     public function searchSchedules()
     {
         $scheduleModel = new ScheduleModel();

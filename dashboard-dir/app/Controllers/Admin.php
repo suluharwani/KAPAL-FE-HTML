@@ -237,20 +237,105 @@ public function deleteBoat($id)
 {
     $boatModel = new \App\Models\BoatModel();
     $scheduleModel = new \App\Models\ScheduleModel();
+    $bookingModel = new \App\Models\BookingModel();
+    $paymentModel = new \App\Models\PaymentModel();
+    $requestOpenTripModel = new \App\Models\RequestOpenTripModel();
+    $openTripModel = new \App\Models\OpenTripModel();
     
-    // Hapus semua jadwal terkait terlebih dahulu
-    $scheduleModel->where('boat_id', $id)->delete();
+    // Start transaction untuk menjaga konsistensi data
+    $db = \Config\Database::connect();
+    $db->transStart();
     
-    // Hapus gambar jika ada
-    $boat = $boatModel->find($id);
-    if ($boat['image_url'] && file_exists(ROOTPATH . 'public/' . $boat['image_url'])) {
-        unlink(ROOTPATH . 'public/' . $boat['image_url']);
-    }
-    
-    if ($boatModel->delete($id)) {
-        return redirect()->to('/admin/boats')->with('success', 'Boat and all related schedules deleted successfully');
-    } else {
-        return redirect()->to('/admin/boats')->with('error', 'Failed to delete boat');
+    try {
+        // 1. Dapatkan data kapal terlebih dahulu
+        $boat = $boatModel->find($id);
+        if (!$boat) {
+            return redirect()->to('/admin/boats')->with('error', 'Boat not found');
+        }
+        
+        // 2. Dapatkan semua request open trip terkait kapal ini
+        $openTripRequests = $requestOpenTripModel->where('boat_id', $id)->findAll();
+        
+        foreach ($openTripRequests as $request) {
+            $requestId = $request['request_id'];
+            
+            // 3. Dapatkan semua open trip schedules terkait request ini
+            $openTrips = $openTripModel->where('request_id', $requestId)->findAll();
+            
+            foreach ($openTrips as $openTrip) {
+                $openTripId = $openTrip['open_trip_id'];
+                
+                // 4. Dapatkan semua bookings terkait open trip
+                $openTripBookings = $bookingModel->where('open_trip_id', $openTripId)->findAll();
+                
+                foreach ($openTripBookings as $booking) {
+                    $bookingId = $booking['booking_id'];
+                    
+                    // 5. Hapus payments terkait booking
+                    $paymentModel->where('booking_id', $bookingId)->delete();
+                    
+                    // 6. Hapus passengers terkait booking
+                    $db->table('passengers')->where('booking_id', $bookingId)->delete();
+                    
+                    // 7. Hapus booking
+                    $bookingModel->delete($bookingId);
+                }
+                
+                // 8. Hapus open trip
+                $openTripModel->delete($openTripId);
+            }
+            
+            // 9. Hapus request open trip
+            $requestOpenTripModel->delete($requestId);
+        }
+        
+        // 10. Dapatkan semua jadwal terkait kapal ini
+        $schedules = $scheduleModel->where('boat_id', $id)->findAll();
+        
+        foreach ($schedules as $schedule) {
+            $scheduleId = $schedule['schedule_id'];
+            
+            // 11. Dapatkan semua booking terkait jadwal ini
+            $bookings = $bookingModel->where('schedule_id', $scheduleId)->findAll();
+            
+            foreach ($bookings as $booking) {
+                $bookingId = $booking['booking_id'];
+                
+                // 12. Hapus payments terkait booking
+                $paymentModel->where('booking_id', $bookingId)->delete();
+                
+                // 13. Hapus passengers terkait booking
+                $db->table('passengers')->where('booking_id', $bookingId)->delete();
+                
+                // 14. Hapus booking
+                $bookingModel->delete($bookingId);
+            }
+            
+            // 15. Hapus jadwal
+            $scheduleModel->delete($scheduleId);
+        }
+        
+        // 16. Hapus gambar kapal jika ada
+        if ($boat['image_url'] && file_exists(ROOTPATH . 'public/' . $boat['image_url'])) {
+            unlink(ROOTPATH . 'public/' . $boat['image_url']);
+        }
+        
+        // 17. Hapus kapal
+        $boatModel->delete($id);
+        
+        $db->transComplete();
+        
+        if ($db->transStatus() === FALSE) {
+            $db->transRollback();
+            return redirect()->to('/admin/boats')->with('error', 'Failed to delete boat and related data');
+        }
+        
+        return redirect()->to('/admin/boats')->with('success', 'Boat and all related data deleted successfully');
+        
+    } catch (\Exception $e) {
+        $db->transRollback();
+        log_message('error', 'Delete boat error: ' . $e->getMessage());
+        return redirect()->to('/admin/boats')->with('error', 'Error: Cannot delete boat. It may have active bookings or schedules.');
     }
 }
     // Blogs
