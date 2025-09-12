@@ -63,17 +63,18 @@
                                 </span>
                             </td>
                             <td>
-                                <?php if (isset($trip['show_contact_admin']) && $trip['show_contact_admin'] == 1): ?>
-                                    <span class="text-warning">
-                                        <i class="fas fa-info-circle"></i> Hubungi Admin
-                                    </span>
-                                <?php elseif (isset($trip['price_per_person']) && !empty($trip['price_per_person'])): ?>
+                                <?php if (isset($trip['price_per_person']) && !empty($trip['price_per_person'])): ?>
                                     Rp <?= number_format($trip['price_per_person'], 0, ',', '.') ?> / orang
                                     <?php if (isset($trip['agreed_price']) && !empty($trip['agreed_price'])): ?>
                                         <br><small class="text-muted">Total: Rp <?= number_format($trip['agreed_price'], 0, ',', '.') ?></small>
                                     <?php endif; ?>
                                 <?php else: ?>
-                                    Rp <?= number_format($trip['price_per_trip'], 0, ',', '.') ?>
+                                    <?php 
+                                    // Hitung harga per orang berdasarkan harga kapal dan kapasitas
+                                    $pricePerPerson = $trip['capacity'] > 0 ? $trip['price_per_trip'] / $trip['capacity'] : 0;
+                                    ?>
+                                    Rp <?= number_format($pricePerPerson, 0, ',', '.') ?> / orang
+                                    <br><small class="text-muted">Total: Rp <?= number_format($trip['price_per_trip'], 0, ',', '.') ?></small>
                                 <?php endif; ?>
                             </td>
                             <td>

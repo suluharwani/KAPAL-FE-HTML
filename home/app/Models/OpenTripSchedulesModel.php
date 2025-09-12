@@ -26,49 +26,55 @@ class OpenTripSchedulesModel extends Model
     /**
      * Get upcoming open trips with details
      */
-public function getUpcomingOpenTrips()
-{
-    return $this->select('ots.*, 
-                        r.user_id, u.full_name as requester_name,
-                        s.departure_date, s.departure_time,
-                        b.boat_name, b.capacity, b.price_per_trip,
-                        rt.departure_island_id, rt.arrival_island_id,
-                        di.island_name as departure_island,
-                        ai.island_name as arrival_island,
-                        ots.agreed_price, ots.commission_rate, 
-                        ots.price_per_person, ots.show_contact_admin')
-               ->from('open_trip_schedules ots')
-               ->join('request_open_trips r', 'r.request_id = ots.request_id')
-               ->join('users u', 'u.user_id = r.user_id')
-               ->join('schedules s', 's.schedule_id = ots.schedule_id')
-               ->join('boats b', 'b.boat_id = s.boat_id')
-               ->join('routes rt', 'rt.route_id = s.route_id')
-               ->join('islands di', 'di.island_id = rt.departure_island_id')
-               ->join('islands ai', 'ai.island_id = rt.arrival_island_id')
-               ->where('ots.status', 'upcoming')
-               ->where('s.departure_date >=', date('Y-m-d'))
-               ->orderBy('s.departure_date', 'ASC')
-               ->orderBy('s.departure_time', 'ASC')
-               ->findAll();
-}
+  public function getUpcomingOpenTrips()
+    {
+        return $this->select('open_trip_schedules.*, 
+                            schedules.departure_date,
+                            schedules.departure_time,
+                            boats.boat_name,
+                            boats.capacity,
+                            boats.price_per_trip,
+                            departure.island_name as departure_island,
+                            arrival.island_name as arrival_island,
+                            request_open_trips.user_id as trip_owner_id,
+                            users.full_name as trip_owner_name')
+                   ->join('schedules', 'schedules.schedule_id = open_trip_schedules.schedule_id')
+                   ->join('boats', 'boats.boat_id = schedules.boat_id')
+                   ->join('routes', 'routes.route_id = schedules.route_id')
+                   ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+                   ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+                   ->join('request_open_trips', 'request_open_trips.request_id = open_trip_schedules.request_id', 'left')
+                   ->join('users', 'users.user_id = request_open_trips.user_id', 'left')
+                   ->where('schedules.departure_date >=', date('Y-m-d'))
+                   ->where('open_trip_schedules.status', 'upcoming')
+                   ->orderBy('schedules.departure_date', 'ASC')
+                   ->orderBy('schedules.departure_time', 'ASC')
+                   ->findAll();
+    }
 
 
-public function getOpenTripDetails($openTripId)
-{
-    return $this->select('open_trip_schedules.*, 
-                        schedules.departure_date, schedules.departure_time,
-                        boats.boat_name, boats.boat_type, boats.capacity, boats.price_per_trip,
-                        routes.departure_island_id, routes.arrival_island_id,
-                        departure.island_name as departure_island,
-                        arrival.island_name as arrival_island')
-               ->join('schedules', 'schedules.schedule_id = open_trip_schedules.schedule_id')
-               ->join('boats', 'boats.boat_id = schedules.boat_id') // Join through schedules
-               ->join('routes', 'routes.route_id = schedules.route_id')
-               ->join('islands departure', 'departure.island_id = routes.departure_island_id')
-               ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
-               ->where('open_trip_schedules.open_trip_id', $openTripId)
-               ->first();
-}
+ public function getOpenTripDetails($openTripId)
+    {
+        return $this->select('open_trip_schedules.*, 
+                            schedules.*,
+                            boats.boat_name,
+                            boats.capacity,
+                            boats.price_per_trip,
+                            departure.island_name as departure_island,
+                            arrival.island_name as arrival_island,
+                            request_open_trips.user_id as trip_owner_id,
+                            users.full_name as trip_owner_name,
+                            users.phone as trip_owner_phone')
+                   ->join('schedules', 'schedules.schedule_id = open_trip_schedules.schedule_id')
+                   ->join('boats', 'boats.boat_id = schedules.boat_id')
+                   ->join('routes', 'routes.route_id = schedules.route_id')
+                   ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+                   ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+                   ->join('request_open_trips', 'request_open_trips.request_id = open_trip_schedules.request_id', 'left')
+                   ->join('users', 'users.user_id = request_open_trips.user_id', 'left')
+                   ->where('open_trip_schedules.open_trip_id', $openTripId)
+                   ->first();
+    }
 
     /**
      * Update available seats

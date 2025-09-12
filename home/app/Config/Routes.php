@@ -52,6 +52,8 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
 
     $routes->get('download-tickets-pdf/(:num)', 'Boats::downloadTicketsPdf/$1');
     $routes->get('download-tickets-pdf', 'Boats::downloadTicketsPdf');
+    $routes->post('approve-open-trip-request/(:num)', 'Boats::approveOpenTripRequest/$1');
+    $routes->post('reject-open-trip-request/(:num)', 'Boats::rejectOpenTripRequest/$1');
 });
 // Halaman Wisata
 // Halaman Wisata

@@ -1646,4 +1646,113 @@ public function cancelRequest()
         ]);
     }
 }
+public function boatOpenTripRequests()
+{
+    if (!$this->session->get('isLoggedIn')) {
+        return redirect()->to('/login');
+    }
+
+    // Hanya untuk pemilik kapal
+    if ($_SESSION['userData']['role'] != 'boat_owner') {
+        return redirect()->to('/')->with('error', 'Akses ditolak. Hanya untuk pemilik kapal.');
+    }
+
+    $requestModel = new \App\Models\RequestOpenTripsModel();
+    $boatModel = new BoatModel();
+    
+    // Dapatkan kapal yang dimiliki user
+    $userBoats = $boatModel->where('owner_id', $_SESSION['userData']['user_id'])->findAll();
+    $boatIds = array_column($userBoats, 'boat_id');
+    
+    $data = [
+        'title' => 'Open Trip Requests - Raja Ampat Boat Services',
+        'requests' => $requestModel->getRequestsForBoats($boatIds),
+        'boats' => $userBoats
+    ];
+    
+    $this->render('boats/boat_open_trip_requests', $data);
+}
+
+public function approveOpenTripRequest($requestId)
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    if (!$this->session->get('isLoggedIn') || $_SESSION['userData']['role'] != 'boat_owner') {
+        return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+    }
+
+    $requestModel = new \App\Models\RequestOpenTripsModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    $scheduleModel = new ScheduleModel();
+    
+    // Dapatkan request details
+    $request = $requestModel->find($requestId);
+    if (!$request) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Request not found']);
+    }
+    
+    // Verifikasi bahwa user adalah pemilik kapal
+    $boatModel = new BoatModel();
+    $boat = $boatModel->find($request['boat_id']);
+    if ($boat['owner_id'] != $_SESSION['userData']['user_id']) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Unauthorized']);
+    }
+    
+    // Buat schedule untuk open trip ini
+    $scheduleData = [
+        'route_id' => $request['route_id'],
+        'boat_id' => $request['boat_id'],
+        'departure_date' => $request['proposed_date'],
+        'departure_time' => $request['proposed_time'],
+        'available_seats' => $boat['capacity'],
+        'status' => 'available',
+        'is_open_trip' => 1
+    ];
+    
+    $db = \Config\Database::connect();
+    $db->transStart();
+    
+    try {
+        // Buat schedule
+        $scheduleId = $scheduleModel->insert($scheduleData);
+        
+        // Buat open trip schedule
+        $openTripData = [
+            'schedule_id' => $scheduleId,
+            'request_id' => $requestId,
+            'available_seats' => $boat['capacity'],
+            'status' => 'upcoming'
+        ];
+        
+        $openTripId = $openTripModel->insert($openTripData);
+        
+        // Update status request menjadi approved
+        $requestModel->update($requestId, [
+            'status' => 'approved',
+            'approved_at' => date('Y-m-d H:i:s'),
+            'approved_by' => $_SESSION['userData']['user_id']
+        ]);
+        
+        $db->transComplete();
+        
+        if ($db->transStatus() === false) {
+            throw new \Exception('Transaction failed');
+        }
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Open trip request approved successfully',
+            'open_trip_id' => $openTripId
+        ]);
+        
+    } catch (\Exception $e) {
+        $db->transRollback();
+        return $this->response->setJSON([
+            'success' => false,
+            'error' => 'Failed to approve request: ' . $e->getMessage()
+        ]);
+    }
+}
 }
