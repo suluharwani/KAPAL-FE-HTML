@@ -1,3 +1,4 @@
 dashboard-dir/.env
 dashboard-dir/.env
 *.env
+*.log
