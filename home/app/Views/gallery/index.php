@@ -107,7 +107,7 @@ function getCategoryName($category) {
                 <?php foreach (array_slice($items, 0, 4) as $item): ?>
                 <div class="col-md-3 mb-4">
                     <div class="gallery-item position-relative">
-                        <img src="<?= base_url($item['image_url']) ?>" 
+                        <img src="<?= $adminUrl . '/' . $item['image_url'] ?>" 
                              class="img-fluid rounded shadow-sm" 
                              alt="<?= $item['title'] ?>" 
                              style="height: 180px; width: 100%; object-fit: cover;">

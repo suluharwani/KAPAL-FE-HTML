@@ -22,7 +22,18 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
         $routes->get('delete/(:num)', 'Admin::deleteBoat/$1');
         
     });
-    
+// Tambahkan di dalam group admin
+    $routes->group('teams', function($routes) {
+        $routes->get('/', 'TeamController::index');
+        $routes->get('create', 'TeamController::create');
+        $routes->post('store', 'TeamController::store');
+        $routes->get('edit/(:num)', 'TeamController::edit/$1');
+        $routes->post('update/(:num)', 'TeamController::update/$1');
+        $routes->get('delete/(:num)', 'TeamController::delete/$1');
+        $routes->post('update-status/(:num)', 'TeamController::updateStatus/$1');
+        $routes->post('update-order', 'TeamController::updateOrder');
+        $routes->post('bulk-action', 'TeamController::bulkAction');
+    });
     // Blogs
     $routes->group('blogs', function($routes) {
         $routes->get('/', 'BlogController::index');

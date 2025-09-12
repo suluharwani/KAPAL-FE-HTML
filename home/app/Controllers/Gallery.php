@@ -29,7 +29,8 @@ class Gallery extends BaseController
             'allGallery' => $allGallery,
             'galleryByCategory' => $galleryByCategory,
             'categories' => $categories,
-            'featuredGallery' => $this->galleryModel->where('is_featured', 1)->findAll(12)
+            'featuredGallery' => $this->galleryModel->where('is_featured', 1)->findAll(12),
+            'adminUrl' => $_ENV['adminUrl'] ?? base_url() // Add admin URL
         ];
         
        $this->render('gallery/index', $data);
@@ -50,12 +51,14 @@ class Gallery extends BaseController
             'title' => 'Galeri ' . ucfirst($category) . ' - Raja Ampat Boat Services',
             'gallery' => $gallery,
             'category' => $category,
-            'categoryName' => $this->getCategoryName($category)
+            'categoryName' => $this->getCategoryName($category),
+            'adminUrl' => $_ENV['adminUrl'] ?? base_url() // Add admin URL
         ];
         
        $this->render('gallery/category', $data);
     }
     
+
     // Get category name in Indonesian
     private function getCategoryName($category)
     {

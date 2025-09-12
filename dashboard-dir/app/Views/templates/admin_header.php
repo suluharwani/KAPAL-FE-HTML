@@ -107,6 +107,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url('admin/teams') ?>" class="nav-link">
+                                <i class="nav-icon bi bi-people"></i>
+                                <p>Team Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url('admin/users') ?>" class="nav-link <?= (strpos(uri_string(), 'admin/users') !== false) ? 'active' : '' ?>">
                                 <i class="bi bi-people me-2"></i>Users
                             </a>

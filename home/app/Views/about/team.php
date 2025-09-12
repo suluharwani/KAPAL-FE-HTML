@@ -30,9 +30,9 @@
                     <div class="card team-card h-100 border-0 shadow-sm">
                         <div class="team-image-wrapper">
                             <?php if (!empty($member['image'])): ?>
-                                <img src="<?= base_url('uploads/team/' . $member['image']) ?>" class="card-img-top" alt="<?= $member['name'] ?>">
+                                <img src="<?= $_ENV['adminUrl']. $member['image'] ?>" class="card-img-top" alt="<?= $member['name'] ?>">
                             <?php else: ?>
-                                <img src="<?= base_url('images/team-placeholder.jpg') ?>" class="card-img-top" alt="Team member">
+                                <img src="<?=  $_ENV['adminUrl'].'images/team-placeholder.jpg'?>" class="card-img-top" alt="Team member">
                             <?php endif; ?>
                             <div class="team-overlay">
                                 <div class="team-social">
