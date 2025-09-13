@@ -6,7 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-$routes->get('home/searchSchedules', 'Home::searchSchedules');
+$routes->get('searchSchedules', 'Home::searchSchedules');
+$routes->post('searchSchedules', 'Home::searchSchedules');
 
 // Auth routes
 $routes->group('auth', function($routes) {
