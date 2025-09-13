@@ -227,7 +227,7 @@ if (isset($tripInfo) && !empty($tripInfo)) {
                         <p><strong>Time:</strong> <?= date('H:i', strtotime($tripInfo['departure_time'])) ?></p>
                     </div>
                     <div class="col-md-3">
-                        <p><strong>Boat:</strong> <?= $tripInfo['boat_name'] ?> (<?= $tripInfo['boat_type'] ?>)</p>
+                        <p><strong>Boat:</strong> <?= $tripInfo['boat_name'] ?> (<?= $tripInfo['boat_type'] ?? 'N/A' ?>)</p>
                         <p><strong>Capacity:</strong> <?= $boatCapacity ?> seats</p>
                         <p><strong>Available:</strong> 
                             <span class="badge bg-<?= $availableSeats > 0 ? 'success' : 'danger' ?>">
