@@ -2,3 +2,5 @@ dashboard-dir/.env
 dashboard-dir/.env
 *.env
 *.log
+*.json
+/dashboard-dir/writable/session
