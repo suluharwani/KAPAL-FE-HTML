@@ -117,4 +117,119 @@ public function index()
         
         $this->render('faq', $data);
     }
+public function requestOpenTripSeat()
+{
+    if (!isset($_SESSION['user_id'])) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Anda harus login terlebih dahulu'
+        ]);
+    }
+    
+    $scheduleId = $this->request->getPost('schedule_id');
+    $passengerData = [
+        'name' => $this->request->getPost('name'),
+        'identity' => $this->request->getPost('identity'),
+        'phone' => $this->request->getPost('phone'),
+        'age' => $this->request->getPost('age')
+    ];
+    
+    // Cek apakah jadwal masih tersedia
+    $scheduleModel = new \App\Models\ScheduleModel();
+    $schedule = $scheduleModel->find($scheduleId);
+    
+    if (!$schedule || $schedule['available_seats'] <= 0) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Maaf, kuota untuk open trip ini sudah penuh'
+        ]);
+    }
+    
+    // Buat booking untuk open trip
+    $bookingModel = new \App\Models\BookingModel();
+    $bookingData = [
+        'user_id' => $_SESSION['user_id'],
+        'schedule_id' => $scheduleId,
+        'passenger_count' => 1,
+        'total_price' => 0, // Akan dihitung kemudian
+        'booking_status' => 'pending',
+        'is_open_trip' => 1,
+        'open_trip_type' => 'public',
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+    
+    $bookingId = $bookingModel->insert($bookingData);
+    
+    if ($bookingId) {
+        // Tambahkan penumpang
+        $passengerModel = new \App\Models\PassengerModel();
+        $passengerAdded = $passengerModel->addPassengers($bookingId, [$passengerData]);
+        
+        if ($passengerAdded) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Permintaan kursi berhasil dikirim. Menunggu konfirmasi.'
+            ]);
+        } else {
+            // Hapus booking jika gagal menambah penumpang
+            $bookingModel->delete($bookingId);
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Gagal menambahkan data penumpang'
+            ]);
+        }
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal membuat permintaan booking'
+    ]);
+}
+
+// Method untuk konfirmasi penumpang (admin only)
+public function confirmPassenger()
+{
+    $this->access('admin'); // Hanya admin yang bisa mengonfirmasi
+    
+    $passengerId = $this->request->getPost('passenger_id');
+    $scheduleId = $this->request->getPost('schedule_id');
+    
+    $passengerModel = new \App\Models\PassengerModel();
+    $confirmed = $passengerModel->confirmPassenger($passengerId, $scheduleId);
+    
+    if ($confirmed) {
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Penumpang berhasil dikonfirmasi dan kuota berkurang'
+        ]);
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal mengonfirmasi penumpang'
+    ]);
+}
+public function cancelPassengerConfirmation()
+{
+    $this->access('admin'); // Hanya admin yang bisa membatalkan konfirmasi
+    
+    $passengerId = $this->request->getPost('passenger_id');
+    $scheduleId = $this->request->getPost('schedule_id');
+    
+    $passengerModel = new \App\Models\PassengerModel();
+    $canceled = $passengerModel->cancelPassengerConfirmation($passengerId, $scheduleId);
+    
+    if ($canceled) {
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Konfirmasi penumpang dibatalkan dan kuota dikembalikan'
+        ]);
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal membatalkan konfirmasi penumpang'
+    ]);
+}
 }
