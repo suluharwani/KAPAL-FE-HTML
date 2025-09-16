@@ -377,7 +377,7 @@
             document.getElementById('resultsContainer').innerHTML = '';
             
             // Fetch data dari server
-            fetch(`/home/searchSchedules?route=${routeId}&date=${date}&trip_type=${tripType}`)
+            fetch(`/searchSchedules?route=${routeId}&date=${date}&trip_type=${tripType}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
