@@ -6,8 +6,25 @@ use App\Models\SliderModel;
 use App\Models\TestimonialModel;
 use App\Models\ScheduleModel; 
 use App\Models\RouteModel; 
+use AllowDynamicProperties;
+use App\Controllers\WarehouseController;
 class Home extends BaseController
 {
+    protected $userValidation;
+    protected $session;
+    protected $db;
+    protected $uri;
+    protected $form_validation;
+    
+    public function __construct()
+    {
+        $this->request = \Config\Services::request();
+        $this->db = \Config\Database::connect();
+        $this->session = session();
+        $this->uri = service('uri');
+        helper('form');
+        $this->form_validation = \Config\Services::validation();
+    }
 public function index()
 {
     // Load models
@@ -17,6 +34,7 @@ public function index()
     $testimonialModel = new TestimonialModel();
     $scheduleModel = new ScheduleModel(); 
     $routeModel = new RouteModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel(); // Tambahkan model OpenTrip
 
     // Get data from database
     $data = [
@@ -30,28 +48,47 @@ public function index()
         'regularRoutes' => $scheduleModel->getAvailableRegularRoutes(),
         'openTripRoutes' => $scheduleModel->getAvailableOpenTripRoutes(),
         'regularSchedules' => $scheduleModel->getRegularSchedulesWithDetails(),
-        'openTripSchedules' => $scheduleModel->getOpenTripSchedulesWithDetails(),
-        'adminUrl' => $_ENV['adminUrl'] // Tambahkan ini untuk mengirim adminUrl ke view
+        'openTripSchedules' => $openTripModel->getUpcomingOpenTrips(), // Gunakan method yang sama seperti di boats/open-trip
+        'adminUrl' => $_ENV['adminUrl']
     ];
     
     $this->render('home', $data);
 }
-    public function searchSchedules()
-    {
-        $scheduleModel = new ScheduleModel();
+ // Home.php - Ubah method searchSchedules()
+public function searchSchedules()
+{
+    $openTripModel = new \App\Models\OpenTripSchedulesModel(); // Gunakan model OpenTrip
+    $scheduleModel = new ScheduleModel();
+    
+    $routeId = $this->request->getGet('route');
+    $date = $this->request->getGet('date');
+    $tripType = $this->request->getGet('trip_type'); // 'regular' or 'open_trip'
+    
+    if ($tripType === 'open_trip') {
+        // Gunakan method yang sama dengan boats/open-trip
+        $schedules = $openTripModel->getUpcomingOpenTrips();
         
-        $routeId = $this->request->getGet('route');
-        $date = $this->request->getGet('date');
-        $tripType = $this->request->getGet('trip_type'); // 'regular' or 'open_trip'
-        
-        if ($tripType === 'open_trip') {
-            $schedules = $scheduleModel->getOpenTripSchedulesWithDetails($routeId, $date);
-        } else {
-            $schedules = $scheduleModel->getRegularSchedulesWithDetails($routeId, $date);
+        // Filter berdasarkan route dan date jika ada
+        if (!empty($routeId)) {
+            $schedules = array_filter($schedules, function($schedule) use ($routeId) {
+                return $schedule['route_id'] == $routeId;
+            });
         }
         
-        return $this->response->setJSON($schedules);
+        if (!empty($date)) {
+            $schedules = array_filter($schedules, function($schedule) use ($date) {
+                return $schedule['departure_date'] == $date;
+            });
+        }
+        
+        // Re-index array
+        $schedules = array_values($schedules);
+    } else {
+        $schedules = $scheduleModel->getRegularSchedulesWithDetails($routeId, $date);
     }
+    
+    return $this->response->setJSON($schedules);
+}
 
 
     public function about()
@@ -119,7 +156,15 @@ public function index()
     }
 public function requestOpenTripSeat()
 {
-    if (!isset($_SESSION['user_id'])) {
+    // Only allow AJAX requests
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(405)->setJSON([
+            'success' => false,
+            'message' => 'Method not allowed'
+        ]);
+    }
+
+    if (!isset($_SESSION['userData'])) {
         return $this->response->setJSON([
             'success' => false,
             'message' => 'Anda harus login terlebih dahulu'
@@ -128,30 +173,61 @@ public function requestOpenTripSeat()
     
     $scheduleId = $this->request->getPost('schedule_id');
     $passengerData = [
-        'name' => $this->request->getPost('name'),
-        'identity' => $this->request->getPost('identity'),
+        'full_name' => $this->request->getPost('name'),
+        'identity_number' => $this->request->getPost('identity'),
         'phone' => $this->request->getPost('phone'),
         'age' => $this->request->getPost('age')
     ];
+    
+    // Validasi input
+    if (empty($passengerData['full_name']) || empty($passengerData['phone'])) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Nama dan nomor telepon wajib diisi'
+        ]);
+    }
     
     // Cek apakah jadwal masih tersedia
     $scheduleModel = new \App\Models\ScheduleModel();
     $schedule = $scheduleModel->find($scheduleId);
     
-    if (!$schedule || $schedule['available_seats'] <= 0) {
+    if (!$schedule) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Jadwal tidak ditemukan'
+        ]);
+    }
+    
+    if ($schedule['available_seats'] <= 0) {
         return $this->response->setJSON([
             'success' => false,
             'message' => 'Maaf, kuota untuk open trip ini sudah penuh'
         ]);
     }
     
+    // Hitung harga per orang untuk open trip
+    $pricePerPerson = 0;
+    if (isset($schedule['price_per_person']) && $schedule['price_per_person'] > 0) {
+        $pricePerPerson = $schedule['price_per_person'];
+    } elseif (isset($schedule['agreed_price']) && $schedule['agreed_price'] > 0 && isset($schedule['capacity']) && $schedule['capacity'] > 0) {
+        // Hitung harga per orang berdasarkan harga trip dan kapasitas
+        $pricePerPerson = ceil($schedule['agreed_price'] / $schedule['capacity']);
+    } elseif (isset($schedule['price']) && $schedule['price'] > 0 && isset($schedule['capacity']) && $schedule['capacity'] > 0) {
+        // Fallback: hitung berdasarkan harga regular dan kapasitas
+        $pricePerPerson = ceil($schedule['price'] / $schedule['capacity']);
+    }
+    
+    // Generate booking code
+    $bookingCode = 'BOOK-' . strtoupper(uniqid());
+    
     // Buat booking untuk open trip
     $bookingModel = new \App\Models\BookingModel();
     $bookingData = [
-        'user_id' => $_SESSION['user_id'],
+        'user_id' => $_SESSION['userData']['user_id'],
         'schedule_id' => $scheduleId,
         'passenger_count' => 1,
-        'total_price' => 0, // Akan dihitung kemudian
+        'total_price' => $pricePerPerson, // Harga untuk 1 penumpang
+        'booking_code' => $bookingCode, // Tambahkan booking code
         'booking_status' => 'pending',
         'is_open_trip' => 1,
         'open_trip_type' => 'public',
@@ -164,12 +240,15 @@ public function requestOpenTripSeat()
     if ($bookingId) {
         // Tambahkan penumpang
         $passengerModel = new \App\Models\PassengerModel();
-        $passengerAdded = $passengerModel->addPassengers($bookingId, [$passengerData]);
+        $passengerData['booking_id'] = $bookingId;
+        $passengerAdded = $passengerModel->insert($passengerData);
         
         if ($passengerAdded) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Permintaan kursi berhasil dikirim. Menunggu konfirmasi.'
+                'message' => 'Permintaan kursi berhasil dikirim. Menunggu konfirmasi.',
+                'booking_code' => $bookingCode,
+                'price' => $pricePerPerson
             ]);
         } else {
             // Hapus booking jika gagal menambah penumpang
@@ -187,49 +266,64 @@ public function requestOpenTripSeat()
     ]);
 }
 
-// Method untuk konfirmasi penumpang (admin only)
-public function confirmPassenger()
-{
-    $this->access('admin'); // Hanya admin yang bisa mengonfirmasi
-    
-    $passengerId = $this->request->getPost('passenger_id');
-    $scheduleId = $this->request->getPost('schedule_id');
-    
-    $passengerModel = new \App\Models\PassengerModel();
-    $confirmed = $passengerModel->confirmPassenger($passengerId, $scheduleId);
-    
-    if ($confirmed) {
+ public function confirmPassenger()
+    {
+        // Only allow AJAX requests
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(405)->setJSON([
+                'success' => false,
+                'message' => 'Method not allowed'
+            ]);
+        }
+
+        $this->access('admin'); // Hanya admin yang bisa mengonfirmasi
+        
+        $passengerId = $this->request->getPost('passenger_id');
+        $scheduleId = $this->request->getPost('schedule_id');
+        
+        $passengerModel = new \App\Models\PassengerModel();
+        $confirmed = $passengerModel->confirmPassenger($passengerId, $scheduleId);
+        
+        if ($confirmed) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Penumpang berhasil dikonfirmasi dan kuota berkurang'
+            ]);
+        }
+        
         return $this->response->setJSON([
-            'success' => true,
-            'message' => 'Penumpang berhasil dikonfirmasi dan kuota berkurang'
+            'success' => false,
+            'message' => 'Gagal mengonfirmasi penumpang'
         ]);
     }
-    
-    return $this->response->setJSON([
-        'success' => false,
-        'message' => 'Gagal mengonfirmasi penumpang'
-    ]);
-}
-public function cancelPassengerConfirmation()
-{
-    $this->access('admin'); // Hanya admin yang bisa membatalkan konfirmasi
-    
-    $passengerId = $this->request->getPost('passenger_id');
-    $scheduleId = $this->request->getPost('schedule_id');
-    
-    $passengerModel = new \App\Models\PassengerModel();
-    $canceled = $passengerModel->cancelPassengerConfirmation($passengerId, $scheduleId);
-    
-    if ($canceled) {
+  public function cancelPassengerConfirmation()
+    {
+        // Only allow AJAX requests
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(405)->setJSON([
+                'success' => false,
+                'message' => 'Method not allowed'
+            ]);
+        }
+
+        $this->access('admin'); // Hanya admin yang bisa membatalkan konfirmasi
+        
+        $passengerId = $this->request->getPost('passenger_id');
+        $scheduleId = $this->request->getPost('schedule_id');
+        
+        $passengerModel = new \App\Models\PassengerModel();
+        $canceled = $passengerModel->cancelPassengerConfirmation($passengerId, $scheduleId);
+        
+        if ($canceled) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'Konfirmasi penumpang dibatalkan dan kuota dikembalikan'
+            ]);
+        }
+        
         return $this->response->setJSON([
-            'success' => true,
-            'message' => 'Konfirmasi penumpang dibatalkan dan kuota dikembalikan'
+            'success' => false,
+            'message' => 'Gagal membatalkan konfirmasi penumpang'
         ]);
     }
-    
-    return $this->response->setJSON([
-        'success' => false,
-        'message' => 'Gagal membatalkan konfirmasi penumpang'
-    ]);
-}
 }

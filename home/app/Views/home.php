@@ -6,6 +6,7 @@
     <title>Pemesanan Kapal Raja Ampat - Open Trip & Regular</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         :root {
             --primary-color: #3a6ea5;
@@ -82,13 +83,31 @@
         }
         
         .price-tag {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            color: #27ae60;
+        }
+        
+        .regular-price {
+            color: var(--regular-trip-color);
         }
         
         .open-trip-price {
             color: var(--open-trip-color);
+        }
+        
+        .price-details {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+        
+        .price-per-person {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .price-per-trip {
+            color: var(--primary-color);
+            font-weight: 600;
         }
         
         .boat-img {
@@ -206,6 +225,19 @@
             margin-top: 10px;
             text-align: center;
             font-size: 0.9rem;
+        }
+        
+        .price-comparison {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .price-breakdown {
+            font-size: 0.8rem;
+            color: #7f8c8d;
         }
     </style>
 </head>
@@ -423,386 +455,496 @@
 
     <!-- Bootstrap & JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Simpan adminUrl dalam variabel JavaScript
-        const adminUrl = '<?= $adminUrl ?>';
-        const isLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;
-        const userId = <?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null' ?>;
+<script>
+    // Simpan adminUrl dalam variabel JavaScript
+    const adminUrl = '<?= $adminUrl ?>';
+    const isLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;
+    const userId = <?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null' ?>;
+    
+    // Variabel untuk menyimpan schedule_id yang sedang diproses
+    let currentScheduleId = null;
+    
+    $(document).ready(function() {
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        $('#regularDateInput, #openTripDateInput').attr('min', today);
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set minimum date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('regularDateInput').min = today;
-            document.getElementById('openTripDateInput').min = today;
-            
-            // Load Open Trip data secara default
-            performSearch('open_trip');
-            
-            // Form submission handlers
-            document.getElementById('regularSearchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                performSearch('regular');
-            });
-            
-            document.getElementById('openTripSearchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                performSearch('open_trip');
-            });
-            
-            // Change event handlers
-            document.getElementById('regularRouteSelect').addEventListener('change', function() {
-                performSearch('regular');
-            });
-            
-            document.getElementById('regularDateInput').addEventListener('change', function() {
-                performSearch('regular');
-            });
-            
-            document.getElementById('openTripRouteSelect').addEventListener('change', function() {
-                performSearch('open_trip');
-            });
-            
-            document.getElementById('openTripDateInput').addEventListener('change', function() {
-                performSearch('open_trip');
-            });
-            
-            // Tab change handler
-            document.getElementById('tripTypeTab').addEventListener('shown.bs.tab', function(e) {
-                const tabId = e.target.getAttribute('data-bs-target');
-                if (tabId === '#open-trip') {
-                    performSearch('open_trip');
-                } else {
-                    performSearch('regular');
-                }
-            });
-            
-            // Setup open trip request functionality
-            setupOpenTripRequest();
+        // Load Open Trip data secara default
+        performSearch('open_trip');
+        
+        // Form submission handlers
+        $('#regularSearchForm').on('submit', function(e) {
+            e.preventDefault();
+            performSearch('regular');
         });
         
-        function performSearch(tripType) {
-            let routeId, date;
-            
-            if (tripType === 'open_trip') {
-                routeId = document.getElementById('openTripRouteSelect').value;
-                date = document.getElementById('openTripDateInput').value;
+        $('#openTripSearchForm').on('submit', function(e) {
+            e.preventDefault();
+            performSearch('open_trip');
+        });
+        
+        // Change event handlers
+        $('#regularRouteSelect, #regularDateInput').on('change', function() {
+            performSearch('regular');
+        });
+        
+        $('#openTripRouteSelect, #openTripDateInput').on('change', function() {
+            performSearch('open_trip');
+        });
+        
+        // Tab change handler
+        $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function(e) {
+            const tabId = $(e.target).attr('data-bs-target');
+            if (tabId === '#open-trip') {
+                performSearch('open_trip');
             } else {
-                routeId = document.getElementById('regularRouteSelect').value;
-                date = document.getElementById('regularDateInput').value;
+                performSearch('regular');
             }
+        });
+        
+        // Setup open trip request functionality
+        setupOpenTripRequest();
+        
+        // Event delegation untuk tombol yang dibuat dinamis
+        $(document).on('click', '.book-btn', function() {
+            const scheduleId = $(this).data('schedule-id');
+            const tripType = $(this).data('trip-type');
             
-            // Show loading spinner
-            document.getElementById('loadingSpinner').style.display = 'block';
-            document.getElementById('resultsContainer').innerHTML = '';
-            
-            // Fetch data dari server
-            fetch(`/searchSchedules?route=${routeId}&date=${date}&trip_type=${tripType}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+            if (!isLoggedIn) {
+                // Show login modal if not logged in
+                $('#loginModal').modal('show');
+            } else {
+                // Load booking form via AJAX
+                $.ajax({
+                    url: `/booking/form/${scheduleId}?trip_type=${tripType}`,
+                    method: 'GET',
+                    success: function(html) {
+                        $('#bookingModalContent').html(html);
+                        $('#bookingModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memuat form pemesanan');
                     }
-                    return response.json();
-                })
-                .then(schedules => {
-                    displayResults(schedules, tripType);
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                    document.getElementById('resultsContainer').innerHTML = `
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
-                            <p class="text-danger">Terjadi kesalahan saat memuat data</p>
-                            <small class="text-muted">Silakan coba lagi nanti</small>
-                        </div>
-                    `;
                 });
+            }
+        });
+        
+        // Event delegation untuk request seat buttons
+        $(document).on('click', '.request-seat-btn', function() {
+            const scheduleId = $(this).data('schedule-id');
+            
+            // Simpan schedule_id di variabel global dan di form
+            currentScheduleId = scheduleId;
+            $('#requestScheduleId').val(scheduleId);
+            
+            // Reset form
+            $('#requestSeatForm')[0].reset();
+            $('#seatRequestResult').html('');
+            
+            // Tampilkan modal
+            $('#requestSeatModal').modal('show');
+        });
+        
+        // Event listener untuk modal show event
+        $('#requestSeatModal').on('show.bs.modal', function() {
+            // Pastikan schedule ID sudah diset sebelum modal ditampilkan
+            if (currentScheduleId) {
+                $('#requestScheduleId').val(currentScheduleId);
+            }
+        });
+    });
+    
+    function performSearch(tripType) {
+        let routeId, date;
+        
+        if (tripType === 'open_trip') {
+            routeId = $('#openTripRouteSelect').val();
+            date = $('#openTripDateInput').val();
+        } else {
+            routeId = $('#regularRouteSelect').val();
+            date = $('#regularDateInput').val();
         }
         
-        function displayResults(schedules, tripType) {
-            const resultsContainer = document.getElementById('resultsContainer');
-            
-            if (!schedules || schedules.length === 0) {
-                resultsContainer.innerHTML = `
+        // Show loading spinner
+        $('#loadingSpinner').show();
+        $('#resultsContainer').html('');
+        
+        // Fetch data dari server
+        $.ajax({
+            url: `/searchSchedules?route=${routeId}&date=${date}&trip_type=${tripType}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function(schedules) {
+                displayResults(schedules, tripType);
+                $('#loadingSpinner').hide();
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                $('#loadingSpinner').hide();
+                $('#resultsContainer').html(`
                     <div class="col-12 text-center py-5">
-                        <i class="fas fa-times-circle fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">Tidak ada jadwal ${tripType === 'open_trip' ? 'Open Trip' : 'Regular'} yang ditemukan</p>
-                        <small class="text-muted">Coba ubah kriteria pencarian Anda</small>
+                        <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                        <p class="text-danger">Terjadi kesalahan saat memuat data</p>
+                        <small class="text-muted">Silakan coba lagi nanti</small>
                     </div>
-                `;
-                return;
+                `);
             }
+        });
+    }
+    
+function displayResults(schedules, tripType) {
+    const resultsContainer = $('#resultsContainer');
+    
+    if (!schedules || schedules.length === 0) {
+        resultsContainer.html(`
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-times-circle fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Tidak ada jadwal ${tripType === 'open_trip' ? 'Open Trip' : 'Regular'} yang ditemukan</p>
+                <small class="text-muted">Coba ubah kriteria pencarian Anda</small>
+            </div>
+        `);
+        return;
+    }
+    
+    let html = '';
+    
+    schedules.forEach(schedule => {
+        const isOpenTrip = tripType === 'open_trip';
+        const formattedDate = new Date(schedule.departure_date).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        
+        const formattedTime = new Date('2000-01-01T' + schedule.departure_time).toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        // Menggunakan URL gambar yang benar dengan fallback
+        const imageUrl = schedule.image_url 
+            ? adminUrl + schedule.image_url 
+            : 'https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
+        
+        // Format harga untuk Regular Trip dan Open Trip
+        let pricePerTrip, pricePerPerson, priceText, priceDetails;
+        
+        if (isOpenTrip) {
+            // Untuk Open Trip: Harga per orang dan per trip
+            pricePerTrip = schedule.agreed_price || schedule.price || 0;
+            pricePerPerson = schedule.price_per_person || Math.ceil(pricePerTrip / (schedule.capacity || 1));
             
-            let html = '';
+            priceText = `Rp ${new Intl.NumberFormat('id-ID').format(pricePerPerson)}`;
+            priceDetails = `
+                <div class="price-details mt-2">
+                    <div class="price-per-person">
+                        <i class="fas fa-user me-1"></i>Per Orang: Rp ${new Intl.NumberFormat('id-ID').format(pricePerPerson)}
+                    </div>
+                    <div class="price-per-trip">
+                        <i class="fas fa-ship me-1"></i>Per Trip: Rp ${new Intl.NumberFormat('id-ID').format(pricePerTrip)}
+                    </div>
+                    <div class="price-breakdown">
+                        <small>Harga trip dibagi untuk ${schedule.capacity || 1} penumpang</small>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Untuk Regular Trip: Harga per trip
+            pricePerTrip = schedule.price_per_trip || schedule.price || 0;
+            pricePerPerson = Math.ceil(pricePerTrip / (schedule.capacity || 1));
             
-            schedules.forEach(schedule => {
-                const isOpenTrip = tripType === 'open_trip';
-                const formattedDate = new Date(schedule.departure_date).toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                
-                const formattedTime = new Date('2000-01-01T' + schedule.departure_time).toLocaleTimeString('id-ID', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                // Menggunakan URL gambar yang benar dengan fallback
-                const imageUrl = schedule.image_url 
-                    ? adminUrl + schedule.image_url 
-                    : 'https://images.unsplash.com/photo-1530533718754-001d2668365a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
-                
-                // Format harga
-                let price, priceText;
-                
-                if (isOpenTrip) {
-                    // Untuk Open Trip: Harga mulai dari (agreed_price / available_seats)
-                    const agreedPrice = schedule.agreed_price || schedule.price || 0;
-                    const availableSeats = schedule.available_seats || 1;
-                    const pricePerPerson = Math.ceil(agreedPrice / availableSeats);
-                    
-                    price = pricePerPerson;
-                    priceText = `Harga mulai dari Rp ${new Intl.NumberFormat('id-ID').format(price)}`;
-                } else {
-                    // Untuk Regular Trip: Harga per trip
-                    price = schedule.price_per_trip || schedule.price || 0;
-                    priceText = `Rp ${new Intl.NumberFormat('id-ID').format(price)}`;
-                }
-                
-                // Hitung persentase kursi terisi
-                const totalSeats = schedule.total_seats || schedule.capacity || 0;
-                const availableSeats = schedule.available_seats || 0;
-                const bookedSeats = totalSeats - availableSeats;
-                const percentageBooked = totalSeats > 0 ? Math.round((bookedSeats / totalSeats) * 100) : 0;
-                
-                // Tentukan warna progress bar berdasarkan persentase
-                let progressBarClass = 'bg-success';
-                if (percentageBooked > 80) {
-                    progressBarClass = 'bg-danger';
-                } else if (percentageBooked > 60) {
-                    progressBarClass = 'bg-warning';
-                }
-                
-                // Cek apakah user sudah memesan di open trip ini
-                const userHasRequested = schedule.user_booking_status ? true : false;
-                const userBookingStatus = schedule.user_booking_status || '';
-                
-                // Tombol aksi berbeda untuk open trip dan regular trip
-                let actionButton;
-                if (isOpenTrip) {
-                    if (userHasRequested) {
-                        // User sudah request kursi di open trip ini
-                        if (userBookingStatus === 'confirmed') {
-                            actionButton = `
-                                <span class="user-status-badge badge confirmed-badge">
-                                    <i class="fas fa-check-circle me-1"></i>TERKONFIRMASI
-                                </span>
-                                <button class="btn btn-sm btn-success" disabled>
-                                    <i class="fas fa-check me-1"></i>Sudah Terkonfirmasi
-                                </button>
-                            `;
-                        } else {
-                            actionButton = `
-                                <span class="user-status-badge badge pending-badge">
-                                    <i class="fas fa-clock me-1"></i>MENUNGGU
-                                </span>
-                                <button class="btn btn-sm btn-warning" disabled>
-                                    <i class="fas fa-clock me-1"></i>Menunggu Konfirmasi
-                                </button>
-                            `;
-                        }
-                    } else if (availableSeats > 0) {
-                        // Untuk open trip, tampilkan tombol request seat jika masih ada kursi
-                        actionButton = `
-                            <button class="btn btn-sm btn-danger request-seat-btn" 
-                                    data-schedule-id="${schedule.id}">
-                                <i class="fas fa-user-plus me-1"></i>Request Seat
-                            </button>
-                        `;
-                    } else {
-                        // Tidak ada kursi tersedia
-                        actionButton = `
-                            <button class="btn btn-sm btn-secondary" disabled>
-                                <i class="fas fa-times me-1"></i>Kuota Penuh
-                            </button>
-                        `;
-                    }
-                } else {
-                    // Untuk regular trip, tampilkan tombol pesan seperti sebelumnya
+            priceText = `Rp ${new Intl.NumberFormat('id-ID').format(pricePerTrip)}`;
+            priceDetails = `
+                <div class="price-details mt-2">
+                    <div class="price-per-trip">
+                        <i class="fas fa-ship me-1"></i>Per Trip: Rp ${new Intl.NumberFormat('id-ID').format(pricePerTrip)}
+                    </div>
+                    <div class="price-per-person">
+                        <i class="fas fa-user me-1"></i>Per Orang: Rp ${new Intl.NumberFormat('id-ID').format(pricePerPerson)} (estimasi)
+                    </div>
+                    <div class="price-breakdown">
+                        <small>Harga untuk seluruh kapal (max ${schedule.capacity || 1} penumpang)</small>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Hitung persentase kursi berdasarkan struktur database
+        const totalSeats = schedule.total_seats || schedule.capacity || 0;
+        const availableSeats = schedule.available_seats || 0;
+        const bookedSeats = totalSeats - availableSeats;
+        
+        // Gunakan confirmed_seats dari database, default 0 jika tidak ada
+        const confirmedSeats = schedule.confirmed_seats || 0;
+        const pendingSeats = bookedSeats - confirmedSeats;
+        
+        const percentageConfirmed = totalSeats > 0 ? Math.round((confirmedSeats / totalSeats) * 100) : 0;
+        const percentagePending = totalSeats > 0 ? Math.round((pendingSeats / totalSeats) * 100) : 0;
+        const percentageAvailable = totalSeats > 0 ? Math.round((availableSeats / totalSeats) * 100) : 0;
+        
+        // Progress bar dengan multiple segments
+        const progressBarHTML = `
+            <div class="progress" style="height: 12px;">
+                <div class="progress-bar bg-success" 
+                     role="progressbar" 
+                     style="width: ${percentageConfirmed}%" 
+                     title="Terkonfirmasi: ${confirmedSeats} kursi">
+                </div>
+                <div class="progress-bar bg-warning" 
+                     role="progressbar" 
+                     style="width: ${percentagePending}%" 
+                     title="Menunggu: ${pendingSeats} kursi">
+                </div>
+                <div class="progress-bar bg-light" 
+                     role="progressbar" 
+                     style="width: ${percentageAvailable}%" 
+                     title="Tersedia: ${availableSeats} kursi">
+                </div>
+            </div>
+        `;
+        
+        // Cek apakah user sudah memesan di open trip ini
+        const userHasRequested = schedule.user_booking_status ? true : false;
+        const userBookingStatus = schedule.user_booking_status || '';
+        
+        // Tombol aksi berbeda untuk open trip dan regular trip
+        let actionButton;
+        if (isOpenTrip) {
+            if (userHasRequested) {
+                // User sudah request kursi di open trip ini
+                if (userBookingStatus === 'confirmed') {
                     actionButton = `
-                        <button class="btn btn-sm btn-primary book-btn" 
-                                data-schedule-id="${schedule.id}" 
-                                data-trip-type="${tripType}">
-                            <i class="fas fa-ticket-alt me-1"></i>Pesan
+                        <span class="user-status-badge badge confirmed-badge">
+                            <i class="fas fa-check-circle me-1"></i>TERKONFIRMASI
+                        </span>
+                        <button class="btn btn-sm btn-success" disabled>
+                            <i class="fas fa-check me-1"></i>Sudah Terkonfirmasi
+                        </button>
+                    `;
+                } else {
+                    actionButton = `
+                        <span class="user-status-badge badge pending-badge">
+                            <i class="fas fa-clock me-1"></i>MENUNGGU
+                        </span>
+                        <button class="btn btn-sm btn-warning" disabled>
+                            <i class="fas fa-clock me-1"></i>Menunggu Konfirmasi
                         </button>
                     `;
                 }
-                
-                html += `
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 result-card ${isOpenTrip ? 'open-trip-card' : 'regular-trip-card'}">
-                            <span class="trip-badge badge ${isOpenTrip ? 'open-trip-badge' : 'regular-trip-badge'}">
-                                <i class="fas ${isOpenTrip ? 'fa-users' : 'fa-calendar-day'} me-1"></i>
-                                ${isOpenTrip ? 'OPEN TRIP' : 'REGULAR'}
-                            </span>
-                            
-                            ${schedule.is_featured ? `
-                                <span class="feature-badge badge">
-                                    <i class="fas fa-star me-1"></i>FEATURED
-                                </span>
-                            ` : ''}
-                            
-                            <img src="${imageUrl}" class="card-img-top boat-img" alt="${schedule.boat_name || 'Kapal'}">
-                            
-                            <div class="card-body">
-                                <h5 class="card-title">${schedule.boat_name || 'Nama Kapal Tidak Tersedia'}</h5>
-                                <p class="card-text mb-2">
-                                    <i class="fas fa-route me-2 text-primary"></i>
-                                    ${schedule.departure_island || 'N/A'} → ${schedule.arrival_island || 'N/A'}
-                                </p>
-                                <p class="card-text mb-2">
-                                    <i class="fas fa-calendar me-2 text-primary"></i>
-                                    ${formattedDate}
-                                </p>
-                                <p class="card-text mb-2">
-                                    <i class="fas fa-clock me-2 text-primary"></i>
-                                    ${formattedTime}
-                                </p>
-                                
-                                <div class="seat-info">
-                                    <div class="w-100">
-                                        <div class="d-flex justify-content-between">
-                                            <span class="seat-availability">
-                                                <i class="fas fa-chair me-1"></i>
-                                                ${availableSeats} dari ${totalSeats} kursi tersedia
-                                            </span>
-                                            <span class="seat-availability">${percentageBooked}% terisi</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar ${progressBarClass}" 
-                                                 role="progressbar" 
-                                                 style="width: ${percentageBooked}%" 
-                                                 aria-valuenow="${percentageBooked}" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="price-tag ${isOpenTrip ? 'open-trip-price' : ''}">
-                                        ${priceText}
-                                        ${isOpenTrip ? 
-                                            '<small class="d-block starting-from">per orang (harga estimasi)</small>' : 
-                                            '<small class="d-block">per trip</small>'}
-                                    </span>
-                                    ${actionButton}
-                                </div>
-                                
-                                ${!isLoggedIn && isOpenTrip ? `
-                                    <div class="login-prompt mt-3">
-                                        <i class="fas fa-info-circle me-1"></i>
-                                        Login untuk request kursi open trip
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
+            } else if (availableSeats > 0) {
+                // Untuk open trip, tampilkan tombol request seat jika masih ada kursi
+                actionButton = `
+                    <button class="btn btn-sm btn-danger request-seat-btn" 
+                            data-schedule-id="${schedule.schedule_id}">
+                        <i class="fas fa-user-plus me-1"></i>Request Seat
+                    </button>
                 `;
-            });
-            
-            resultsContainer.innerHTML = html;
-            
-            // Add event listeners to book buttons
-            document.querySelectorAll('.book-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const scheduleId = this.getAttribute('data-schedule-id');
-                    const tripType = this.getAttribute('data-trip-type');
-                    
-                    if (!isLoggedIn) {
-                        // Show login modal if not logged in
-                        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                        loginModal.show();
-                    } else {
-                        // Load booking form via AJAX
-                        fetch(`/booking/form/${scheduleId}?trip_type=${tripType}`)
-                            .then(response => response.text())
-                            .then(html => {
-                                document.getElementById('bookingModalContent').innerHTML = html;
-                                const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
-                                bookingModal.show();
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                alert('Terjadi kesalahan saat memuat form pemesanan');
-                            });
-                    }
-                });
-            });
-            
-            // Add event listeners to request seat buttons
-            document.querySelectorAll('.request-seat-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const scheduleId = this.getAttribute('data-schedule-id');
-                    document.getElementById('requestScheduleId').value = scheduleId;
-                    
-                    // Reset form
-                    document.getElementById('requestSeatForm').reset();
-                    document.getElementById('seatRequestResult').innerHTML = '';
-                    
-                    const requestModal = new bootstrap.Modal(document.getElementById('requestSeatModal'));
-                    requestModal.show();
-                });
-            });
+            } else {
+                // Tidak ada kursi tersedia
+                actionButton = `
+                    <button class="btn btn-sm btn-secondary" disabled>
+                        <i class="fas fa-times me-1"></i>Kuota Penuh
+                    </button>
+                `;
+            }
+        } else {
+            // Untuk regular trip, tampilkan tombol pesan seperti sebelumnya
+            actionButton = `
+                <button class="btn btn-sm btn-primary book-btn" 
+                        data-schedule-id="${schedule.schedule_id}" 
+                        data-trip-type="${tripType}">
+                    <i class="fas fa-ticket-alt me-1"></i>Pesan
+                </button>
+            `;
         }
         
-        function setupOpenTripRequest() {
-            // Event listener untuk submit request
-            document.getElementById('submitSeatRequest').addEventListener('click', function() {
-                const formData = new FormData(document.getElementById('requestSeatForm'));
-                
-                fetch('/home/requestOpenTripSeat', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const resultDiv = document.getElementById('seatRequestResult');
+        // Tampilkan status jadwal
+        const scheduleStatus = availableSeats <= 0 ? 
+            `<span class="badge bg-danger ms-2">PENUH</span>` : 
+            `<span class="badge bg-success ms-2">TERSEDIA</span>`;
+        
+        html += `
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 result-card ${isOpenTrip ? 'open-trip-card' : 'regular-trip-card'}">
+                    <span class="trip-badge badge ${isOpenTrip ? 'open-trip-badge' : 'regular-trip-badge'}">
+                        <i class="fas ${isOpenTrip ? 'fa-users' : 'fa-calendar-day'} me-1"></i>
+                        ${isOpenTrip ? 'OPEN TRIP' : 'REGULAR'}
+                    </span>
+                    
+                    ${schedule.is_featured ? `
+                        <span class="feature-badge badge">
+                            <i class="fas fa-star me-1"></i>FEATURED
+                        </span>
+                    ` : ''}
+                    
+                    <img src="${imageUrl}" class="card-img-top boat-img" alt="${schedule.boat_name || 'Kapal'}">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">${schedule.boat_name || 'Nama Kapal Tidak Tersedia'} ${scheduleStatus}</h5>
+                        <p class="card-text mb-2">
+                            <i class="fas fa-route me-2 text-primary"></i>
+                            ${schedule.departure_island || 'N/A'} → ${schedule.arrival_island || 'N/A'}
+                        </p>
+                        <p class="card-text mb-2">
+                            <i class="fas fa-calendar me-2 text-primary"></i>
+                            ${formattedDate}
+                        </p>
+                        <p class="card-text mb-2">
+                            <i class="fas fa-clock me-2 text-primary"></i>
+                            ${formattedTime}
+                        </p>
+                        
+                        <div class="seat-info">
+                            <div class="w-100">
+                                <div class="d-flex justify-content-between">
+                                    <span class="seat-availability">
+                                        <i class="fas fa-chair me-1"></i>
+                                        ${availableSeats} dari ${totalSeats} kursi tersedia
+                                        <br>
+                                        <small>
+                                            <span class="text-success">✓ ${confirmedSeats} terkonfirmasi</span> • 
+                                            <span class="text-warning">⏳ ${pendingSeats} menunggu</span>
+                                        </small>
+                                    </span>
+                                </div>
+                                ${progressBarHTML}
+                            </div>
+                        </div>
+                        
+                        <div class="price-comparison">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-tag ${isOpenTrip ? 'open-trip-price' : 'regular-price'}">
+                                    ${priceText}
+                                    <small class="d-block starting-from">${isOpenTrip ? 'per orang' : 'per trip'}</small>
+                                </span>
+                                ${actionButton}
+                            </div>
+                            ${priceDetails}
+                        </div>
+                        
+                        ${!isLoggedIn && isOpenTrip ? `
+                            <div class="login-prompt mt-3">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Login untuk request kursi open trip
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    resultsContainer.html(html);
+}
+    
+    function setupOpenTripRequest() {
+        // Event listener untuk submit request
+        $('#submitSeatRequest').on('click', function() {
+            // Gunakan currentScheduleId yang sudah disimpan
+            const scheduleId = currentScheduleId;
+            
+            if (!scheduleId) {
+                $('#seatRequestResult').html(`
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>Terjadi kesalahan: Schedule ID tidak ditemukan
+                    </div>
+                `);
+                return;
+            }
+            
+            // Validasi form
+            const name = $('#passengerName').val();
+            const phone = $('#passengerPhone').val();
+            
+            if (!name || !phone) {
+                $('#seatRequestResult').html(`
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>Nama dan nomor telepon wajib diisi
+                    </div>
+                `);
+                return;
+            }
+            
+            // Ambil data dari form
+            const formData = {
+                schedule_id: scheduleId,
+                name: name,
+                identity: $('#passengerIdentity').val(),
+                phone: phone,
+                age: $('#passengerAge').val()
+            };
+            
+            // Tampilkan loading state
+            const submitBtn = $('#submitSeatRequest');
+            const originalText = submitBtn.html();
+            submitBtn.html('<i class="fas fa-spinner fa-spin me-1"></i>Memproses...');
+            submitBtn.prop('disabled', true);
+            
+            $.ajax({
+                url: '/home/requestOpenTripSeat',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(data) {
+                    const resultDiv = $('#seatRequestResult');
                     if (data.success) {
-                        resultDiv.innerHTML = `
+                        resultDiv.html(`
                             <div class="alert alert-success">
                                 <i class="fas fa-check-circle me-2"></i>${data.message}
                             </div>
-                        `;
+                        `);
                         // Refresh hasil pencarian setelah 2 detik
                         setTimeout(() => {
-                            const activeTab = document.querySelector('.nav-link.active');
-                            if (activeTab.id === 'open-trip-tab') {
+                            if ($('#open-trip-tab').hasClass('active')) {
                                 performSearch('open_trip');
                             }
-                            bootstrap.Modal.getInstance(document.getElementById('requestSeatModal')).hide();
+                            $('#requestSeatModal').modal('hide');
                         }, 2000);
+                        submitBtn.html(originalText);
+                        submitBtn.prop('disabled', false);
                     } else {
-                        resultDiv.innerHTML = `
+                        resultDiv.html(`
                             <div class="alert alert-danger">
                                 <i class="fas fa-exclamation-circle me-2"></i>${data.message}
                             </div>
-                        `;
+                        `);
+                        // Kembalikan state tombol
+                        submitBtn.html(originalText);
+                        submitBtn.prop('disabled', false);
                     }
-                })
-                .catch(error => {
+                },
+                error: function(xhr, status, error) {
                     console.error('Error:', error);
-                    document.getElementById('seatRequestResult').innerHTML = `
+                    let errorMessage = 'Terjadi kesalahan saat mengirim request';
+                    
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    
+                    $('#seatRequestResult').html(`
                         <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-circle me-2"></i>Terjadi kesalahan saat mengirim request
+                            <i class="fas fa-exclamation-circle me-2"></i>${errorMessage}
                         </div>
-                    `;
-                });
+                    `);
+                    // Kembalikan state tombol
+                    submitBtn.html(originalText);
+                    submitBtn.prop('disabled', false);
+                }
             });
-        }
-    </script>
+        });
+        
+        // Event listener untuk modal hidden event
+        $('#requestSeatModal').on('hidden.bs.modal', function() {
+            // Reset variabel global saat modal ditutup
+            currentScheduleId = null;
+            $('#requestSeatForm')[0].reset();
+            $('#seatRequestResult').html('');
+        });
+    }
+</script>
 </body>
 </html>

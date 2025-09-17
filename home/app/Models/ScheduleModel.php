@@ -56,61 +56,19 @@ class ScheduleModel extends Model
     /**
      * Get schedules with complete details including boat, route, and island information
      */
-    public function getSchedulesWithDetails($routeId = null, $date = null)
+  public function getSchedulesWithDetails()
     {
-        $builder = $this->db->table('schedules s');
-        $builder->select('
-            s.schedule_id,
-            s.departure_time,
-            s.departure_date,
-            s.available_seats,
-            s.status,
-            s.is_open_trip,
-            b.boat_id,
-            b.boat_name,
-            b.boat_type,
-            b.capacity,
-            b.price_per_trip,
-            b.image_url,
-            b.facilities,
-            b.is_featured,
-            r.route_id,
-            r.estimated_duration,
-            r.distance,
-            r.notes as route_notes,
-            dep.island_id as departure_island_id,
-            dep.island_name as departure_island,
-            dep.slug as departure_slug,
-            arr.island_id as arrival_island_id,
-            arr.island_name as arrival_island,
-            arr.slug as arrival_slug
-        ');
-        
-        $builder->join('boats b', 's.boat_id = b.boat_id');
-        $builder->join('routes r', 's.route_id = r.route_id');
-        $builder->join('islands dep', 'r.departure_island_id = dep.island_id');
-        $builder->join('islands arr', 'r.arrival_island_id = arr.island_id');
-        
-        // Filter berdasarkan status available dan tanggal tidak lewat
-        $builder->where('s.status', 'available');
-        $builder->where('s.departure_date >=', date('Y-m-d'));
-        $builder->where('s.available_seats >', 0);
-        
-        // Filter berdasarkan rute
-        if (!empty($routeId)) {
-            $builder->where('s.route_id', $routeId);
-        }
-        
-        // Filter berdasarkan tanggal
-        if (!empty($date)) {
-            $builder->where('s.departure_date', $date);
-        }
-        
-        // Urutkan berdasarkan tanggal dan waktu
-        $builder->orderBy('s.departure_date', 'ASC');
-        $builder->orderBy('s.departure_time', 'ASC');
-        
-        return $builder->get()->getResultArray();
+        return $this->select('schedules.*, 
+                            routes.estimated_duration, 
+                            departure.island_name as departure_island, 
+                            arrival.island_name as arrival_island,
+                            boats.boat_name, boats.capacity, boats.price_per_trip, boats.image_url')
+                   ->join('routes', 'routes.route_id = schedules.route_id')
+                   ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+                   ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+                   ->join('boats', 'boats.boat_id = schedules.boat_id')
+                   ->where('schedules.deleted_at', null)
+                   ->findAll();
     }
 
     /**
@@ -149,22 +107,25 @@ class ScheduleModel extends Model
     /**
      * Get available schedules for a specific route
      */
-    public function getAvailableSchedules($routeId, $date = null)
+public function getAvailableSchedules($fromIsland, $toIsland, $date, $passengers)
     {
-        $builder = $this->where('route_id', $routeId)
-                       ->where('status', 'available')
-                       ->where('available_seats >', 0)
-                       ->where('departure_date >=', date('Y-m-d'));
-        
-        if ($date) {
-            $builder->where('departure_date', $date);
-        }
-        
-        return $builder->orderBy('departure_date')
-                      ->orderBy('departure_time')
-                      ->findAll();
+        return $this->select('schedules.*, 
+                            routes.estimated_duration, 
+                            departure.island_name as departure_island, 
+                            arrival.island_name as arrival_island,
+                            boats.boat_name, boats.capacity, boats.price_per_trip, boats.image_url')
+                   ->join('routes', 'routes.route_id = schedules.route_id')
+                   ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+                   ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+                   ->join('boats', 'boats.boat_id = schedules.boat_id')
+                   ->where('routes.departure_island_id', $fromIsland)
+                   ->where('routes.arrival_island_id', $toIsland)
+                   ->where('schedules.departure_date', $date)
+                   ->where('schedules.available_seats >=', $passengers)
+                   ->where('schedules.status', 'available')
+                   ->where('schedules.deleted_at', null)
+                   ->findAll();
     }
-    
     /**
      * Update schedule status based on available seats
      */
@@ -449,4 +410,46 @@ public function getAvailableOpenTripRoutes()
     
     return $builder->get()->getResultArray();
 }
+  public function updateAvailableSeats($scheduleId, $passengerCount)
+    {
+        $schedule = $this->find($scheduleId);
+        
+        if ($schedule) {
+            $newAvailableSeats = $schedule['available_seats'] - $passengerCount;
+            
+            if ($newAvailableSeats < 0) {
+                return false; // Tidak cukup kursi
+            }
+            
+            $updateData = [
+                'available_seats' => $newAvailableSeats
+            ];
+            
+            // Jika kursi habis, update status
+            if ($newAvailableSeats <= 0) {
+                $updateData['status'] = 'full';
+            }
+            
+            return $this->update($scheduleId, $updateData);
+        }
+        
+        return false;
+    }
+     public function restoreAvailableSeats($scheduleId, $passengerCount)
+    {
+        $schedule = $this->find($scheduleId);
+        
+        if ($schedule) {
+            $newAvailableSeats = $schedule['available_seats'] + $passengerCount;
+            
+            $updateData = [
+                'available_seats' => $newAvailableSeats,
+                'status' => 'available' // Selalu kembalikan status ke available
+            ];
+            
+            return $this->update($scheduleId, $updateData);
+        }
+        
+        return false;
+    }
 }

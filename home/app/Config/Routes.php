@@ -9,6 +9,10 @@ $routes->get('/', 'Home::index');
 $routes->get('searchSchedules', 'Home::searchSchedules');
 $routes->post('searchSchedules', 'Home::searchSchedules');
 
+
+$routes->post('home/requestOpenTripSeat', 'Home::requestOpenTripSeat');
+$routes->post('home/confirmPassenger', 'Home::confirmPassenger');
+$routes->post('home/cancelPassengerConfirmation', 'Home::cancelPassengerConfirmation');
 // Auth routes
 $routes->group('auth', function($routes) {
     $routes->get('login', 'Auth::login');
@@ -22,7 +26,7 @@ $routes->post('auth/attemptRegister', 'Auth::attemptRegister');
 $routes->get('auth/verify/(:any)', 'Auth::verify/$1');
 // Boats routes
 $routes->group('boats', ['filter' => 'auth'], function($routes) {
-    $routes->get('/', 'Boats::index');
+    $routes->get('/', 'Home::index');
     $routes->get('schedule', 'Boats::schedule');
     $routes->get('open-trip', 'Boats::openTripSchedule');
     $routes->post('check', 'Boats::checkAvailability');
