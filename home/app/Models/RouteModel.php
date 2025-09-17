@@ -134,4 +134,18 @@ class RouteModel extends Model
         
         return $builder->get()->getResultArray();
     }
+     public function getRegularRoutesWithCorrectColumns()
+    {
+        $builder = $this->db->table('routes r');
+        $builder->select('r.route_id, 
+            dep_island.name as departure_island,
+            arr_island.name as arrival_island');
+        
+        $builder->join('islands dep_island', 'r.departure_island_id = dep_island.island_id');
+        $builder->join('islands arr_island', 'r.arrival_island_id = arr_island.island_id');
+        
+        $builder->where('r.is_active', 1);
+        return $builder->get()->getResultArray();
+    }
+    
 }

@@ -48,7 +48,7 @@ public function index()
         'regularRoutes' => $scheduleModel->getAvailableRegularRoutes(),
         'openTripRoutes' => $scheduleModel->getAvailableOpenTripRoutes(),
         'regularSchedules' => $scheduleModel->getRegularSchedulesWithDetails(),
-        'openTripSchedules' => $openTripModel->getUpcomingOpenTrips(), // Gunakan method yang sama seperti di boats/open-trip
+        'openTripSchedules' => $openTripModel->getUpcomingOpenTripsWithPassengerCounts(),// Gunakan method yang sama seperti di boats/open-trip
         'adminUrl' => $_ENV['adminUrl']
     ];
     
@@ -66,7 +66,7 @@ public function searchSchedules()
     
     if ($tripType === 'open_trip') {
         // Gunakan method yang sama dengan boats/open-trip
-        $schedules = $openTripModel->getUpcomingOpenTrips();
+        $schedules = $openTripModel->getUpcomingOpenTripsWithPassengerCounts();
         
         // Filter berdasarkan route dan date jika ada
         if (!empty($routeId)) {
@@ -226,8 +226,8 @@ public function requestOpenTripSeat()
         'user_id' => $_SESSION['userData']['user_id'],
         'schedule_id' => $scheduleId,
         'passenger_count' => 1,
-        'total_price' => $pricePerPerson, // Harga untuk 1 penumpang
-        'booking_code' => $bookingCode, // Tambahkan booking code
+        'total_price' => $pricePerPerson,
+        'booking_code' => $bookingCode,
         'booking_status' => 'pending',
         'is_open_trip' => 1,
         'open_trip_type' => 'public',
@@ -238,12 +238,20 @@ public function requestOpenTripSeat()
     $bookingId = $bookingModel->insert($bookingData);
     
     if ($bookingId) {
-        // Tambahkan penumpang
+        // Tambahkan penumpang dengan status pending
         $passengerModel = new \App\Models\PassengerModel();
         $passengerData['booking_id'] = $bookingId;
+        $passengerData['status'] = 'pending'; // Status awal: pending
+        $passengerData['created_at'] = date('Y-m-d H:i:s');
+        
         $passengerAdded = $passengerModel->insert($passengerData);
         
         if ($passengerAdded) {
+            // Kurangi available_seats di schedule
+            $scheduleModel->update($scheduleId, [
+                'available_seats' => $schedule['available_seats'] - 1
+            ]);
+            
             return $this->response->setJSON([
                 'success' => true,
                 'message' => 'Permintaan kursi berhasil dikirim. Menunggu konfirmasi.',
@@ -266,64 +274,109 @@ public function requestOpenTripSeat()
     ]);
 }
 
- public function confirmPassenger()
-    {
-        // Only allow AJAX requests
-        if (!$this->request->isAJAX()) {
-            return $this->response->setStatusCode(405)->setJSON([
-                'success' => false,
-                'message' => 'Method not allowed'
-            ]);
-        }
-
-        $this->access('admin'); // Hanya admin yang bisa mengonfirmasi
-        
-        $passengerId = $this->request->getPost('passenger_id');
-        $scheduleId = $this->request->getPost('schedule_id');
-        
-        $passengerModel = new \App\Models\PassengerModel();
-        $confirmed = $passengerModel->confirmPassenger($passengerId, $scheduleId);
-        
-        if ($confirmed) {
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => 'Penumpang berhasil dikonfirmasi dan kuota berkurang'
-            ]);
-        }
-        
-        return $this->response->setJSON([
+public function confirmPassenger()
+{
+    // Only allow AJAX requests
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(405)->setJSON([
             'success' => false,
-            'message' => 'Gagal mengonfirmasi penumpang'
+            'message' => 'Method not allowed'
         ]);
     }
-  public function cancelPassengerConfirmation()
-    {
-        // Only allow AJAX requests
-        if (!$this->request->isAJAX()) {
-            return $this->response->setStatusCode(405)->setJSON([
-                'success' => false,
-                'message' => 'Method not allowed'
-            ]);
-        }
 
-        $this->access('admin'); // Hanya admin yang bisa membatalkan konfirmasi
-        
-        $passengerId = $this->request->getPost('passenger_id');
-        $scheduleId = $this->request->getPost('schedule_id');
-        
-        $passengerModel = new \App\Models\PassengerModel();
-        $canceled = $passengerModel->cancelPassengerConfirmation($passengerId, $scheduleId);
-        
-        if ($canceled) {
-            return $this->response->setJSON([
-                'success' => true,
-                'message' => 'Konfirmasi penumpang dibatalkan dan kuota dikembalikan'
-            ]);
-        }
-        
+    $this->access('admin'); // Hanya admin yang bisa mengonfirmasi
+    
+    $passengerId = $this->request->getPost('passenger_id');
+    $scheduleId = $this->request->getPost('schedule_id');
+    
+    $passengerModel = new \App\Models\PassengerModel();
+    $scheduleModel = new \App\Models\ScheduleModel();
+    
+    // Dapatkan data penumpang
+    $passenger = $passengerModel->find($passengerId);
+    if (!$passenger) {
         return $this->response->setJSON([
             'success' => false,
-            'message' => 'Gagal membatalkan konfirmasi penumpang'
+            'message' => 'Penumpang tidak ditemukan'
         ]);
     }
+    
+    // Update status penumpang menjadi confirmed
+    $updated = $passengerModel->update($passengerId, [
+        'status' => 'confirmed',
+        'confirmed_at' => date('Y-m-d H:i:s')
+    ]);
+    
+    if ($updated) {
+        // Dapatkan jumlah penumpang yang sudah dikonfirmasi untuk schedule ini
+        $confirmedPassengers = $passengerModel->where([
+            'booking_id IN (SELECT booking_id FROM bookings WHERE schedule_id = ' . $scheduleId . ')',
+            'status' => 'confirmed'
+        ])->countAllResults();
+        
+        // Update confirmed_seats di schedule
+        $scheduleModel->update($scheduleId, [
+            'confirmed_seats' => $confirmedPassengers
+        ]);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Penumpang berhasil dikonfirmasi'
+        ]);
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal mengonfirmasi penumpang'
+    ]);
+}
+
+public function cancelPassengerConfirmation()
+{
+    // Only allow AJAX requests
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(405)->setJSON([
+            'success' => false,
+            'message' => 'Method not allowed'
+        ]);
+    }
+
+    $this->access('admin'); // Hanya admin yang bisa membatalkan konfirmasi
+    
+    $passengerId = $this->request->getPost('passenger_id');
+    $scheduleId = $this->request->getPost('schedule_id');
+    
+    $passengerModel = new \App\Models\PassengerModel();
+    $scheduleModel = new \App\Models\ScheduleModel();
+    
+    // Update status penumpang menjadi pending
+    $updated = $passengerModel->update($passengerId, [
+        'status' => 'pending',
+        'confirmed_at' => null
+    ]);
+    
+    if ($updated) {
+        // Dapatkan jumlah penumpang yang sudah dikonfirmasi untuk schedule ini
+        $confirmedPassengers = $passengerModel->where([
+            'booking_id IN (SELECT booking_id FROM bookings WHERE schedule_id = ' . $scheduleId . ')',
+            'status' => 'confirmed'
+        ])->countAllResults();
+        
+        // Update confirmed_seats di schedule
+        $scheduleModel->update($scheduleId, [
+            'confirmed_seats' => $confirmedPassengers
+        ]);
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Konfirmasi penumpang dibatalkan'
+        ]);
+    }
+    
+    return $this->response->setJSON([
+        'success' => false,
+        'message' => 'Gagal membatalkan konfirmasi penumpang'
+    ]);
+}
+
 }

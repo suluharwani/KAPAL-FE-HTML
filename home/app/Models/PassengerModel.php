@@ -28,7 +28,24 @@ class PassengerModel extends Model
         return $this->where('booking_id', $bookingId)
                    ->findAll();
     }
+ public function getConfirmedPassengersCount($scheduleId)
+    {
+        return $this->select('COUNT(*) as count')
+            ->join('bookings', 'bookings.booking_id = passengers.booking_id')
+            ->where('bookings.schedule_id', $scheduleId)
+            ->where('passengers.status', 'confirmed')
+            ->countAllResults();
+    }
 
+    // Method untuk mendapatkan jumlah penumpang pending per schedule
+    public function getPendingPassengersCount($scheduleId)
+    {
+        return $this->select('COUNT(*) as count')
+            ->join('bookings', 'bookings.booking_id = passengers.booking_id')
+            ->where('bookings.schedule_id', $scheduleId)
+            ->where('passengers.status', 'pending')
+            ->countAllResults();
+    }
     /**
      * Get passengers by status
      */

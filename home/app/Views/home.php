@@ -617,10 +617,11 @@ function displayResults(schedules, tripType) {
             year: 'numeric'
         });
         
-        const formattedTime = new Date('2000-01-01T' + schedule.departure_time).toLocaleTimeString('id-ID', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        const formattedTime = schedule.departure_time ? 
+            new Date('2000-01-01T' + schedule.departure_time).toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : '00:00';
         
         // Menggunakan URL gambar yang benar dengan fallback
         const imageUrl = schedule.image_url 
@@ -670,18 +671,36 @@ function displayResults(schedules, tripType) {
             `;
         }
         
-        // Hitung persentase kursi berdasarkan struktur database
-        const totalSeats = schedule.total_seats || schedule.capacity || 0;
-        const availableSeats = schedule.available_seats || 0;
-        const bookedSeats = totalSeats - availableSeats;
+        // Hitung jumlah kursi berdasarkan struktur database yang benar
+        const totalSeats = parseInt(schedule.capacity) || 0;
+        const availableSeats = parseInt(schedule.available_seats) || 0;
+        const confirmedSeats = parseInt(schedule.confirmed_seats) || 0;
+        const pendingSeats = parseInt(schedule.pending_seats) || 0;
         
-        // Gunakan confirmed_seats dari database, default 0 jika tidak ada
-        const confirmedSeats = schedule.confirmed_seats || 0;
-        const pendingSeats = bookedSeats - confirmedSeats;
+        console.log('Schedule Data:', {
+            id: schedule.schedule_id,
+            total: totalSeats,
+            available: availableSeats,
+            confirmed: confirmedSeats,
+            pending: pendingSeats
+        });
         
-        const percentageConfirmed = totalSeats > 0 ? Math.round((confirmedSeats / totalSeats) * 100) : 0;
-        const percentagePending = totalSeats > 0 ? Math.round((pendingSeats / totalSeats) * 100) : 0;
-        const percentageAvailable = totalSeats > 0 ? Math.round((availableSeats / totalSeats) * 100) : 0;
+        // Validasi data - pastikan numbers valid
+        const validatedTotalSeats = isNaN(totalSeats) ? 0 : Math.max(0, totalSeats);
+        const validatedAvailableSeats = isNaN(availableSeats) ? validatedTotalSeats : Math.max(0, Math.min(availableSeats, validatedTotalSeats));
+        const validatedConfirmedSeats = isNaN(confirmedSeats) ? 0 : Math.max(0, Math.min(confirmedSeats, validatedTotalSeats));
+        const validatedPendingSeats = isNaN(pendingSeats) ? 0 : Math.max(0, Math.min(pendingSeats, validatedTotalSeats - validatedConfirmedSeats));
+        
+        // Hitung ulang available seats berdasarkan confirmed dan pending
+        const calculatedAvailableSeats = Math.max(0, validatedTotalSeats - validatedConfirmedSeats - validatedPendingSeats);
+        
+        // Gunakan calculated available seats jika available_seats dari database tidak valid
+        const finalAvailableSeats = validatedAvailableSeats > 0 ? validatedAvailableSeats : calculatedAvailableSeats;
+        
+        // Hitung persentase
+        const percentageConfirmed = validatedTotalSeats > 0 ? Math.round((validatedConfirmedSeats / validatedTotalSeats) * 100) : 0;
+        const percentagePending = validatedTotalSeats > 0 ? Math.round((validatedPendingSeats / validatedTotalSeats) * 100) : 0;
+        const percentageAvailable = validatedTotalSeats > 0 ? Math.round((finalAvailableSeats / validatedTotalSeats) * 100) : 0;
         
         // Progress bar dengan multiple segments
         const progressBarHTML = `
@@ -689,17 +708,20 @@ function displayResults(schedules, tripType) {
                 <div class="progress-bar bg-success" 
                      role="progressbar" 
                      style="width: ${percentageConfirmed}%" 
-                     title="Terkonfirmasi: ${confirmedSeats} kursi">
+                     title="Terkonfirmasi: ${validatedConfirmedSeats} kursi">
+                    ${percentageConfirmed > 15 ? `${validatedConfirmedSeats}✓` : ''}
                 </div>
                 <div class="progress-bar bg-warning" 
                      role="progressbar" 
                      style="width: ${percentagePending}%" 
-                     title="Menunggu: ${pendingSeats} kursi">
+                     title="Menunggu: ${validatedPendingSeats} kursi">
+                    ${percentagePending > 15 ? `${validatedPendingSeats}⏳` : ''}
                 </div>
-                <div class="progress-bar bg-light" 
+                <div class="progress-bar bg-light text-dark" 
                      role="progressbar" 
                      style="width: ${percentageAvailable}%" 
-                     title="Tersedia: ${availableSeats} kursi">
+                     title="Tersedia: ${finalAvailableSeats} kursi">
+                    ${percentageAvailable > 15 ? `${finalAvailableSeats}` : ''}
                 </div>
             </div>
         `;
@@ -732,7 +754,7 @@ function displayResults(schedules, tripType) {
                         </button>
                     `;
                 }
-            } else if (availableSeats > 0) {
+            } else if (finalAvailableSeats > 0) {
                 // Untuk open trip, tampilkan tombol request seat jika masih ada kursi
                 actionButton = `
                     <button class="btn btn-sm btn-danger request-seat-btn" 
@@ -760,7 +782,7 @@ function displayResults(schedules, tripType) {
         }
         
         // Tampilkan status jadwal
-        const scheduleStatus = availableSeats <= 0 ? 
+        const scheduleStatus = finalAvailableSeats <= 0 ? 
             `<span class="badge bg-danger ms-2">PENUH</span>` : 
             `<span class="badge bg-success ms-2">TERSEDIA</span>`;
         
@@ -800,11 +822,11 @@ function displayResults(schedules, tripType) {
                                 <div class="d-flex justify-content-between">
                                     <span class="seat-availability">
                                         <i class="fas fa-chair me-1"></i>
-                                        ${availableSeats} dari ${totalSeats} kursi tersedia
+                                        ${finalAvailableSeats} dari ${validatedTotalSeats} kursi tersedia
                                         <br>
                                         <small>
-                                            <span class="text-success">✓ ${confirmedSeats} terkonfirmasi</span> • 
-                                            <span class="text-warning">⏳ ${pendingSeats} menunggu</span>
+                                            <span class="text-success">✓ ${validatedConfirmedSeats} terkonfirmasi</span> • 
+                                            <span class="text-warning">⏳ ${validatedPendingSeats} menunggu</span>
                                         </small>
                                     </span>
                                 </div>
