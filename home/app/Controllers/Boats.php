@@ -244,17 +244,144 @@ public function openTripRequest()
 }
 public function openTripSchedule()
 {
-    $routeModel = new \App\Models\RouteModel(); // Add full namespace
+    $routeModel = new \App\Models\RouteModel();
     $modelBoat = new BoatModel();
     $model = new \App\Models\OpenTripSchedulesModel();
+    $bookingModel = new \App\Models\BookingModel();
+    
     $data = [
         'title' => 'Open Trip - Raja Ampat Boat Services',
         'openTrips' => $model->getUpcomingOpenTrips(),
+        'myTickets' => [],
         'boats' => $modelBoat->findAll(),
         'routes' => $routeModel->getRoutesWithIslands(),
     ];
     
+    // Get user's tickets if logged in
+    if (session('isLoggedIn')) {
+        $userId = session('userData')['user_id'];
+        $data['myTickets'] = $bookingModel->getUserOpenTripTickets($userId);
+    }
+    
     $this->render('boats/open_trip', $data);
+}
+   public function getTicketDetails()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    if (!$this->session->get('isLoggedIn')) {
+        return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+    }
+
+    $bookingId = $this->request->getGet('booking_id');
+    $userId = session('userData')['user_id'];
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    
+    // Get booking details
+    $booking = $bookingModel->getUserOpenTripTicket($bookingId, $userId);
+    
+    if (!$booking) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Tiket tidak ditemukan']);
+    }
+    
+    // Get passengers
+    $passengers = $passengerModel->where('booking_id', $bookingId)->findAll();
+    
+    $html = view('boats/ticket_details', [
+        'booking' => $booking,
+        'passengers' => $passengers
+    ]);
+    
+    return $this->response->setJSON([
+        'success' => true,
+        'html' => $html
+    ]);
+}
+public function cancelTicket()
+{
+    if (!$this->request->isAJAX()) {
+        return $this->response->setStatusCode(403)->setJSON(['error' => 'Forbidden']);
+    }
+
+    if (!$this->session->get('isLoggedIn')) {
+        return $this->response->setStatusCode(401)->setJSON(['error' => 'Unauthorized']);
+    }
+
+    $bookingId = $this->request->getPost('booking_id');
+    $userId = session('userData')['user_id'];
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $openTripModel = new \App\Models\OpenTripSchedulesModel();
+    
+    // Verify ownership
+    $booking = $bookingModel->where(['booking_id' => $bookingId, 'user_id' => $userId])->first();
+    
+    if (!$booking) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Tiket tidak ditemukan']);
+    }
+    
+    // Check if cancellation is allowed (only for pending/confirmed status)
+    if (!in_array($booking['booking_status'], ['pending', 'confirmed'])) {
+        return $this->response->setJSON(['success' => false, 'error' => 'Tiket tidak dapat dibatalkan']);
+    }
+    
+    try {
+        // Update booking status
+        $bookingModel->update($bookingId, [
+            'booking_status' => 'canceled',
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        
+        // Restore available seats if it's an open trip
+        if ($booking['open_trip_id']) {
+            $openTripModel->set('available_seats', 'available_seats + ' . $booking['passenger_count'], false)
+                         ->where('open_trip_id', $booking['open_trip_id'])
+                         ->update();
+        }
+        
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Tiket berhasil dibatalkan'
+        ]);
+    } catch (\Exception $e) {
+        return $this->response->setJSON([
+            'success' => false,
+            'error' => 'Terjadi kesalahan: ' . $e->getMessage()
+        ]);
+    }
+}
+public function printTicket($bookingId)
+{
+    if (!$this->session->get('isLoggedIn')) {
+        return redirect()->to('/login');
+    }
+
+    $userId = session('userData')['user_id'];
+    
+    $bookingModel = new \App\Models\BookingModel();
+    $passengerModel = new \App\Models\PassengerModel();
+    
+    // Verify ownership
+    $booking = $bookingModel->getUserOpenTripTicket($bookingId, $userId);
+    
+    if (!$booking) {
+        return redirect()->to('/boats/open-trip')->with('error', 'Tiket tidak ditemukan');
+    }
+    
+    // Get passengers
+    $passengers = $passengerModel->where('booking_id', $bookingId)->findAll();
+    
+    $data = [
+        'title' => 'Cetak Tiket - ' . $booking['booking_code'],
+        'booking' => $booking,
+        'passengers' => $passengers
+    ];
+    
+    return view('boats/print_ticket', $data);
 }
 public function openTripRequests()
 {

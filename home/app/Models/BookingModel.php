@@ -282,4 +282,44 @@ public function getBookingWithUser($bookingId)
         return in_array($booking['booking_status'], ['pending', 'confirmed']) &&
                in_array($booking['payment_status'], ['pending', 'partial']);
     }
+public function getUserOpenTripTickets($userId)
+{
+    return $this->distinct() // Gunakan distinct untuk menghindari duplikat
+               ->select('bookings.*, 
+                        schedules.departure_date, 
+                        schedules.departure_time,
+                        boats.boat_name,
+                        departure.island_name as departure_island,
+                        arrival.island_name as arrival_island')
+               ->join('schedules', 'schedules.schedule_id = bookings.schedule_id')
+               ->join('boats', 'boats.boat_id = schedules.boat_id')
+               ->join('routes', 'routes.route_id = schedules.route_id')
+               ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+               ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+               ->join('passengers', 'passengers.booking_id = bookings.booking_id')
+               ->where('passengers.user_id', $userId)
+               ->where('bookings.is_open_trip', 1)
+               ->where('bookings.booking_status !=', 'canceled')
+               ->orderBy('schedules.departure_date', 'DESC')
+               ->orderBy('schedules.departure_time', 'DESC')
+               ->findAll();
+}
+public function getUserOpenTripTicket($bookingId, $userId)
+{
+    return $this->select('bookings.*, 
+                        schedules.departure_date, 
+                        schedules.departure_time,
+                        boats.boat_name,
+                        departure.island_name as departure_island,
+                        arrival.island_name as arrival_island')
+               ->join('schedules', 'schedules.schedule_id = bookings.schedule_id')
+               ->join('boats', 'boats.boat_id = schedules.boat_id')
+               ->join('routes', 'routes.route_id = schedules.route_id')
+               ->join('islands departure', 'departure.island_id = routes.departure_island_id')
+               ->join('islands arrival', 'arrival.island_id = routes.arrival_island_id')
+               ->where('bookings.booking_id', $bookingId)
+               ->where('bookings.user_id', $userId)
+               ->where('bookings.is_open_trip', 1)
+               ->first();
+}
 }
