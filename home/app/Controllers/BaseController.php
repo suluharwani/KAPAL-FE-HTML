@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\SettingsModel;
 
 /**
  * Class BaseController
@@ -55,11 +56,20 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = service('session');
     }
-    protected function render($view, $data = [])
+ protected function render(string $view, array $data = [])
     {
-        $data['isLoggedIn'] = $this->session->get('isLoggedIn');
-        $data['userData'] = $this->session->get('userData');
-        
+        // load settings
+        $settingsModel = new SettingsModel();
+        $settings = $settingsModel->findAll();
+
+        $siteSettings = [];
+        foreach ($settings as $s) {
+            $siteSettings[$s['setting_key']] = $s['setting_value'];
+        }
+
+        // gabungkan ke data view
+        $data['settings'] = $siteSettings;
+
         echo view('templates/header', $data);
         echo view('templates/navbar', $data);
         echo view($view, $data);

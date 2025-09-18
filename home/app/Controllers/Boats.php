@@ -472,7 +472,8 @@ public function manageOpenTripMembers($openTripId)
 
     // Gabungkan data trip dengan capacity info (aman pakai + supaya key yg null tidak error)
     $tripInfo = $tripInfo + $capacityInfo;
-
+    // var_dump($tripInfo);
+    // die();
     $data = [
         'title'    => 'Manage Open Trip Members',
         'tripInfo' => $tripInfo,
