@@ -3,21 +3,10 @@
         <div class="row">
             <!-- About -->
             <div class="col-lg-4 mb-4">
-                <h5 class="mb-3"><?= esc($settings['site_name'] ?? 'Raja Ampat Boat Services'); ?></h5>
-                <p><?= esc($settings['footer_text'] ?? 'Menyediakan layanan transportasi kapal antar pulau di Kepulauan Raja Ampat dengan pelayanan terbaik dan harga kompetitif.'); ?></p>
+                <h5 class="mb-3"><?= esc($settings['site_name'] ?? '') ?></h5>
+                <p><?= esc($settings['footer_text'] ?? '') ?></p>
                 <div class="social-icons">
-                    <?php if (!empty($settings['facebook_url'])): ?>
-                        <a href="<?= esc($settings['facebook_url']) ?>" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-                    <?php endif; ?>
-                    <?php if (!empty($settings['instagram_url'])): ?>
-                        <a href="<?= esc($settings['instagram_url']) ?>" class="text-white me-2"><i class="fab fa-instagram"></i></a>
-                    <?php endif; ?>
-                    <?php if (!empty($settings['twitter_url'])): ?>
-                        <a href="<?= esc($settings['twitter_url']) ?>" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-                    <?php endif; ?>
-                    <?php if (!empty($settings['youtube_url'])): ?>
-                        <a href="<?= esc($settings['youtube_url']) ?>" class="text-white"><i class="fab fa-youtube"></i></a>
-                    <?php endif; ?>
+                    <!-- Karena tidak ada data medsos di settings, biarkan kosong -->
                 </div>
             </div>
 
@@ -37,9 +26,9 @@
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="mb-3">Kontak Kami</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> <?= esc($settings['contact_address'] ?? 'Jl. Raya Waigeo, Raja Ampat'); ?></li>
-                    <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> <?= esc($settings['contact_phone'] ?? '+62 812-3456-7890'); ?></li>
-                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> <?= esc($settings['contact_email'] ?? 'info@rajaampatboats.com'); ?></li>
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> <?= esc($settings['site_address'] ?? '') ?></li>
+                    <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> <?= esc($settings['site_phone'] ?? '') ?></li>
+                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> <?= esc($settings['site_email'] ?? '') ?></li>
                 </ul>
             </div>
 
@@ -47,9 +36,9 @@
             <div class="col-lg-3 mb-4">
                 <h5 class="mb-3">Jam Operasional</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><?= esc($settings['working_hours_monfri'] ?? 'Senin - Jumat: 08:00 - 17:00'); ?></li>
-                    <li class="mb-2"><?= esc($settings['working_hours_sat'] ?? 'Sabtu: 08:00 - 15:00'); ?></li>
-                    <li><?= esc($settings['working_hours_sun'] ?? 'Minggu: Libur'); ?></li>
+                    <li class="mb-2">Senin - Jumat: 08:00 - 17:00</li>
+                    <li class="mb-2">Sabtu: 08:00 - 15:00</li>
+                    <li>Minggu: Libur</li>
                 </ul>
             </div>
         </div>
@@ -58,14 +47,15 @@
 
         <div class="row">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0">&copy; <?= date('Y') ?> <?= esc($settings['site_name'] ?? 'Raja Ampat Boat Services'); ?>. All rights reserved.</p>
+                <p class="mb-0">&copy; <?= date('Y') ?> <?= esc($settings['site_name'] ?? '') ?>. All rights reserved.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
-                <p class="mb-0"><?= esc($settings['footer_signature'] ?? 'Designed with ❤ for Raja Ampat'); ?></p>
+                <p class="mb-0">Designed with <i class="fas fa-heart text-danger"></i></p>
             </div>
         </div>
     </div>
 </footer>
+
 
 
 <!-- WhatsApp Floating Button -->
