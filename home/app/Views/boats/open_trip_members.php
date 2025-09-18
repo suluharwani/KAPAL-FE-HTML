@@ -337,153 +337,248 @@ if (isset($tripInfo) && !empty($tripInfo)) {
 
     <!-- Members Table -->
     <div class="card">
-        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Trip Members (<?= count($members) ?>)</h4>
-            <div class="btn-group">
-                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
-                    <i class="fas fa-plus me-1"></i> Add Member
-                </button>
-                <button class="btn btn-sm btn-danger" id="deleteAllBtn">
-                    <i class="fas fa-trash me-1"></i> Delete All
-                </button>
-                <button class="btn btn-sm btn-primary" id="printAllBtn">
-                    <i class="fas fa-print me-1"></i> Print All
-                </button>
-                <button class="btn btn-sm btn-info" id="sendWhatsAppBtn">
-                    <i class="fab fa-whatsapp me-1"></i> Send WhatsApp
-                </button>
-                <button class="btn btn-sm btn-outline-light" id="exportBtn">
-                    <i class="fas fa-download me-1"></i> Export
+    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Trip Members (<?= count($members) ?>)</h4>
+        <div class="btn-group">
+            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                <i class="fas fa-plus me-1"></i> Add Member
+            </button>
+            <button class="btn btn-sm btn-danger" id="deleteAllBtn">
+                <i class="fas fa-trash me-1"></i> Delete All
+            </button>
+            <button class="btn btn-sm btn-primary" id="printAllBtn">
+                <i class="fas fa-print me-1"></i> Print All
+            </button>
+            <button class="btn btn-sm btn-info" id="sendWhatsAppBtn">
+                <i class="fab fa-whatsapp me-1"></i> Send WhatsApp
+            </button>
+            <button class="btn btn-sm btn-outline-light" id="exportBtn">
+                <i class="fas fa-download me-1"></i> Export
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <?php if (empty($members)): ?>
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-4x text-muted mb-3"></i>
+                <h5 class="text-muted">No members yet</h5>
+                <p class="text-muted">Start by adding members to this open trip.</p>
+                <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                    <i class="fas fa-plus me-1"></i> Add First Member
                 </button>
             </div>
-        </div>
-        <div class="card-body">
-            <?php if (empty($members)): ?>
-                <div class="text-center py-5">
-                    <i class="fas fa-users fa-4x text-muted mb-3"></i>
-                    <h5 class="text-muted">No members yet</h5>
-                    <p class="text-muted">Start by adding members to this open trip.</p>
-                    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#addMemberModal">
-                        <i class="fas fa-plus me-1"></i> Add First Member
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="membersTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="10%">Booking Code</th>
+                            <th width="8%">Type</th>
+                            <th width="15%">Name</th>
+                            <th width="15%">Contact</th>
+                            <th width="8%">Passengers</th>
+                            <th width="12%">Price/Person</th>
+                            <th width="12%">Total Price</th>
+                            <th width="8%">Status</th>
+                            <th width="10%">Confirmation</th>
+                            <th width="7%">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    <?php 
+    $processedBookings = [];
+    foreach ($members as $index => $member): 
+        // Hindari duplikasi booking yang sama
+        if (in_array($member['booking_id'], $processedBookings)) continue;
+        
+        $memberPricePerPerson = isset($member['custom_price']) && $member['custom_price'] > 0 
+            ? $member['custom_price'] 
+            : $pricePerPerson;
+        $memberTotalPrice = $memberPricePerPerson * $member['passenger_count'];
+        
+        // Tentukan status konfirmasi
+        $confirmationStatus = $member['passenger_status'] ?? 'pending';
+        $badgeClass = ($confirmationStatus == 'confirmed') ? 'bg-success' : 
+                     (($confirmationStatus == 'rejected') ? 'bg-danger' : 'bg-warning');
+        
+        // Dapatkan semua passengers untuk booking ini
+        $allPassengers = array_filter($members, function($m) use ($member) {
+            return $m['booking_id'] == $member['booking_id'];
+        });
+        
+        $processedBookings[] = $member['booking_id'];
+    ?>
+        <tr>
+            <td><?= $index + 1 ?></td>
+            <td>
+                <span class="badge bg-light text-dark"><?= $member['booking_code'] ?></span>
+            </td>
+            <td>
+                <span class="badge bg-<?= $member['user_id'] ? 'primary' : 'warning' ?>">
+                    <?= $member['user_id'] ? 'Registered' : 'Guest' ?>
+                </span>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="avatar-sm bg-<?= $member['user_id'] ? 'primary' : 'warning' ?> text-white rounded-circle me-2 d-flex align-items-center justify-content-center">
+                        <?= strtoupper(substr($member['full_name'], 0, 1)) ?>
+                    </div>
+                    <div>
+                        <div class="fw-bold"><?= $member['full_name'] ?></div>
+                        <small class="text-muted"><?= date('M d, Y', strtotime($member['created_at'])) ?></small>
+                    </div>
+                </div>
+                
+                <!-- Tampilkan detail semua passengers untuk booking ini -->
+                <?php if (count($allPassengers) > 0): ?>
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-outline-info toggle-passengers" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#passengers-<?= $member['booking_id'] ?>" 
+                            aria-expanded="false" 
+                            aria-controls="passengers-<?= $member['booking_id'] ?>">
+                        <i class="fas fa-users me-1"></i>
+                        <?= count($allPassengers) ?> passengers
+                        <i class="fas fa-chevron-down ms-1"></i>
+                    </button>
+                    
+                    <div class="collapse mt-2" id="passengers-<?= $member['booking_id'] ?>">
+                        <div class="card card-body p-2">
+                            <h6 class="mb-2">Passenger Details:</h6>
+                            <?php foreach ($allPassengers as $passengerIndex => $passenger): ?>
+                                <div class="d-flex justify-content-between align-items-center mb-2 pb-2 <?= ($passengerIndex < count($allPassengers) - 1) ? 'border-bottom' : '' ?>">
+                                    <div>
+                                        <strong><?= $passenger['full_name'] ?? 'N/A' ?></strong>
+                                        <br>
+                                        <small class="text-muted">
+                                            Status: 
+                                            <span class="badge bg-<?= 
+                                                ($passenger['passenger_status'] == 'confirmed') ? 'success' : 
+                                                (($passenger['passenger_status'] == 'rejected') ? 'danger' : 'warning')
+                                            ?>">
+                                                <?= ucfirst($passenger['passenger_status'] ?? 'pending') ?>
+                                            </span>
+                                        </small>
+                                    </div>
+                                    <div class="btn-group">
+                                        <?php if (($passenger['passenger_status'] ?? 'pending') == 'pending'): ?>
+                                        <button class="btn btn-sm btn-success confirm-passenger" 
+                                                data-passenger-id="<?= $passenger['passenger_id'] ?>"
+                                                data-status="confirmed"
+                                                title="Confirm">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger confirm-passenger" 
+                                                data-passenger-id="<?= $passenger['passenger_id'] ?>"
+                                                data-status="rejected"
+                                                title="Reject">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </td>
+            <td>
+                <div><?= $member['phone'] ?? '-' ?></div>
+                <small class="text-muted"><?= $member['email'] ?? '-' ?></small>
+            </td>
+            <td>
+                <span class="badge bg-info rounded-pill"><?= $member['passenger_count'] ?></span>
+            </td>
+            <td>
+                <span class="text-<?= isset($member['custom_price']) && $member['custom_price'] > 0 ? 'success' : 'primary' ?>">
+                    Rp <?= number_format($memberPricePerPerson, 0, ',', '.') ?>
+                    <?php if (isset($member['custom_price']) && $member['custom_price'] > 0): ?>
+                        <br><small class="text-muted">Custom</small>
+                    <?php endif; ?>
+                </span>
+            </td>
+            <td>
+                <span class="fw-bold text-success">
+                    Rp <?= number_format($memberTotalPrice, 0, ',', '.') ?>
+                </span>
+            </td>
+            <td>
+                <span class="badge bg-<?= 
+                    $member['booking_status'] == 'confirmed' ? 'success' : 
+                    ($member['booking_status'] == 'pending' ? 'warning' : 
+                    ($member['booking_status'] == 'paid' ? 'info' : 'danger')) 
+                ?>">
+                    <?= ucfirst($member['booking_status']) ?>
+                </span>
+            </td>
+            <td>
+                <span class="badge <?= $badgeClass ?>">
+                    <?= ucfirst($confirmationStatus) ?>
+                </span>
+                
+                <!-- Tombol Aksi untuk Status Pending -->
+                <?php if ($confirmationStatus == 'pending'): ?>
+                <div class="btn-group mt-1">
+                    <button class="btn btn-sm btn-success confirm-booking" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            data-status="confirmed"
+                            title="Confirm All">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger confirm-booking" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            data-status="rejected"
+                            title="Reject All">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-            <?php else: ?>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover" id="membersTable">
-                        <thead class="table-dark">
-                            <tr>
-                                <th width="5%">#</th>
-                                <th width="10%">Booking Code</th>
-                                <th width="8%">Type</th>
-                                <th width="15%">Name</th>
-                                <th width="15%">Contact</th>
-                                <th width="8%">Passengers</th>
-                                <th width="12%">Price/Person</th>
-                                <th width="12%">Total Price</th>
-                                <th width="8%">Status</th>
-                                <th width="7%">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($members as $index => $member): 
-                                $memberPricePerPerson = isset($member['custom_price']) && $member['custom_price'] > 0 
-                                    ? $member['custom_price'] 
-                                    : $pricePerPerson;
-                                $memberTotalPrice = $memberPricePerPerson * $member['passenger_count'];
-                            ?>
-                                <tr>
-                                    <td><?= $index + 1 ?></td>
-                                    <td>
-                                        <span class="badge bg-light text-dark"><?= $member['booking_code'] ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-<?= $member['user_id'] ? 'primary' : 'warning' ?>">
-                                            <?= $member['user_id'] ? 'Registered' : 'Guest' ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar-sm bg-<?= $member['user_id'] ? 'primary' : 'warning' ?> text-white rounded-circle me-2 d-flex align-items-center justify-content-center">
-                                                <?= strtoupper(substr($member['full_name'], 0, 1)) ?>
-                                            </div>
-                                            <div>
-                                                <div class="fw-bold"><?= $member['full_name'] ?></div>
-                                                <small class="text-muted"><?= date('M d, Y', strtotime($member['created_at'])) ?></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div><?= $member['phone'] ?? '-' ?></div>
-                                        <small class="text-muted"><?= $member['email'] ?? '-' ?></small>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info rounded-pill"><?= $member['passenger_count'] ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="text-<?= isset($member['custom_price']) && $member['custom_price'] > 0 ? 'success' : 'primary' ?>">
-                                            Rp <?= number_format($memberPricePerPerson, 0, ',', '.') ?>
-                                            <?php if (isset($member['custom_price']) && $member['custom_price'] > 0): ?>
-                                                <br><small class="text-muted">Custom</small>
-                                            <?php endif; ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold text-success">
-                                            Rp <?= number_format($memberTotalPrice, 0, ',', '.') ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-<?= 
-                                            $member['booking_status'] == 'confirmed' ? 'success' : 
-                                            ($member['booking_status'] == 'pending' ? 'warning' : 
-                                            ($member['booking_status'] == 'paid' ? 'info' : 'danger')) 
-                                        ?>">
-                                            <?= ucfirst($member['booking_status']) ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-info view-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-primary edit-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    data-passenger-count="<?= $member['passenger_count'] ?>"
-                                                    data-custom-price="<?= $member['custom_price'] ?? 0 ?>"
-                                                    title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <!-- TOMBOL PRINT TIKET -->
-                                            <button class="btn btn-sm btn-success print-ticket" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    title="Print Ticket PDF">
-                                                <i class="fas fa-file-pdf"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger delete-member" 
-                                                    data-booking-id="<?= $member['booking_id'] ?>"
-                                                    title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-dark">
-                                <td colspan="5" class="text-end"><strong>Totals:</strong></td>
-                                <td><strong><?= $totalBooked ?></strong></td>
-                                <td>-</td>
-                                <td><strong>Rp <?= number_format($totalRevenue, 0, ',', '.') ?></strong></td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <?php endif; ?>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-info view-member" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-primary edit-member" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            data-passenger-count="<?= $member['passenger_count'] ?>"
+                            data-custom-price="<?= $member['custom_price'] ?? 0 ?>"
+                            title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <!-- TOMBOL PRINT TIKET -->
+                    <button class="btn btn-sm btn-success print-ticket" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            title="Print Ticket PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-member" 
+                            data-booking-id="<?= $member['booking_id'] ?>"
+                            title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
-            <?php endif; ?>
-        </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+                    <tfoot>
+                        <tr class="table-dark">
+                            <td colspan="5" class="text-end"><strong>Totals:</strong></td>
+                            <td><strong><?= $totalBooked ?></strong></td>
+                            <td>-</td>
+                            <td><strong>Rp <?= number_format($totalRevenue, 0, ',', '.') ?></strong></td>
+                            <td colspan="3"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -1123,6 +1218,70 @@ $(document).on('click', '#printAllBtn', function() {
     }, 3000);
 });
 
-// Print all tickets
+// Toggle passenger details
+$(document).on('click', '.toggle-passengers', function() {
+    const icon = $(this).find('.fa-chevron-down');
+    icon.toggleClass('fa-chevron-down fa-chevron-up');
+});
+
+// Confirm individual passenger
+$(document).on('click', '.confirm-passenger', function() {
+    const passengerId = $(this).data('passenger-id');
+    const status = $(this).data('status');
+    const button = $(this);
+    
+    if (confirm(`Are you sure you want to ${status} this passenger?`)) {
+        // Tampilkan loading
+        const originalHtml = button.html();
+        button.html('<i class="fas fa-spinner fa-spin"></i>');
+        
+        $.post('<?= base_url('boats/confirm-passenger') ?>', {
+            passenger_id: passengerId,
+            status: status,
+            _token: '<?= csrf_hash() ?>'
+        }, function(response) {
+            if (response.success) {
+                alert(`Passenger ${status} successfully`);
+                location.reload();
+            } else {
+                alert(response.error || 'Failed to update passenger status');
+                button.html(originalHtml);
+            }
+        }).fail(function() {
+            alert('Network error. Please try again.');
+            button.html(originalHtml);
+        });
+    }
+});
+
+// Confirm all passengers in booking
+$(document).on('click', '.confirm-booking', function() {
+    const bookingId = $(this).data('booking-id');
+    const status = $(this).data('status');
+    const button = $(this);
+    
+    if (confirm(`Are you sure you want to ${status} ALL passengers in this booking?`)) {
+        // Tampilkan loading
+        const originalHtml = button.html();
+        button.html('<i class="fas fa-spinner fa-spin"></i>');
+        
+        $.post('<?= base_url('boats/confirm-booking-passengers') ?>', {
+            booking_id: bookingId,
+            status: status,
+            _token: '<?= csrf_hash() ?>'
+        }, function(response) {
+            if (response.success) {
+                alert(`All passengers ${status} successfully`);
+                location.reload();
+            } else {
+                alert(response.error || 'Failed to update passenger status');
+                button.html(originalHtml);
+            }
+        }).fail(function() {
+            alert('Network error. Please try again.');
+            button.html(originalHtml);
+        });
+    }
+});
 
 </script>

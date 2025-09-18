@@ -173,6 +173,7 @@ public function requestOpenTripSeat()
     
     $scheduleId = $this->request->getPost('schedule_id');
     $passengerData = [
+        'user_id' => $_SESSION['userData']['user_id'],
         'full_name' => $this->request->getPost('name'),
         'identity_number' => $this->request->getPost('identity'),
         'phone' => $this->request->getPost('phone'),
