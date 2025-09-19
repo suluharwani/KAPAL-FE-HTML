@@ -322,4 +322,48 @@ public function getUserOpenTripTicket($bookingId, $userId)
                ->where('bookings.is_open_trip', 1)
                ->first();
 }
+    public function getUserBookingsByStatus($user_id, $statuses)
+    {
+        $builder = $this->db->table('bookings b');
+        $builder->select('b.*, s.departure_date, s.departure_time, boat.boat_name, 
+                         dep.island_name as departure_island, arr.island_name as arrival_island')
+                ->join('schedules s', 'b.schedule_id = s.schedule_id')
+                ->join('boats boat', 's.boat_id = boat.boat_id')
+                ->join('routes r', 's.route_id = r.route_id')
+                ->join('islands dep', 'r.departure_island_id = dep.island_id')
+                ->join('islands arr', 'r.arrival_island_id = arr.island_id')
+                ->where('b.user_id', $user_id)
+                ->where('b.deleted_at', null);
+        
+        if (is_array($statuses)) {
+            $builder->whereIn('b.booking_status', $statuses);
+        } else {
+            $builder->where('b.booking_status', $statuses);
+        }
+        
+        $builder->orderBy('s.departure_date', 'ASC')
+                ->orderBy('s.departure_time', 'ASC');
+        
+        return $builder->get()->getResultArray();
+    }
+
+public function getBookingDetail($booking_code, $user_id)
+{
+    $builder = $this->db->table('bookings b');
+    $builder->select('b.*, s.departure_date, s.departure_time, 
+                     boat.boat_name, boat.boat_type,
+                     dep.island_name as departure_island, 
+                     arr.island_name as arrival_island,
+                     r.estimated_duration')
+            ->join('schedules s', 'b.schedule_id = s.schedule_id')
+            ->join('boats boat', 's.boat_id = boat.boat_id')
+            ->join('routes r', 's.route_id = r.route_id')
+            ->join('islands dep', 'r.departure_island_id = dep.island_id')
+            ->join('islands arr', 'r.arrival_island_id = arr.island_id')
+            ->where('b.booking_code', $booking_code)
+            ->where('b.user_id', $user_id)
+            ->where('b.deleted_at', null);
+    
+    return $builder->get()->getRowArray();
+}
 }

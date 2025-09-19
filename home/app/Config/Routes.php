@@ -109,4 +109,10 @@ $routes->group('booking', ['filter' => 'auth'], function($routes) {
     $routes->get('print/(:any)', 'Booking::printTicket/$1'); // booking_code
     $routes->post('cancel', 'Booking::cancel');
 });
+// Profile routes - require auth
+$routes->group('profile', ['filter' => 'auth'], function($routes) {
+    $routes->get('/', 'Profile::index');
+    $routes->post('update', 'Profile::update');
+    $routes->post('changePassword', 'Profile::changePassword');
+});
 $routes->get('auth/check', 'Auth::check');

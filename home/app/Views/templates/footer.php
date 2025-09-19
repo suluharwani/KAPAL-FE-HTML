@@ -36,9 +36,9 @@
             <div class="col-lg-3 mb-4">
                 <h5 class="mb-3">Jam Operasional</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2">Senin - Jumat: 08:00 - 17:00</li>
-                    <li class="mb-2">Sabtu: 08:00 - 15:00</li>
-                    <li>Minggu: Libur</li>
+                    <li class="mb-2">Setiap Hari: 08:00 - 17:00</li>
+                    <!-- <li class="mb-2">Sabtu: 08:00 - 15:00</li>
+                    <li>Minggu: Libur</li> -->
                 </ul>
             </div>
         </div>
