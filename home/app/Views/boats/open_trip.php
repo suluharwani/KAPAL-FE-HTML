@@ -263,7 +263,6 @@
                 <li>Request akan diverifikasi oleh admin terlebih dahulu</li>
                 <li>Jumlah penumpang mengikuti kapasitas kapal yang dipilih</li>
                 <li>Harga akan ditentukan melalui kesepakatan dengan admin</li>
-                <li>Anda akan mendapatkan komisi dari setiap penumpang yang bergabung</li>
                 <li>Status request akan dikirim via email</li>
             </ul>
         </div>

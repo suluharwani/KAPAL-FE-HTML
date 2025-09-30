@@ -470,10 +470,19 @@ public function manageOpenTripMembers($openTripId)
     // Ambil info kapasitas dan harga
     $capacityInfo = $this->getCapacityInfo($openTripId);
 
-    // Gabungkan data trip dengan capacity info (aman pakai + supaya key yg null tidak error)
-    $tripInfo = $tripInfo + $capacityInfo;
-    // var_dump($tripInfo);
-    // die();
+    // Gabungkan data trip dengan capacity info
+    $tripInfo = array_merge($tripInfo, $capacityInfo);
+    
+    // Hitung total booked seats
+    $totalBooked = 0;
+    foreach ($members as $member) {
+        $totalBooked += $member['passenger_count'] ?? 1;
+    }
+
+    // Tambahkan informasi tambahan ke tripInfo
+    $tripInfo['total_booked'] = $totalBooked;
+    $tripInfo['available_seats'] = $tripInfo['capacity'] - $totalBooked;
+
     $data = [
         'title'    => 'Manage Open Trip Members',
         'tripInfo' => $tripInfo,
