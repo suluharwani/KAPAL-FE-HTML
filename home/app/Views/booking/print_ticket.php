@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +50,7 @@
                 <i class="fas fa-print me-1"></i>Print
             </button>
             <a href="/booking/my-bookings" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-1"></i>Kembali
+                <i class="fas fa-arrow-left me-1"></i>Back
             </a>
         </div>
 
@@ -63,30 +63,30 @@
 
             <div class="row mb-3">
                 <div class="col-6">
-                    <strong>Kapal:</strong><br>
+                    <strong>Boat:</strong><br>
                     <?= $booking['boat_name'] ?>
                 </div>
                 <div class="col-6">
-                    <strong>Tanggal:</strong><br>
+                    <strong>Date:</strong><br>
                     <?= date('d/m/Y', strtotime($booking['departure_date'])) ?>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-6">
-                    <strong>Berangkat:</strong><br>
+                    <strong>Departure:</strong><br>
                     <?= $booking['departure_island'] ?><br>
                     <?= date('H:i', strtotime($booking['departure_time'])) ?> WIT
                 </div>
                 <div class="col-6">
-                    <strong>Tujuan:</strong><br>
+                    <strong>Destination:</strong><br>
                     <?= $booking['arrival_island'] ?>
                 </div>
             </div>
 
             <div class="mb-3">
-                <strong>Penumpang:</strong><br>
-                <?= $booking['passenger_count'] ?> orang
+                <strong>Passengers:</strong><br>
+                <?= $booking['passenger_count'] ?> person<?= $booking['passenger_count'] > 1 ? 's' : '' ?>
             </div>
 
             <div class="mb-3">
@@ -100,8 +100,8 @@
 
             <div class="text-center">
                 <small>
-                    Tiket ini sah dan dapat digunakan untuk boarding.<br>
-                    Harap tunjukkan tiket ini saat boarding.
+                    This ticket is valid and can be used for boarding.<br>
+                    Please show this ticket during boarding.
                 </small>
             </div>
         </div>

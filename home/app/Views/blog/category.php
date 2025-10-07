@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
                 <h1 class="display-4 fw-bold"><?= $category['category_name'] ?></h1>
-                <p class="lead">Artikel terbaru dalam kategori <?= $category['category_name'] ?></p>
+                <p class="lead">Latest articles in category <?= $category['category_name'] ?></p>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
                                     <div class="card-footer bg-transparent">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small class="text-muted">By <?= $blog['author_name'] ?></small>
-                                            <a href="<?= base_url('blog/' . $blog['slug']) ?>" class="btn btn-sm btn-outline-primary">Baca Selengkapnya</a>
+                                            <a href="<?= base_url('blog/' . $blog['slug']) ?>" class="btn btn-sm btn-outline-primary">Read More</a>
                                         </div>
                                     </div>
                                 </div>
@@ -53,8 +53,8 @@
                 <?php else: ?>
                     <div class="text-center py-5">
                         <i class="fas fa-newspaper fa-4x text-muted mb-3"></i>
-                        <h3>Belum ada artikel dalam kategori ini</h3>
-                        <p class="text-muted">Silakan kembali lagi nanti untuk membaca artikel terbaru kami.</p>
+                        <h3>No articles in this category yet</h3>
+                        <p class="text-muted">Please check back later to read our latest articles.</p>
                     </div>
                 <?php endif; ?>
             </div>

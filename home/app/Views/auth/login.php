@@ -38,7 +38,7 @@
                         </div>
                     </form>
                     <div class="mt-3 text-center">
-                        Belum punya akun? <a href="<?= base_url('auth/register') ?>">Daftar disini</a>
+                        Don't have account? <a href="<?= base_url('auth/register') ?>">Register</a>
                     </div>
                 </div>
             </div>

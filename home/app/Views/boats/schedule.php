@@ -1,39 +1,39 @@
 <!-- Main Content -->
 <main class="container my-5">
-    <h2 class="text-center mb-4">Jadwal Kapal</h2>
+    <h2 class="text-center mb-4">Boat Schedule</h2>
     
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Cari Jadwal</h3>
+            <h3 class="mb-0">Search Schedule</h3>
         </div>
         <div class="card-body">
             <form id="scheduleSearchForm">
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label for="searchFromIsland" class="form-label">Dari Pulau</label>
+                        <label for="searchFromIsland" class="form-label">From Island</label>
                         <select class="form-select" id="searchFromIsland">
-                            <option value="">Semua Pulau</option>
+                            <option value="">All Islands</option>
                             <?php foreach ($islands as $island): ?>
                                 <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="searchToIsland" class="form-label">Ke Pulau</label>
+                        <label for="searchToIsland" class="form-label">To Island</label>
                         <select class="form-select" id="searchToIsland">
-                            <option value="">Semua Pulau</option>
+                            <option value="">All Islands</option>
                             <?php foreach ($islands as $island): ?>
                                 <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="searchDate" class="form-label">Tanggal</label>
+                        <label for="searchDate" class="form-label">Date</label>
                         <input type="date" class="form-control" id="searchDate">
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Cari</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
         </div>
@@ -43,13 +43,13 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th>Rute</th>
-                    <th>Tanggal</th>
-                    <th>Waktu</th>
-                    <th>Kapal</th>
-                    <th>Kapasitas</th>
-                    <th>Harga</th>
-                    <th>Aksi</th>
+                    <th>Route</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Boat</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="scheduleTableBody">
@@ -59,14 +59,14 @@
                         <td><?= date('d M Y', strtotime($schedule['departure_date'])) ?></td>
                         <td><?= date('H:i', strtotime($schedule['departure_time'])) ?></td>
                         <td><?= $schedule['boat_name'] ?></td>
-                        <td><?= $schedule['capacity'] ?> orang</td>
+                        <td><?= $schedule['capacity'] ?> people</td>
                         <td>Rp <?= number_format($schedule['price_per_trip'], 0, ',', '.') ?></td>
                         <td>
                             <button class="btn btn-sm btn-primary book-btn" 
                                     data-schedule-id="<?= $schedule['schedule_id'] ?>"
                                     data-boat-name="<?= $schedule['boat_name'] ?>"
                                     data-price="<?= $schedule['price_per_trip'] ?>">
-                                Pesan
+                                Book
                             </button>
                         </td>
                     </tr>
@@ -80,7 +80,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Pesan Kapal</h5>
+                    <h5 class="modal-title">Book Boat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="bookingForm">
@@ -88,28 +88,28 @@
                         <input type="hidden" id="modalScheduleId">
                         <div class="mb-3">
                             <input type="hidden" id="modalOpenTripId" name="open_trip_id">
-                            <label class="form-label">Kapal</label>
+                            <label class="form-label">Boat</label>
                             <input type="text" class="form-control" id="modalBoatName" readonly>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Harga</label>
+                            <label class="form-label">Price</label>
                             <input type="text" class="form-control" id="modalPrice" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="passengerCount" class="form-label">Jumlah Penumpang</label>
+                            <label for="passengerCount" class="form-label">Number of Passengers</label>
                             <input type="number" class="form-control" id="passengerCount" name="passengers" min="1" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Nama Penumpang</label>
+                            <label class="form-label">Passenger Names</label>
                             <div id="passengerNamesContainer">
-                                <input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang 1" required>
+                                <input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name 1" required>
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-primary" id="addPassengerBtn">Tambah Penumpang</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="addPassengerBtn">Add Passenger</button>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Book Now</button>
                     </div>
                 </form>
             </div>
@@ -121,23 +121,23 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">Pemesanan Berhasil</h5>
+                    <h5 class="modal-title">Booking Successful</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-success">
                         <p id="successMessage"></p>
-                        <p class="fw-bold">Kode Booking: <span id="bookingCode"></span></p>
+                        <p class="fw-bold">Booking Code: <span id="bookingCode"></span></p>
                     </div>
                     <div class="alert alert-info">
-                        <h6>Instruksi Pembayaran:</h6>
-                        <p>Silakan transfer sejumlah <span id="totalAmount"></span> ke rekening berikut:</p>
-                        <p>Bank BCA: 1234567890 a.n. Raja Ampat Boat Services</p>
-                        <p>Bank Mandiri: 0987654321 a.n. Raja Ampat Boat Services</p>
+                        <h6>Payment Instructions:</h6>
+                        <p>Please transfer the amount of <span id="totalAmount"></span> to the following account:</p>
+                        <p>BCA Bank: 1234567890 a.n. Raja Ampat Boat Services</p>
+                        <p>Mandiri Bank: 0987654321 a.n. Raja Ampat Boat Services</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@ $(document).ready(function() {
         $('#modalBoatName').val(boatName);
         $('#modalPrice').val('Rp ' + price.toLocaleString('id-ID'));
         $('#passengerCount').val(1);
-        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang 1" required>');
+        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name 1" required>');
         
         $('#bookingModal').modal('show');
     });
@@ -164,7 +164,7 @@ $(document).ready(function() {
     // Add passenger field
     $('#addPassengerBtn').click(function() {
         const count = $('#passengerNamesContainer input').length + 1;
-        $('#passengerNamesContainer').append('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang ' + count + '" required>');
+        $('#passengerNamesContainer').append('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name ' + count + '" required>');
     });
     
     // Handle booking form submission
@@ -192,12 +192,12 @@ $(document).ready(function() {
                     $('#totalAmount').text('Rp ' + response.data.total_price.toLocaleString('id-ID'));
                     $('#bookingSuccessModal').modal('show');
                 } else {
-                    alert(response.error || 'Terjadi kesalahan');
+                    alert(response.error || 'An error occurred');
                 }
             },
             error: function(xhr) {
                 const response = xhr.responseJSON;
-                alert(response.error || 'Terjadi kesalahan');
+                alert(response.error || 'An error occurred');
             }
         });
     });
@@ -229,14 +229,14 @@ $(document).ready(function() {
                                 <td>${new Date(schedule.departure_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                                 <td>${schedule.departure_time}</td>
                                 <td>${schedule.boat_name}</td>
-                                <td>${schedule.capacity} orang</td>
+                                <td>${schedule.capacity} people</td>
                                 <td>Rp ${schedule.price_per_trip.toLocaleString('id-ID')}</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary book-btn" 
                                             data-schedule-id="${schedule.schedule_id}"
                                             data-boat-name="${schedule.boat_name}"
                                             data-price="${schedule.price_per_trip}">
-                                        Pesan
+                                        Book
                                     </button>
                                 </td>
                             </tr>
@@ -254,17 +254,17 @@ $(document).ready(function() {
                         $('#modalBoatName').val(boatName);
                         $('#modalPrice').val('Rp ' + price.toLocaleString('id-ID'));
                         $('#passengerCount').val(1);
-                        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang 1" required>');
+                        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name 1" required>');
                         
                         $('#bookingModal').modal('show');
                     });
                 } else {
-                    alert('Tidak ada jadwal yang tersedia');
+                    alert('No schedules available');
                 }
             },
             error: function(xhr) {
                 const response = xhr.responseJSON;
-                alert(response.error || 'Terjadi kesalahan');
+                alert(response.error || 'An error occurred');
             }
         });
     });

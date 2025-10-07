@@ -1,11 +1,10 @@
-
 <!-- Hero Section -->
 <section class="hero-section bg-primary text-white py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-3">Hubungi Kami</h1>
-                <p class="lead mb-4">Kami siap membantu Anda merencanakan perjalanan terbaik di Raja Ampat</p>
+                <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+                <p class="lead mb-4">We're ready to help you plan the best trip in Raja Ampat</p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-telephone-fill me-2"></i>
@@ -33,7 +32,7 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-white py-4">
                         <h2 class="h3 mb-0 text-center text-primary">
-                            <i class="bi bi-chat-dots-fill me-2"></i>Kirim Pesan
+                            <i class="bi bi-chat-dots-fill me-2"></i>Send Message
                         </h2>
                     </div>
                     <div class="card-body p-5">
@@ -56,7 +55,7 @@
                         <?php if (session()->has('errors')): ?>
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                <strong>Terjadi kesalahan:</strong>
+                                <strong>Error occurred:</strong>
                                 <ul class="mb-0 mt-2">
                                     <?php foreach (session('errors') as $error): ?>
                                         <li><?= $error ?></li>
@@ -72,11 +71,11 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="name" class="form-label fw-semibold">
-                                        <i class="bi bi-person-fill me-1 text-primary"></i>Nama Lengkap *
+                                        <i class="bi bi-person-fill me-1 text-primary"></i>Full Name *
                                     </label>
                                     <input type="text" class="form-control form-control-lg <?= session('errors.name') ? 'is-invalid' : '' ?>" 
                                            id="name" name="name" value="<?= old('name') ?>" 
-                                           placeholder="Masukkan nama lengkap Anda" required>
+                                           placeholder="Enter your full name" required>
                                     <?php if (session('errors.name')): ?>
                                         <div class="invalid-feedback"><?= session('errors.name') ?></div>
                                     <?php endif; ?>
@@ -88,7 +87,7 @@
                                     </label>
                                     <input type="email" class="form-control form-control-lg <?= session('errors.email') ? 'is-invalid' : '' ?>" 
                                            id="email" name="email" value="<?= old('email') ?>" 
-                                           placeholder="nama@email.com" required>
+                                           placeholder="name@email.com" required>
                                     <?php if (session('errors.email')): ?>
                                         <div class="invalid-feedback"><?= session('errors.email') ?></div>
                                     <?php endif; ?>
@@ -97,7 +96,7 @@
                             
                             <div class="mb-4">
                                 <label for="phone" class="form-label fw-semibold">
-                                    <i class="bi bi-telephone-fill me-1 text-primary"></i>Nomor Telepon
+                                    <i class="bi bi-telephone-fill me-1 text-primary"></i>Phone Number
                                 </label>
                                 <input type="tel" class="form-control form-control-lg <?= session('errors.phone') ? 'is-invalid' : '' ?>" 
                                        id="phone" name="phone" value="<?= old('phone') ?>" 
@@ -109,11 +108,11 @@
                             
                             <div class="mb-4">
                                 <label for="subject" class="form-label fw-semibold">
-                                    <i class="bi bi-chat-square-text-fill me-1 text-primary"></i>Subjek *
+                                    <i class="bi bi-chat-square-text-fill me-1 text-primary"></i>Subject *
                                 </label>
                                 <input type="text" class="form-control form-control-lg <?= session('errors.subject') ? 'is-invalid' : '' ?>" 
                                        id="subject" name="subject" value="<?= old('subject') ?>" 
-                                       placeholder="Subjek pesan Anda" required>
+                                       placeholder="Your message subject" required>
                                 <?php if (session('errors.subject')): ?>
                                     <div class="invalid-feedback"><?= session('errors.subject') ?></div>
                                 <?php endif; ?>
@@ -121,11 +120,11 @@
                             
                             <div class="mb-4">
                                 <label for="message" class="form-label fw-semibold">
-                                    <i class="bi bi-chat-left-text-fill me-1 text-primary"></i>Pesan *
+                                    <i class="bi bi-chat-left-text-fill me-1 text-primary"></i>Message *
                                 </label>
                                 <textarea class="form-control <?= session('errors.message') ? 'is-invalid' : '' ?>" 
                                           id="message" name="message" rows="6" 
-                                          placeholder="Tulis pesan Anda di sini..." required><?= old('message') ?></textarea>
+                                          placeholder="Write your message here..." required><?= old('message') ?></textarea>
                                 <?php if (session('errors.message')): ?>
                                     <div class="invalid-feedback"><?= session('errors.message') ?></div>
                                 <?php endif; ?>
@@ -133,12 +132,12 @@
                             
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-semibold">
-                                    <i class="bi bi-send-fill me-2"></i>Kirim Pesan
+                                    <i class="bi bi-send-fill me-2"></i>Send Message
                                 </button>
                             </div>
                             
                             <div class="text-center text-muted">
-                                <small>* Field wajib diisi</small>
+                                <small>* Required fields</small>
                             </div>
                         </form>
                     </div>
@@ -158,11 +157,11 @@
                         <div class="icon-wrapper bg-primary text-white rounded-circle mx-auto mb-3" style="width: 70px; height: 70px; line-height: 70px;">
                             <i class="bi bi-geo-alt-fill fs-4"></i>
                         </div>
-                        <h4 class="h5 mb-3">Alamat Kami</h4>
+                        <h4 class="h5 mb-3">Our Address</h4>
                         <p class="text-muted mb-0">
                             Jl. Raja Ampat No. 123<br>
                             Waigeo, Raja Ampat<br>
-                            Papua Barat, Indonesia
+                            West Papua, Indonesia
                         </p>
                     </div>
                 </div>
@@ -174,7 +173,7 @@
                         <div class="icon-wrapper bg-primary text-white rounded-circle mx-auto mb-3" style="width: 70px; height: 70px; line-height: 70px;">
                             <i class="bi bi-telephone-fill fs-4"></i>
                         </div>
-                        <h4 class="h5 mb-3">Telepon</h4>
+                        <h4 class="h5 mb-3">Phone</h4>
                         <p class="text-muted mb-2">
                             <strong>Customer Service:</strong><br>
                             +62 812-3456-7890
@@ -195,7 +194,7 @@
                         </div>
                         <h4 class="h5 mb-3">Email</h4>
                         <p class="text-muted mb-2">
-                            <strong>Informasi:</strong><br>
+                            <strong>Information:</strong><br>
                             info@rajaampatboats.com
                         </p>
                         <p class="text-muted mb-0">
@@ -215,8 +214,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-center mb-5">
-                    <h2 class="h1 fw-bold text-primary">Lokasi Kami</h2>
-                    <p class="lead text-muted">Kunjungi kantor kami di Raja Ampat</p>
+                    <h2 class="h1 fw-bold text-primary">Our Location</h2>
+                    <p class="lead text-muted">Visit our office in Raja Ampat</p>
                 </div>
                 
                 <div class="card shadow-lg border-0">
@@ -245,28 +244,28 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="h1 fw-bold mb-3">Pertanyaan Umum</h2>
-                <p class="lead mb-4">Temukan jawaban untuk pertanyaan yang sering diajukan</p>
+                <h2 class="h1 fw-bold mb-3">Frequently Asked Questions</h2>
+                <p class="lead mb-4">Find answers to commonly asked questions</p>
                 <div class="row text-start">
                     <div class="col-md-6 mb-3">
-                        <h5 class="mb-2">✓ Bagaimana cara booking kapal?</h5>
-                        <p class="small opacity-75">Anda bisa booking melalui website atau hubungi customer service kami.</p>
+                        <h5 class="mb-2">✓ How to book a boat?</h5>
+                        <p class="small opacity-75">You can book through our website or contact our customer service.</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <h5 class="mb-2">✓ Apa metode pembayaran yang tersedia?</h5>
-                        <p class="small opacity-75">Transfer bank, cash, dan pembayaran digital.</p>
+                        <h5 class="mb-2">✓ What payment methods are available?</h5>
+                        <p class="small opacity-75">Bank transfer, cash, and digital payments.</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <h5 class="mb-2">✓ Berapa lama waktu respon?</h5>
-                        <p class="small opacity-75">Kami akan merespon dalam 1-2 jam kerja.</p>
+                        <h5 class="mb-2">✓ How long is the response time?</h5>
+                        <p class="small opacity-75">We will respond within 1-2 working hours.</p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <h5 class="mb-2">✓ Apakah ada garansi?</h5>
-                        <p class="small opacity-75">Ya, kami memberikan garansi kepuasan pelanggan.</p>
+                        <h5 class="mb-2">✓ Is there a guarantee?</h5>
+                        <p class="small opacity-75">Yes, we provide customer satisfaction guarantee.</p>
                     </div>
                 </div>
                 <a href="<?= base_url('faq') ?>" class="btn btn-light btn-lg mt-4">
-                    <i class="bi bi-question-circle-fill me-2"></i>Lihat FAQ Lengkap
+                    <i class="bi bi-question-circle-fill me-2"></i>View Complete FAQ
                 </a>
             </div>
         </div>

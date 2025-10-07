@@ -12,10 +12,10 @@ function getCategoryIcon($category) {
 
 function getCategoryName($category) {
     $names = [
-        'kapal' => 'Kapal',
-        'wisata' => 'Wisata',
-        'penumpang' => 'Penumpang',
-        'pulau' => 'Pulau'
+        'kapal' => 'Boats',
+        'wisata' => 'Tourism',
+        'penumpang' => 'Passengers',
+        'pulau' => 'Islands'
     ];
     return $names[$category] ?? ucfirst($category);
 }
@@ -26,8 +26,8 @@ function getCategoryName($category) {
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-3">Galeri <?= $categoryName ?></h1>
-                <p class="lead">Kumpulan foto <?= strtolower($categoryName) ?> di Kepulauan Raja Ampat</p>
+                <h1 class="display-4 fw-bold mb-3"><?= $categoryName ?> Gallery</h1>
+                <p class="lead">Collection of <?= strtolower($categoryName) ?> photos in Raja Ampat Islands</p>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@ function getCategoryName($category) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
-                <li class="breadcrumb-item"><a href="<?= base_url('gallery') ?>">Galeri</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('gallery') ?>">Gallery</a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $categoryName ?></li>
             </ol>
         </nav>
@@ -54,10 +54,10 @@ function getCategoryName($category) {
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Kategori Galeri</h5>
+                        <h5 class="card-title mb-3">Gallery Categories</h5>
                         <div class="d-flex flex-wrap gap-2">
                             <a href="<?= base_url('gallery') ?>" class="btn btn-outline-primary">
-                                <i class="fas fa-images me-2"></i>Semua
+                                <i class="fas fa-images me-2"></i>All
                             </a>
                             <?php 
                             $categories = ['kapal', 'wisata', 'penumpang', 'pulau'];
@@ -98,15 +98,11 @@ function getCategoryName($category) {
             <?php else: ?>
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-images fa-4x text-muted mb-3"></i>
-                    <h3>Belum Ada Foto</h3>
-                    <p class="text-muted">Belum ada foto dalam kategori <?= strtolower($categoryName) ?>.</p>
-                    <a href="<?= base_url('gallery') ?>" class="btn btn-primary">Kembali ke Galeri</a>
+                    <h3>No Photos Yet</h3>
+                    <p class="text-muted">No photos available in the <?= strtolower($categoryName) ?> category.</p>
+                    <a href="<?= base_url('gallery') ?>" class="btn btn-primary">Back to Gallery</a>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 </section>
-
-
-
-

@@ -6,8 +6,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-3">Paket Wisata Raja Ampat</h1>
-                <p class="lead">Temukan paket wisata terbaik untuk menjelajahi keindahan Kepulauan Raja Ampat</p>
+                <h1 class="display-4 fw-bold mb-3">Raja Ampat Tour Packages</h1>
+                <p class="lead">Discover the best tour packages to explore the beauty of Raja Ampat Islands</p>
             </div>
         </div>
     </div>
@@ -21,41 +21,41 @@
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Filter Paket Wisata</h5>
+                        <h5 class="card-title mb-3">Filter Tour Packages</h5>
                         <form id="packageFilter">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label">Pulau Tujuan</label>
+                                    <label class="form-label">Destination Island</label>
                                     <select class="form-select" id="islandFilter">
-                                        <option value="">Semua Pulau</option>
+                                        <option value="">All Islands</option>
                                         <?php foreach ($islands as $island): ?>
                                             <option value="<?= $island['island_name'] ?>"><?= $island['island_name'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label class="form-label">Durasi</label>
+                                    <label class="form-label">Duration</label>
                                     <select class="form-select" id="durationFilter">
-                                        <option value="">Semua Durasi</option>
-                                        <option value="1 Hari">1 Hari</option>
-                                        <option value="2 Hari">2 Hari</option>
-                                        <option value="3 Hari">3 Hari</option>
-                                        <option value="4+ Hari">4+ Hari</option>
+                                        <option value="">All Durations</option>
+                                        <option value="1 Day">1 Day</option>
+                                        <option value="2 Days">2 Days</option>
+                                        <option value="3 Days">3 Days</option>
+                                        <option value="4+ Days">4+ Days</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Budget</label>
                                     <select class="form-select" id="budgetFilter">
-                                        <option value="">Semua Budget</option>
-                                        <option value="low">Rp 0 - 500.000</option>
-                                        <option value="medium">Rp 500.000 - 1.500.000</option>
-                                        <option value="high">Rp 1.500.000+</option>
+                                        <option value="">All Budgets</option>
+                                        <option value="low">Rp 0 - 500,000</option>
+                                        <option value="medium">Rp 500,000 - 1,500,000</option>
+                                        <option value="high">Rp 1,500,000+</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="text-end">
                                 <button type="reset" class="btn btn-outline-secondary me-2">Reset</button>
-                                <button type="submit" class="btn btn-primary">Terapkan Filter</button>
+                                <button type="submit" class="btn btn-primary">Apply Filter</button>
                             </div>
                         </form>
                     </div>
@@ -66,8 +66,8 @@
         <!-- Packages Grid -->
         <div class="row mb-5">
             <div class="col-12 text-center mb-4">
-                <h2 class="fw-bold">Semua Paket Wisata</h2>
-                <p class="lead">Pilih paket yang paling sesuai dengan rencana perjalanan Anda</p>
+                <h2 class="fw-bold">All Tour Packages</h2>
+                <p class="lead">Choose the package that best fits your travel plans</p>
             </div>
             
             <?php if (!empty($packages)): ?>
@@ -91,7 +91,7 @@
                             
                             <div class="package-features mb-3">
                                 <small class="text-muted">
-                                    <i class="fas fa-user-friends me-1"></i> Max 10 orang
+                                    <i class="fas fa-user-friends me-1"></i> Max 10 people
                                 </small>
                                 <small class="text-muted ms-3">
                                     <i class="fas fa-clock me-1"></i> <?= $package['duration'] ?>
@@ -103,8 +103,8 @@
                         
                         <div class="card-footer bg-transparent">
                             <div class="d-grid gap-2">
-                                <a href="<?= base_url('tour/detail/' . ($package['slug'] ?? '')) ?>" class="btn btn-primary">Detail Paket</a>
-                                <a href="<?= base_url('boats') ?>" class="btn btn-outline-primary">Pesan Sekarang</a>
+                                <a href="<?= base_url('tour/detail/' . ($package['slug'] ?? '')) ?>" class="btn btn-primary">Package Details</a>
+                                <a href="<?= base_url('boats') ?>" class="btn btn-outline-primary">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -113,9 +113,9 @@
             <?php else: ?>
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-suitcase-rolling fa-4x text-muted mb-3"></i>
-                    <h3>Belum Ada Paket Wisata</h3>
-                    <p class="text-muted">Paket wisata sedang dalam persiapan. Silakan kembali lagi nanti.</p>
-                    <a href="<?= base_url('contact') ?>" class="btn btn-primary">Hubungi Kami</a>
+                    <h3>No Tour Packages Yet</h3>
+                    <p class="text-muted">Tour packages are being prepared. Please check back later.</p>
+                    <a href="<?= base_url('contact') ?>" class="btn btn-primary">Contact Us</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -125,9 +125,9 @@
             <div class="col-lg-8 mx-auto">
                 <div class="card bg-light text-center">
                     <div class="card-body py-5">
-                        <h3 class="fw-bold mb-3">Butuh Paket Kustom?</h3>
-                        <p class="lead mb-4">Kami dapat membuat paket wisata khusus sesuai kebutuhan dan budget Anda</p>
-                        <a href="<?= base_url('contact') ?>" class="btn btn-primary btn-lg">Konsultasi Gratis</a>
+                        <h3 class="fw-bold mb-3">Need Custom Package?</h3>
+                        <p class="lead mb-4">We can create custom tour packages according to your needs and budget</p>
+                        <a href="<?= base_url('contact') ?>" class="btn btn-primary btn-lg">Free Consultation</a>
                     </div>
                 </div>
             </div>

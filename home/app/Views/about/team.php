@@ -1,12 +1,10 @@
-
-
 <!-- Team Hero Section -->
 <section class="team-hero py-5 bg-primary text-white">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-4">Tim Kami</h1>
-                <p class="lead">Kenali tim profesional yang siap melayani perjalanan Anda di Raja Ampat</p>
+                <h1 class="display-4 fw-bold mb-4">Our Team</h1>
+                <p class="lead">Meet the professional team ready to serve your journey in Raja Ampat</p>
             </div>
         </div>
     </div>
@@ -17,8 +15,8 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-3">Bertemu Dengan Tim</h2>
-                <p class="lead">Kami adalah tim yang berpengalaman dan berdedikasi untuk memberikan pengalaman terbaik dalam setiap perjalanan Anda</p>
+                <h2 class="fw-bold mb-3">Meet The Team</h2>
+                <p class="lead">We are an experienced and dedicated team committed to providing the best experience in every journey</p>
             </div>
         </div>
 
@@ -62,8 +60,8 @@
             <?php else: ?>
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-users fa-4x text-muted mb-3"></i>
-                    <h3>Data Tim Belum Tersedia</h3>
-                    <p class="text-muted">Informasi tim akan segera diupdate</p>
+                    <h3>Team Data Not Available</h3>
+                    <p class="text-muted">Team information will be updated soon</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -73,9 +71,9 @@
             <div class="col-lg-8 mx-auto">
                 <div class="card bg-primary text-white text-center">
                     <div class="card-body py-5">
-                        <h3 class="fw-bold mb-3">Ingin Bergabung Dengan Tim Kami?</h3>
-                        <p class="lead mb-4">Kami selalu mencari talenta-talenta berbakat untuk bergabung dalam tim Raja Ampat Boat Services</p>
-                        <a href="<?= base_url('contact') ?>" class="btn btn-light btn-lg">Kirim Lamaran</a>
+                        <h3 class="fw-bold mb-3">Want to Join Our Team?</h3>
+                        <p class="lead mb-4">We are always looking for talented individuals to join the Raja Ampat Boat Services team</p>
+                        <a href="<?= base_url('contact') ?>" class="btn btn-light btn-lg">Send Application</a>
                     </div>
                 </div>
             </div>

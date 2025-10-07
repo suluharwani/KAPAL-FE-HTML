@@ -42,7 +42,7 @@
                         </div>
                         
                         <div class="share-buttons mb-2">
-                            <span class="me-2">Bagikan:</span>
+                            <span class="me-2">Share:</span>
                             <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode(current_url()) ?>" target="_blank" class="text-dark me-2"><i class="fab fa-facebook-f"></i></a>
                             <a href="https://twitter.com/intent/tweet?text=<?= urlencode($blog['title']) ?>&url=<?= urlencode(current_url()) ?>" target="_blank" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
                             <a href="https://wa.me/?text=<?= urlencode($blog['title'] . ' ' . current_url()) ?>" target="_blank" class="text-dark"><i class="fab fa-whatsapp"></i></a>
@@ -61,7 +61,7 @@
                     
                     <?php if (!empty($blog['category_name'])): ?>
                     <div class="mt-5 pt-4 border-top">
-                        <h5 class="mb-3">Kategori:</h5>
+                        <h5 class="mb-3">Category:</h5>
                         <a href="<?= base_url('blog/category/' . $blog['category_slug']) ?>" class="badge bg-primary text-decoration-none me-1 mb-1"><?= $blog['category_name'] ?></a>
                     </div>
                     <?php endif; ?>
@@ -70,7 +70,7 @@
                 <!-- Related Posts - Show posts from same category -->
                 <?php if (!empty($relatedPosts)): ?>
                 <div class="mt-5">
-                    <h3 class="mb-4">Artikel Terkait</h3>
+                    <h3 class="mb-4">Related Articles</h3>
                     <div class="row">
                         <?php foreach ($relatedPosts as $related): ?>
                             <?php if ($related['blog_id'] != $blog['blog_id']): ?>
@@ -85,7 +85,7 @@
                                     <div class="card-body">
                                         <h6 class="card-title"><?= $related['title'] ?></h6>
                                         <p class="card-text small"><?= substr(strip_tags($related['content']), 0, 100) ?>...</p>
-                                        <a href="<?= base_url('blog/' . $related['slug']) ?>" class="btn btn-sm btn-outline-primary">Baca Selengkapnya</a>
+                                        <a href="<?= base_url('blog/' . $related['slug']) ?>" class="btn btn-sm btn-outline-primary">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -97,10 +97,10 @@
                 
                 <!-- Comments Section (Optional - bisa diimplementasikan later) -->
                 <div class="mt-5 pt-4 border-top">
-                    <h4 class="mb-3">Komentar</h4>
+                    <h4 class="mb-3">Comments</h4>
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
-                        Fitur komentar sedang dalam pengembangan. Silakan hubungi kami melalui halaman kontak untuk pertanyaan.
+                        Comment feature is under development. Please contact us through the contact page for questions.
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                 <!-- Categories Widget -->
                 <div class="card mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Kategori</h5>
+                        <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Categories</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
@@ -129,7 +129,7 @@
                 <!-- Recent Posts Widget -->
                 <div class="card mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Postingan Terbaru</h5>
+                        <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Posts</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
@@ -148,15 +148,15 @@
                 <!-- Newsletter Widget -->
                 <div class="card mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Berlangganan Newsletter</h5>
+                        <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Subscribe to Newsletter</h5>
                     </div>
                     <div class="card-body">
-                        <p class="card-text small">Dapatkan update terbaru tentang promo dan informasi wisata Raja Ampat.</p>
+                        <p class="card-text small">Get the latest updates about promotions and Raja Ampat travel information.</p>
                         <form>
                             <div class="mb-3">
-                                <input type="email" class="form-control form-control-sm" placeholder="Alamat email Anda" required>
+                                <input type="email" class="form-control form-control-sm" placeholder="Your email address" required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-sm w-100">Berlangganan</button>
+                            <button type="submit" class="btn btn-primary btn-sm w-100">Subscribe</button>
                         </form>
                     </div>
                 </div>

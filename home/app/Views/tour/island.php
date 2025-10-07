@@ -3,8 +3,8 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <h2 class="fw-bold">Galeri Pulau <?= $island['island_name'] ?? 'Raja Ampat' ?></h2>
-                <p class="lead">Momen indah yang diabadikan di pulau ini</p>
+                <h2 class="fw-bold"><?= $island['island_name'] ?? 'Raja Ampat' ?> Island Gallery</h2>
+                <p class="lead">Beautiful moments captured on this island</p>
             </div>
         </div>
         <div class="row">
@@ -30,13 +30,13 @@
             <?php else: ?>
                 <div class="col-12 text-center py-3">
                     <i class="fas fa-images fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Galeri foto akan segera diupdate.</p>
+                    <p class="text-muted">Photo gallery will be updated soon.</p>
                 </div>
             <?php endif; ?>
         </div>
         
         <div class="text-center mt-4">
-            <a href="<?= base_url('gallery') ?>" class="btn btn-outline-primary">Lihat Galeri Lengkap</a>
+            <a href="<?= base_url('gallery') ?>" class="btn btn-outline-primary">View Complete Gallery</a>
         </div>
     </div>
 </section>

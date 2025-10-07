@@ -1,12 +1,10 @@
-
-
 <!-- Testimonials Hero Section -->
 <section class="testimonials-hero py-5 bg-primary text-white">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-4">Testimonial</h1>
-                <p class="lead">Pengalaman nyata dari pelanggan yang telah menggunakan layanan kami</p>
+                <h1 class="display-4 fw-bold mb-4">Testimonials</h1>
+                <p class="lead">Real experiences from customers who have used our services</p>
             </div>
         </div>
     </div>
@@ -17,8 +15,8 @@
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-3">Apa Kata Mereka?</h2>
-                <p class="lead">Kepuasan pelanggan adalah prioritas utama kami. Berikut adalah cerita mereka.</p>
+                <h2 class="fw-bold mb-3">What Do They Say?</h2>
+                <p class="lead">Customer satisfaction is our top priority. Here are their stories.</p>
             </div>
         </div>
 
@@ -66,9 +64,9 @@
             <?php else: ?>
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-comments fa-4x text-muted mb-3"></i>
-                    <h3>Belum Ada Testimonial</h3>
-                    <p class="text-muted">Jadilah yang pertama memberikan testimonial untuk layanan kami</p>
-                    <a href="<?= base_url('contact') ?>" class="btn btn-primary">Berikan Testimonial</a>
+                    <h3>No Testimonials Yet</h3>
+                    <p class="text-muted">Be the first to provide a testimonial for our services</p>
+                    <a href="<?= base_url('contact') ?>" class="btn btn-primary">Give Testimonial</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -78,13 +76,12 @@
             <div class="col-lg-8 mx-auto">
                 <div class="card bg-light text-center">
                     <div class="card-body py-5">
-                        <h3 class="fw-bold mb-3">Bagaimana Pengalaman Anda?</h3>
-                        <p class="lead mb-4">Bagikan pengalaman Anda menggunakan layanan Raja Ampat Boat Services</p>
-                        <a href="<?= base_url('contact') ?>" class="btn btn-primary btn-lg">Tulis Testimonial</a>
+                        <h3 class="fw-bold mb-3">How Was Your Experience?</h3>
+                        <p class="lead mb-4">Share your experience using Raja Ampat Boat Services</p>
+                        <a href="<?= base_url('contact') ?>" class="btn btn-primary btn-lg">Write Testimonial</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-

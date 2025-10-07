@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-4 mb-4">
                 <h5 class="mb-3">Raja Ampat Boat Services</h5>
-                <p>Menyediakan layanan transportasi kapal antar pulau di Kepulauan Raja Ampat dengan pelayanan terbaik dan harga kompetitif.</p>
+                <p>Providing inter-island boat transportation services in Raja Ampat Islands with the best service and competitive prices.</p>
                 <div class="social-icons">
                     <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
@@ -12,17 +12,17 @@
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 mb-4">
-                <h5 class="mb-3">Tautan Cepat</h5>
+                <h5 class="mb-3">Quick Links</h5>
                 <ul class="list-unstyled">
                     <li class="mb-2"><a href="<?= base_url() ?>" class="text-white">Home</a></li>
-                    <li class="mb-2"><a href="<?= base_url('about') ?>" class="text-white">Tentang Kami</a></li>
+                    <li class="mb-2"><a href="<?= base_url('about') ?>" class="text-white">About Us</a></li>
                     <li class="mb-2"><a href="<?= base_url('blog') ?>" class="text-white">Blog</a></li>
-                    <li class="mb-2"><a href="<?= base_url('contact') ?>" class="text-white">Kontak</a></li>
+                    <li class="mb-2"><a href="<?= base_url('contact') ?>" class="text-white">Contact</a></li>
                     <li class="mb-2"><a href="<?= base_url('faq') ?>" class="text-white">FAQ</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="mb-3">Kontak Kami</h5>
+                <h5 class="mb-3">Contact Us</h5>
                 <ul class="list-unstyled">
                     <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Jl. Raya Waigeo, Raja Ampat</li>
                     <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> +62 812-3456-7890</li>
@@ -30,11 +30,11 @@
                 </ul>
             </div>
             <div class="col-lg-3 mb-4">
-                <h5 class="mb-3">Jam Operasional</h5>
+                <h5 class="mb-3">Operating Hours</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2">Senin - Jumat: 08:00 - 17:00</li>
-                    <li class="mb-2">Sabtu: 08:00 - 15:00</li>
-                    <li>Minggu: Libur</li>
+                    <li class="mb-2">Monday - Friday: 08:00 - 17:00</li>
+                    <li class="mb-2">Saturday: 08:00 - 15:00</li>
+                    <li>Sunday: Closed</li>
                 </ul>
             </div>
         </div>

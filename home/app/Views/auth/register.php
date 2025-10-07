@@ -34,23 +34,23 @@
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="mb-3">
-                            <label for="passconf" class="form-label">Konfirmasi Password</label>
+                            <label for="passconf" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="passconf" name="passconf" required>
                         </div>
                         <div class="mb-3">
-                            <label for="full_name" class="form-label">Nama Lengkap</label>
+                            <label for="full_name" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="full_name" name="full_name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
+                            <label for="phone" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="phone" name="phone" required>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Daftar</button>
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </form>
                     <div class="mt-3 text-center">
-                        Sudah punya akun? <a href="<?= base_url('auth/login') ?>">Login disini</a>
+                        Already have an account? <a href="<?= base_url('auth/login') ?>">Login here</a>
                     </div>
                 </div>
             </div>

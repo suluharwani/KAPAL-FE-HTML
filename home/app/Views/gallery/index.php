@@ -12,10 +12,10 @@ function getCategoryIcon($category) {
 
 function getCategoryName($category) {
     $names = [
-        'kapal' => 'Kapal',
-        'wisata' => 'Wisata',
-        'penumpang' => 'Penumpang',
-        'pulau' => 'Pulau'
+        'kapal' => 'Boats',
+        'wisata' => 'Tourism',
+        'penumpang' => 'Passengers',
+        'pulau' => 'Islands'
     ];
     return $names[$category] ?? ucfirst($category);
 }
@@ -24,8 +24,8 @@ function getCategoryName($category) {
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-3">Galeri Raja Ampat</h1>
-                <p class="lead">Kumpulan momen indah dan kenangan tak terlupakan di Kepulauan Raja Ampat</p>
+                <h1 class="display-4 fw-bold mb-3">Raja Ampat Gallery</h1>
+                <p class="lead">Collection of beautiful moments and unforgettable memories in Raja Ampat Islands</p>
             </div>
         </div>
     </div>
@@ -39,10 +39,10 @@ function getCategoryName($category) {
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title mb-3">Kategori Galeri</h5>
+                        <h5 class="card-title mb-3">Gallery Categories</h5>
                         <div class="d-flex flex-wrap gap-2">
                             <a href="<?= base_url('gallery') ?>" class="btn btn-outline-primary <?= !service('uri')->getSegment(2) ? 'active' : '' ?>">
-                                <i class="fas fa-images me-2"></i>Semua
+                                <i class="fas fa-images me-2"></i>All
                             </a>
                             <?php foreach ($categories as $category): ?>
                             <a href="<?= base_url('gallery/category/' . $category) ?>" class="btn btn-outline-primary <?= service('uri')->getSegment(2) === $category ? 'active' : '' ?>">
@@ -59,8 +59,8 @@ function getCategoryName($category) {
         <!-- Featured Gallery -->
         <div class="row mb-5">
             <div class="col-12 text-center mb-4">
-                <h2 class="fw-bold">Foto Pilihan</h2>
-                <p class="lead">Momen-momen terbaik yang diabadikan</p>
+                <h2 class="fw-bold">Featured Photos</h2>
+                <p class="lead">The best moments captured</p>
             </div>
             
             <?php if (!empty($featuredGallery)): ?>
@@ -88,7 +88,7 @@ function getCategoryName($category) {
             <?php else: ?>
                 <div class="col-12 text-center py-3">
                     <i class="fas fa-images fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Belum ada foto yang ditampilkan.</p>
+                    <p class="text-muted">No photos displayed yet.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -100,7 +100,7 @@ function getCategoryName($category) {
                 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold"><?= getCategoryName($category) ?></h3>
                     <a href="<?= base_url('gallery/category/' . $category) ?>" class="btn btn-sm btn-outline-primary">
-                        Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+                        View All <i class="fas fa-arrow-right ms-1"></i>
                     </a>
                 </div>
                 
@@ -127,7 +127,3 @@ function getCategoryName($category) {
         <?php endforeach; ?>
     </div>
 </section>
-
-
-
-

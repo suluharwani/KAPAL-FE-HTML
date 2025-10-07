@@ -4,3 +4,4 @@ dashboard-dir/.env
 *.log
 *.json
 /dashboard-dir/writable/session
+home/writable/session/ci_session549392c9ae7a5afa12929b5fdfe0445b

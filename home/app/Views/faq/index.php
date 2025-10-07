@@ -1,5 +1,5 @@
 <div class="container my-5">
-    <h1 class="mb-4">Pertanyaan yang Sering Diajukan</h1>
+    <h1 class="mb-4">Frequently Asked Questions</h1>
     
     <div class="row">
         <div class="col-lg-8 mx-auto">
@@ -19,9 +19,9 @@
     
     <!-- Contact CTA -->
     <section class="mt-5 py-4 bg-primary text-white rounded text-center">
-        <h3 class="mb-3">Masih ada pertanyaan?</h3>
-        <p class="lead mb-4">Tim kami siap membantu Anda 24/7</p>
-        <a href="<?= base_url('contact') ?>" class="btn btn-light btn-lg">Hubungi Kami</a>
+        <h3 class="mb-3">Still have questions?</h3>
+        <p class="lead mb-4">Our team is ready to help you 24/7</p>
+        <a href="<?= base_url('contact') ?>" class="btn btn-light btn-lg">Contact Us</a>
     </section>
 </div>
 

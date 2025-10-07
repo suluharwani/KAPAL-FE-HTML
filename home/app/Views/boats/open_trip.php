@@ -6,17 +6,17 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Jadwal Open Trip</h3>
+                    <h3 class="mb-0">Open Trip Schedule</h3>
                 </div>
                 <div class="card-body">
-                    <p>Berikut adalah jadwal open trip yang tersedia. Anda bisa bergabung dengan open trip yang sudah ada atau membuat permintaan baru.</p>
-                    <p class="text-warning"><small>* Harga dapat berubah sesuai kesepakatan dengan admin</small></p>
+                    <p>Below is the available open trip schedule. You can join existing open trips or create a new request.</p>
+                    <p class="text-warning"><small>* Prices may change according to agreement with admin</small></p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <button class="btn btn-primary btn-lg w-100" data-bs-toggle="modal" data-bs-target="#requestOpenTripModal">
-                <i class="fas fa-plus me-2"></i>Request Open Trip Baru
+                <i class="fas fa-plus me-2"></i>Request New Open Trip
             </button>
         </div>
         <div class="col-md-4">
@@ -30,14 +30,14 @@
         <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th>Rute</th>
-                    <th>Tanggal</th>
-                    <th>Waktu</th>
-                    <th>Kapal</th>
-                    <th>Kapasitas</th>
-                    <th>Harga</th>
+                    <th>Route</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Boat</th>
+                    <th>Capacity</th>
+                    <th>Price</th>
                     <th>Status</th>
-                    <th>Aksi</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                         <td colspan="8" class="text-center py-4">
                             <div class="text-muted">
                                 <i class="fas fa-ship fa-3x mb-3"></i>
-                                <p>Tidak ada open trip yang tersedia saat ini.</p>
+                                <p>No open trips available at the moment.</p>
                             </div>
                         </td>
                     </tr>
@@ -59,21 +59,21 @@
                             <td><?= $trip['boat_name'] ?></td>
                             <td>
                                 <span class="badge bg-<?= $trip['available_seats'] > 0 ? 'success' : 'danger' ?>">
-                                    <?= $trip['available_seats'] ?>/<?= $trip['capacity'] ?> orang
+                                    <?= $trip['available_seats'] ?>/<?= $trip['capacity'] ?> people
                                 </span>
                             </td>
                             <td>
                                 <?php if (isset($trip['price_per_person']) && !empty($trip['price_per_person'])): ?>
-                                    Rp <?= number_format($trip['price_per_person'], 0, ',', '.') ?> / orang
+                                    Rp <?= number_format($trip['price_per_person'], 0, ',', '.') ?> / person
                                     <?php if (isset($trip['agreed_price']) && !empty($trip['agreed_price'])): ?>
                                         <br><small class="text-muted">Total: Rp <?= number_format($trip['agreed_price'], 0, ',', '.') ?></small>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <?php 
-                                    // Hitung harga per orang berdasarkan harga kapal dan kapasitas
+                                    // Calculate price per person based on boat price and capacity
                                     $pricePerPerson = $trip['capacity'] > 0 ? $trip['price_per_trip'] / $trip['capacity'] : 0;
                                     ?>
-                                    Rp <?= number_format($pricePerPerson, 0, ',', '.') ?> / orang
+                                    Rp <?= number_format($pricePerPerson, 0, ',', '.') ?> / person
                                     <br><small class="text-muted">Total: Rp <?= number_format($trip['price_per_trip'], 0, ',', '.') ?></small>
                                 <?php endif; ?>
                             </td>
@@ -94,7 +94,7 @@
                                         data-show-contact="<?= $trip['show_contact_admin'] ?? 0 ?>"
                                         data-available-seats="<?= $trip['available_seats'] ?>"
                                         <?= $trip['available_seats'] <= 0 ? 'disabled' : '' ?>>
-                                    <?= $trip['available_seats'] <= 0 ? 'Penuh' : 'Gabung' ?>
+                                    <?= $trip['available_seats'] <= 0 ? 'Full' : 'Join' ?>
                                 </button>
                                 <?php if (session('role') == 'admin'): ?>
                                     <button class="btn btn-sm btn-warning edit-price-btn mt-1"
@@ -103,7 +103,7 @@
                                             data-commission-rate="<?= $trip['commission_rate'] ?? 0 ?>"
                                             data-show-contact="<?= $trip['show_contact_admin'] ?? 1 ?>"
                                             data-capacity="<?= $trip['capacity'] ?>">
-                                        <i class="fas fa-edit"></i> Harga
+                                        <i class="fas fa-edit"></i> Price
                                     </button>
                                 <?php endif; ?>
                             </td>
@@ -119,28 +119,28 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Request Open Trip Baru</h5>
+                    <h5 class="modal-title">Request New Open Trip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="openTripRequestForm">
     <div class="modal-body">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="requestBoat" class="form-label">Kapal</label>
+                <label for="requestBoat" class="form-label">Boat</label>
                 <select class="form-select" id="requestBoat" name="boat_id" required>
-                    <option value="" selected disabled>Pilih Kapal</option>
+                    <option value="" selected disabled>Select Boat</option>
                     <?php foreach ($boats as $boat): ?>
                         <option value="<?= $boat['boat_id'] ?>" data-capacity="<?= $boat['capacity'] ?>">
-                            <?= $boat['boat_name'] ?> (<?= $boat['boat_type'] ?> - Kapasitas: <?= $boat['capacity'] ?> orang)
+                            <?= $boat['boat_name'] ?> (<?= $boat['boat_type'] ?> - Capacity: <?= $boat['capacity'] ?> people)
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <div class="form-text">Kapasitas: <span id="boatCapacityText">-</span> orang</div>
+                <div class="form-text">Capacity: <span id="boatCapacityText">-</span> people</div>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="requestRoute" class="form-label">Rute</label>
+                <label for="requestRoute" class="form-label">Route</label>
                 <select class="form-select" id="requestRoute" name="route_id" required>
-                    <option value="" selected disabled>Pilih Rute</option>
+                    <option value="" selected disabled>Select Route</option>
                     <?php foreach ($routes as $route): ?>
                         <option value="<?= $route['route_id'] ?>">
                             <?= $route['departure_island_name'] ?> - <?= $route['arrival_island_name'] ?>
@@ -152,34 +152,34 @@
         
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="proposedDate" class="form-label">Tanggal</label>
+                <label for="proposedDate" class="form-label">Date</label>
                 <input type="date" class="form-control" id="proposedDate" name="proposed_date" min="<?= date('Y-m-d') ?>" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="proposedTime" class="form-label">Waktu</label>
+                <label for="proposedTime" class="form-label">Time</label>
                 <input type="time" class="form-control" id="proposedTime" name="proposed_time" required>
             </div>
         </div>
         
         <div class="mb-3">
-            <label for="requestNotes" class="form-label">Catatan (Opsional)</label>
-            <textarea class="form-control" id="requestNotes" name="notes" rows="3" placeholder="Tambahkan catatan atau permintaan khusus"></textarea>
+            <label for="requestNotes" class="form-label">Notes (Optional)</label>
+            <textarea class="form-control" id="requestNotes" name="notes" rows="3" placeholder="Add notes or special requests"></textarea>
         </div>
         
         <div class="alert alert-info">
-            <h6><i class="fas fa-info-circle"></i> Informasi Penting:</h6>
+            <h6><i class="fas fa-info-circle"></i> Important Information:</h6>
             <ul class="mb-0">
-                <li>Request akan diverifikasi oleh admin terlebih dahulu</li>
-                <li>Jumlah penumpang mengikuti kapasitas kapal yang dipilih</li>
-                <li>Harga akan ditentukan melalui kesepakatan dengan admin</li>
-                <li>Anda akan mendapatkan komisi dari setiap penumpang yang bergabung</li>
-                <li>Status request akan dikirim via email</li>
+                <li>Request will be verified by admin first</li>
+                <li>Number of passengers follows the selected boat capacity</li>
+                <li>Price will be determined through agreement with admin</li>
+                <li>You will get commission from every passenger who joins</li>
+                <li>Request status will be sent via email</li>
             </ul>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary">Ajukan Request</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
     </div>
 </form>
             </div>
@@ -191,7 +191,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">Request Berhasil</h5>
+                    <h5 class="modal-title">Request Successful</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -200,60 +200,60 @@
                         <p class="fw-bold">Request ID: <span id="requestId"></span></p>
                     </div>
                     <div class="alert alert-info">
-                        <p>Request Anda akan diverifikasi oleh admin. Kami akan mengirimkan notifikasi via email setelah request disetujui.</p>
-                        <p class="mb-0">Silakan cek halaman <a href="<?= base_url('boats/my-open-trip-requests') ?>" class="alert-link">My Requests</a> untuk melihat status request.</p>
+                        <p>Your request will be verified by admin. We will send notification via email after the request is approved.</p>
+                        <p class="mb-0">Please check the <a href="<?= base_url('boats/my-open-trip-requests') ?>" class="alert-link">My Requests</a> page to see request status.</p>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Price Modal (Hanya untuk Admin) -->
+    <!-- Edit Price Modal (Admin Only) -->
     <?php if (session('role') == 'admin'): ?>
     <div class="modal fade" id="editPriceModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Kelola Harga Open Trip</h5>
+                    <h5 class="modal-title">Manage Open Trip Price</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editPriceForm">
                     <input type="hidden" name="open_trip_id" id="editOpenTripId">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Harga Kesepakatan (Total)</label>
+                            <label class="form-label">Agreed Price (Total)</label>
                             <input type="number" class="form-control" name="agreed_price" id="editAgreedPrice" required>
-                            <div class="form-text">Total harga yang disepakati dengan customer</div>
+                            <div class="form-text">Total price agreed with customer</div>
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label">Komisi (%)</label>
+                            <label class="form-label">Commission (%)</label>
                             <input type="number" class="form-control" name="commission_rate" id="editCommissionRate" 
                                    min="0" max="100" step="0.01" required>
-                            <div class="form-text">Persentase komisi untuk yang membuka open trip</div>
+                            <div class="form-text">Commission percentage for the open trip creator</div>
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label">Tampilkan "Hubungi Admin"</label>
+                            <label class="form-label">Show "Contact Admin"</label>
                             <select class="form-select" name="show_contact_admin" id="editShowContact">
-                                <option value="1">Ya</option>
-                                <option value="0">Tidak</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
                             </select>
-                            <div class="form-text">Jika ya, harga akan disembunyikan dan ditampilkan pesan hubungi admin</div>
+                            <div class="form-text">If yes, price will be hidden and show contact admin message</div>
                         </div>
                         
                         <div class="alert alert-info">
-                            <strong>Komisi:</strong> <span id="commissionAmount">Rp 0</span><br>
-                            <strong>Harga per orang:</strong> <span id="pricePerPerson">Rp 0</span><br>
-                            <strong>Pendapatan bersih:</strong> <span id="netIncome">Rp 0</span>
+                            <strong>Commission:</strong> <span id="commissionAmount">Rp 0</span><br>
+                            <strong>Price per person:</strong> <span id="pricePerPerson">Rp 0</span><br>
+                            <strong>Net income:</strong> <span id="netIncome">Rp 0</span>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
@@ -271,10 +271,10 @@ $(document).ready(function() {
         
         const formData = $(this).serialize();
         
-        // Tampilkan loading
+        // Show loading
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.html();
-        submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Mengirim...');
+        submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Sending...');
         
         $.ajax({
             url: '<?= base_url('boats/request-open-trip') ?>',
@@ -299,7 +299,7 @@ $(document).ready(function() {
                         location.reload();
                     }, 3000);
                 } else {
-                    alert(response.error || 'Terjadi kesalahan');
+                    alert(response.error || 'An error occurred');
                 }
             },
             error: function(xhr) {
@@ -312,7 +312,7 @@ $(document).ready(function() {
                     }
                     alert(errorMessages);
                 } else {
-                    alert('Terjadi kesalahan jaringan. Silakan coba lagi.');
+                    alert('Network error occurred. Please try again.');
                 }
             }
         });
@@ -343,7 +343,7 @@ $(document).ready(function() {
         $('#editCommissionRate').val(commissionRate);
         $('#editShowContact').val(showContact);
         
-        // Hitung komisi dan harga per orang
+        // Calculate commission and price per person
         calculatePriceDetails(agreedPrice, commissionRate, capacity);
         
         $('#editPriceModal').modal('show');
@@ -376,7 +376,7 @@ $(document).ready(function() {
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.html();
         
-        submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...');
+        submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Saving...');
         
         $.ajax({
             url: '<?= base_url('boats/update-open-trip-price') ?>',
@@ -391,7 +391,7 @@ $(document).ready(function() {
                     $('#editPriceModal').modal('hide');
                     location.reload();
                 } else {
-                    alert(response.error || 'Terjadi kesalahan');
+                    alert(response.error || 'An error occurred');
                 }
             },
             error: function(xhr) {
@@ -404,24 +404,24 @@ $(document).ready(function() {
                     }
                     alert(errorMessages);
                 } else {
-                    alert('Terjadi kesalahan jaringan. Silakan coba lagi.');
+                    alert('Network error occurred. Please try again.');
                 }
             }
         });
     });
     
-    // Join open trip button - tambahkan pengecekan show_contact_admin
+    // Join open trip button - add show_contact_admin check
     $('.join-btn').click(function() {
         const showContact = $(this).data('show-contact');
         const availableSeats = $(this).data('available-seats');
         
         if (availableSeats <= 0) {
-            alert('Maaf, open trip ini sudah penuh.');
+            alert('Sorry, this open trip is full.');
             return;
         }
         
         if (showContact == 1) {
-            alert('Silakan hubungi admin untuk informasi harga dan pendaftaran.\n\nKontak Admin:\n- Email: admin@rajaampatboats.com\n- WhatsApp: +62 812-3456-7890');
+            alert('Please contact admin for price information and registration.\n\nAdmin Contact:\n- Email: admin@rajaampatboats.com\n- WhatsApp: +62 812-3456-7890');
             return;
         }
         
@@ -429,13 +429,13 @@ $(document).ready(function() {
         const boatName = $(this).data('boat-name');
         const price = $(this).data('price');
         
-        // Lanjutkan dengan proses booking biasa
+        // Continue with normal booking process
         $('#modalScheduleId').val('');
         $('#modalOpenTripId').val(tripId);
         $('#modalBoatName').val(boatName);
         $('#modalPrice').val('Rp ' + (price || 0).toLocaleString('id-ID'));
         $('#passengerCount').val(1);
-        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang 1" required>');
+        $('#passengerNamesContainer').html('<input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name 1" required>');
         
         $('#bookingModal').modal('show');
     });
@@ -449,12 +449,12 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Booking Modal (Harus ada di layout atau include terpisah) -->
+<!-- Booking Modal (Must be in layout or separate include) -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Booking Open Trip</h5>
+                <h5 class="modal-title">Book Open Trip</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="bookingForm">
@@ -462,27 +462,27 @@ $(document).ready(function() {
                 <input type="hidden" id="modalOpenTripId" name="open_trip_id">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Kapal</label>
+                        <label class="form-label">Boat</label>
                         <input type="text" class="form-control" id="modalBoatName" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Harga per orang</label>
+                        <label class="form-label">Price per person</label>
                         <input type="text" class="form-control" id="modalPrice" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Jumlah Penumpang</label>
+                        <label class="form-label">Number of Passengers</label>
                         <input type="number" class="form-control" id="passengerCount" name="passengers" min="1" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nama Penumpang</label>
+                        <label class="form-label">Passenger Names</label>
                         <div id="passengerNamesContainer">
-                            <input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Nama Penumpang 1" required>
+                            <input type="text" class="form-control mb-2" name="passenger_names[]" placeholder="Passenger Name 1" required>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Booking Sekarang</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Book Now</button>
                 </div>
             </form>
         </div>

@@ -35,7 +35,7 @@ public function getRequestDetails($requestId)
         $request['arrival_island_name'] = $arrivalIsland['island_name'] ?? 'N/A';
     }
     
-    // Generate HTML form langsung tanpa file view
+    // Generate HTML form directly without view file
     $boats = $boatModel->findAll();
     $routes = $routeModel->getRoutesWithIslands();
     
@@ -44,14 +44,14 @@ public function getRequestDetails($requestId)
         <input type="hidden" name="request_id" value="' . $request['request_id'] . '">
         
         <div class="col-md-6 mb-3">
-            <label for="editBoat" class="form-label">Kapal</label>
+            <label for="editBoat" class="form-label">Boat</label>
             <select class="form-select" id="editBoat" name="boat_id" required>
-                <option value="" disabled>Pilih Kapal</option>';
+                <option value="" disabled>Select Boat</option>';
     
     foreach ($boats as $boat) {
         $selected = $boat['boat_id'] == $request['boat_id'] ? 'selected' : '';
         $html .= '<option value="' . $boat['boat_id'] . '" ' . $selected . '>
-                    ' . $boat['boat_name'] . ' (' . $boat['boat_type'] . ' - Kapasitas: ' . $boat['capacity'] . ' orang)
+                    ' . $boat['boat_name'] . ' (' . $boat['boat_type'] . ' - Capacity: ' . $boat['capacity'] . ' people)
                 </option>';
     }
     
@@ -59,9 +59,9 @@ public function getRequestDetails($requestId)
         </div>
         
         <div class="col-md-6 mb-3">
-            <label for="editRoute" class="form-label">Rute</label>
+            <label for="editRoute" class="form-label">Route</label>
             <select class="form-select" id="editRoute" name="route_id" required>
-                <option value="" disabled>Pilih Rute</option>';
+                <option value="" disabled>Select Route</option>';
     
     foreach ($routes as $route) {
         $selected = $route['route_id'] == $request['route_id'] ? 'selected' : '';
@@ -76,30 +76,30 @@ public function getRequestDetails($requestId)
     
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="editProposedDate" class="form-label">Tanggal</label>
+            <label for="editProposedDate" class="form-label">Date</label>
             <input type="date" class="form-control" id="editProposedDate" name="proposed_date" 
                    value="' . $request['proposed_date'] . '" min="' . date('Y-m-d') . '" required>
         </div>
         
         <div class="col-md-6 mb-3">
-            <label for="editProposedTime" class="form-label">Waktu</label>
+            <label for="editProposedTime" class="form-label">Time</label>
             <input type="time" class="form-control" id="editProposedTime" name="proposed_time" 
                    value="' . date('H:i', strtotime($request['proposed_time'])) . '" required>
         </div>
     </div>
     
     <div class="mb-3">
-        <label for="editNotes" class="form-label">Catatan (Opsional)</label>
+        <label for="editNotes" class="form-label">Notes (Optional)</label>
         <textarea class="form-control" id="editNotes" name="notes" rows="3" 
-                  placeholder="Tambahkan catatan atau permintaan khusus">' . ($request['notes'] ?? '') . '</textarea>
+                  placeholder="Add notes or special requests">' . ($request['notes'] ?? '') . '</textarea>
     </div>
     
     <div class="alert alert-info">
-        <h6><i class="fas fa-info-circle"></i> Informasi:</h6>
+        <h6><i class="fas fa-info-circle"></i> Information:</h6>
         <ul class="mb-0">
-            <li>Kapasitas kapal: <strong>' . $request['capacity'] . ' orang</strong></li>
-            <li>Rute: <strong>' . $request['departure_island_name'] . ' - ' . $request['arrival_island_name'] . '</strong></li>
-            <li>Status saat ini: <span class="badge bg-warning">' . ucfirst($request['status']) . '</span></li>
+            <li>Boat capacity: <strong>' . $request['capacity'] . ' people</strong></li>
+            <li>Route: <strong>' . $request['departure_island_name'] . ' - ' . $request['arrival_island_name'] . '</strong></li>
+            <li>Current status: <span class="badge bg-warning">' . ucfirst($request['status']) . '</span></li>
         </ul>
     </div>';
     

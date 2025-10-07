@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,26 +18,26 @@
                             <i class="fas fa-check-circle fa-5x"></i>
                         </div>
                         
-                        <h2 class="card-title text-success mb-3">Booking Berhasil!</h2>
+                        <h2 class="card-title text-success mb-3">Booking Successful!</h2>
                         <p class="card-text mb-4">
-                            Booking Anda dengan kode <strong><?= $booking['booking_code'] ?></strong> telah berhasil dibuat.
+                            Your booking with code <strong><?= $booking['booking_code'] ?></strong> has been successfully created.
                         </p>
                         
                         <div class="alert alert-info mb-4">
-                            <h6>Detail Booking:</h6>
-                            <p class="mb-1">Kapal: <?= $booking['boat_name'] ?></p>
-                            <p class="mb-1">Rute: <?= $booking['departure_island'] ?> → <?= $booking['arrival_island'] ?></p>
-                            <p class="mb-1">Tanggal: <?= date('d M Y', strtotime($booking['departure_date'])) ?></p>
-                            <p class="mb-1">Waktu: <?= date('H:i', strtotime($booking['departure_time'])) ?> WIT</p>
+                            <h6>Booking Details:</h6>
+                            <p class="mb-1">Boat: <?= $booking['boat_name'] ?></p>
+                            <p class="mb-1">Route: <?= $booking['departure_island'] ?> → <?= $booking['arrival_island'] ?></p>
+                            <p class="mb-1">Date: <?= date('d M Y', strtotime($booking['departure_date'])) ?></p>
+                            <p class="mb-1">Time: <?= date('H:i', strtotime($booking['departure_time'])) ?> WIT</p>
                             <p class="mb-0">Total: Rp <?= number_format($booking['total_price'], 0, ',', '.') ?></p>
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                             <a href="/booking/print/<?= $booking['booking_code'] ?>" class="btn btn-primary me-md-2">
-                                <i class="fas fa-print me-2"></i>Print Tiket
+                                <i class="fas fa-print me-2"></i>Print Ticket
                             </a>
                             <a href="/booking/my-bookings" class="btn btn-outline-secondary">
-                                <i class="fas fa-list me-2"></i>Lihat Booking Saya
+                                <i class="fas fa-list me-2"></i>View My Bookings
                             </a>
                         </div>
                     </div>

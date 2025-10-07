@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,18 +32,18 @@
             <div class="col-lg-8">
                 <div class="card booking-card mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0"><i class="fas fa-users me-2"></i>Data Penumpang</h4>
+                        <h4 class="mb-0"><i class="fas fa-users me-2"></i>Passenger Data</h4>
                     </div>
                     <div class="card-body">
                         <form id="bookingForm">
                             <input type="hidden" name="schedule_id" value="<?= $schedule['schedule_id'] ?>">
                             
                             <div class="mb-3">
-                                <label class="form-label">Jumlah Penumpang</label>
+                                <label class="form-label">Number of Passengers</label>
                                 <select class="form-select" id="passengerCount" name="passenger_count" required>
-                                    <option value="">Pilih jumlah penumpang</option>
+                                    <option value="">Select number of passengers</option>
                                     <?php for ($i = 1; $i <= min(10, $schedule['available_seats']); $i++): ?>
-                                        <option value="<?= $i ?>"><?= $i ?> orang</option>
+                                        <option value="<?= $i ?>"><?= $i ?> person<?= $i > 1 ? 's' : '' ?></option>
                                     <?php endfor; ?>
                                 </select>
                             </div>
@@ -53,16 +53,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Metode Pembayaran</label>
+                                <label class="form-label">Payment Method</label>
                                 <select class="form-select" name="payment_method" required>
-                                    <option value="">Pilih metode pembayaran</option>
-                                    <option value="transfer">Transfer Bank</option>
-                                    <option value="cash">Bayar di Tempat</option>
+                                    <option value="">Select payment method</option>
+                                    <option value="transfer">Bank Transfer</option>
+                                    <option value="cash">Pay on Site</option>
                                 </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-lg w-100">
-                                <i class="fas fa-check me-2"></i>Pesan Sekarang
+                                <i class="fas fa-check me-2"></i>Book Now
                             </button>
                         </form>
                     </div>
@@ -72,31 +72,31 @@
             <div class="col-lg-4">
                 <div class="card summary-card">
                     <div class="card-body">
-                        <h5 class="card-title">Detail Perjalanan</h5>
+                        <h5 class="card-title">Trip Details</h5>
                         
                         <div class="mb-3">
-                            <strong>Kapal:</strong><br>
+                            <strong>Boat:</strong><br>
                             <?= $schedule['boat_name'] ?> (<?= $schedule['boat_type'] ?>)
                         </div>
                         
                         <div class="mb-3">
-                            <strong>Rute:</strong><br>
+                            <strong>Route:</strong><br>
                             <?= $schedule['departure_island'] ?> → <?= $schedule['arrival_island'] ?>
                         </div>
                         
                         <div class="mb-3">
-                            <strong>Keberangkatan:</strong><br>
+                            <strong>Departure:</strong><br>
                             <?= date('d M Y', strtotime($schedule['departure_date'])) ?><br>
                             <?= date('H:i', strtotime($schedule['departure_time'])) ?> WIT
                         </div>
                         
                         <div class="mb-3">
-                            <strong>Durasi:</strong><br>
-                            <?= $schedule['estimated_duration'] ?> jam
+                            <strong>Duration:</strong><br>
+                            <?= $schedule['estimated_duration'] ?> hours
                         </div>
                         
                         <div class="mb-3">
-                            <strong>Harga per orang:</strong><br>
+                            <strong>Price per person:</strong><br>
                             Rp <?= number_format($schedule['price_per_trip'], 0, ',', '.') ?>
                         </div>
                         
@@ -131,23 +131,23 @@
                 for (let i = 1; i <= count; i++) {
                     const form = `
                         <div class="passenger-form mb-3">
-                            <h6 class="mb-3">Penumpang ${i}</h6>
+                            <h6 class="mb-3">Passenger ${i}</h6>
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="passengers[${i-1}][name]" 
-                                           placeholder="Nama Lengkap" required>
+                                           placeholder="Full Name" required>
                                 </div>
                                 <div class="col-md-6">
                                     <input type="number" class="form-control" name="passengers[${i-1}][identity]" 
-                                           placeholder="No. KTP (opsional)">
+                                           placeholder="ID Number (optional)">
                                 </div>
                                 <div class="col-md-6">
                                     <input type="tel" class="form-control" name="passengers[${i-1}][phone]" 
-                                           placeholder="No. HP (opsional)">
+                                           placeholder="Phone Number (optional)">
                                 </div>
                                 <div class="col-md-6">
                                     <input type="number" class="form-control" name="passengers[${i-1}][age]" 
-                                           placeholder="Usia (opsional)" min="1" max="100">
+                                           placeholder="Age (optional)" min="1" max="100">
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
     // Show loading state
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
     submitBtn.disabled = true;
 
     const formData = new FormData(this);
@@ -199,7 +199,7 @@
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
             console.error('Non-JSON response:', text.substring(0, 200));
-            throw new Error('Server mengembalikan response yang tidak valid');
+            throw new Error('Server returned invalid response');
         }
         
         const result = await response.json();
@@ -208,7 +208,7 @@
             window.location.href = '/booking/success/' + result.booking_code;
         } else {
             // Show error message
-            let errorMessage = result.message || 'Terjadi kesalahan';
+            let errorMessage = result.message || 'An error occurred';
             if (result.errors) {
                 errorMessage += '\n' + Object.values(result.errors).join('\n');
             }
@@ -216,7 +216,7 @@
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Terjadi kesalahan: ' + error.message);
+        alert('An error occurred: ' + error.message);
     } finally {
         // Restore button state
         submitBtn.innerHTML = originalText;

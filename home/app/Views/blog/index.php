@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Raja Ampat</title>
+    <title>Raja Ampat Blog</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -37,8 +37,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-4 fw-bold">Blog Raja Ampat</h1>
-                    <p class="lead">Temukan informasi terbaru tentang wisata, tips perjalanan, dan cerita menarik seputar Kepulauan Raja Ampat</p>
+                    <h1 class="display-4 fw-bold">Raja Ampat Blog</h1>
+                    <p class="lead">Discover the latest information about tourism, travel tips, and interesting stories about the Raja Ampat Islands</p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                                         <div class="card-footer bg-transparent">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">By <?= $blog['author_name'] ?></small>
-                                                <a href="<?= base_url('blog/' . $blog['slug']) ?>" class="btn btn-sm btn-outline-primary">Baca Selengkapnya</a>
+                                                <a href="<?= base_url('blog/' . $blog['slug']) ?>" class="btn btn-sm btn-outline-primary">Read More</a>
                                             </div>
                                         </div>
                                     </div>
@@ -92,8 +92,8 @@
                     <?php else: ?>
                         <div class="text-center py-5">
                             <i class="fas fa-newspaper fa-4x text-muted mb-3"></i>
-                            <h3>Belum ada artikel blog</h3>
-                            <p class="text-muted">Silakan kembali lagi nanti untuk membaca artikel terbaru kami.</p>
+                            <h3>No blog articles yet</h3>
+                            <p class="text-muted">Please check back later to read our latest articles.</p>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -103,7 +103,7 @@
                     <!-- Categories Widget -->
                     <div class="sidebar-widget card shadow-sm mb-4">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Kategori</h5>
+                            <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Categories</h5>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
@@ -115,7 +115,7 @@
                                         </li>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <li class="list-group-item">Tidak ada kategori</li>
+                                    <li class="list-group-item">No categories</li>
                                 <?php endif; ?>
                             </ul>
                         </div>
@@ -124,7 +124,7 @@
                     <!-- Recent Posts Widget -->
                     <div class="sidebar-widget card shadow-sm mb-4">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Postingan Terbaru</h5>
+                            <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Posts</h5>
                         </div>
                         <div class="card-body">
                             <?php if (!empty($recentPosts)): ?>
@@ -142,7 +142,7 @@
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <p class="text-muted">Tidak ada postingan terbaru</p>
+                                <p class="text-muted">No recent posts</p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -153,12 +153,12 @@
                             <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Newsletter</h5>
                         </div>
                         <div class="card-body">
-                            <p>Berlangganan newsletter kami untuk mendapatkan update terbaru tentang Raja Ampat.</p>
+                            <p>Subscribe to our newsletter to get the latest updates about Raja Ampat.</p>
                             <form>
                                 <div class="mb-3">
-                                    <input type="email" class="form-control" placeholder="Alamat email Anda" required>
+                                    <input type="email" class="form-control" placeholder="Your email address" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100">Berlangganan</button>
+                                <button type="submit" class="btn btn-primary w-100">Subscribe</button>
                             </form>
                         </div>
                     </div>

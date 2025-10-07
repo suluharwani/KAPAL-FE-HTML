@@ -32,24 +32,24 @@
     <section class="booking-form mb-5">
         <div class="card shadow">
             <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Pesan Kapal Sekarang</h3>
+                <h3 class="mb-0">Book a Boat Now</h3>
             </div>
             <div class="card-body">
                 <form id="boatBookingForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="fromIsland" class="form-label">Dari Pulau</label>
+                            <label for="fromIsland" class="form-label">From Island</label>
                             <select class="form-select" id="fromIsland" required>
-                                <option value="" selected disabled>Pilih Pulau Asal</option>
+                                <option value="" selected disabled>Select Departure Island</option>
                                 <?php foreach ($islands as $island): ?>
                                     <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="toIsland" class="form-label">Ke Pulau</label>
+                            <label for="toIsland" class="form-label">To Island</label>
                             <select class="form-select" id="toIsland" required>
-                                <option value="" selected disabled>Pilih Pulau Tujuan</option>
+                                <option value="" selected disabled>Select Destination Island</option>
                                 <?php foreach ($islands as $island): ?>
                                     <option value="<?= $island['island_id'] ?>"><?= $island['island_name'] ?></option>
                                 <?php endforeach; ?>
@@ -59,22 +59,22 @@
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="departureDate" class="form-label">Tanggal Keberangkatan</label>
+                            <label for="departureDate" class="form-label">Departure Date</label>
                             <input type="date" class="form-control" id="departureDate" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="passengers" class="form-label">Jumlah Penumpang</label>
+                            <label for="passengers" class="form-label">Number of Passengers</label>
                             <input type="number" class="form-control" id="passengers" min="1" max="20" required>
                         </div>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="boatType" class="form-label">Tipe Kapal</label>
+                        <label for="boatType" class="form-label">Boat Type</label>
                         <select class="form-select" id="boatType">
-                            <option value="" selected disabled>Pilih Tipe Kapal</option>
+                            <option value="" selected disabled>Select Boat Type</option>
                             <option value="speedboat">Speedboat</option>
-                            <option value="traditional">Kapal Tradisional</option>
-                            <option value="luxury">Kapal Luxury</option>
+                            <option value="traditional">Traditional Boat</option>
+                            <option value="luxury">Luxury Boat</option>
                         </select>
                     </div>
                     
@@ -82,13 +82,13 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="roundTrip">
                             <label class="form-check-label" for="roundTrip">
-                                Pulang-Pergi
+                                Round Trip
                             </label>
                         </div>
                     </div>
                     
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Cek Jadwal & Harga</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Check Schedule & Price</button>
                     </div>
                 </form>
             </div>
@@ -102,22 +102,22 @@
                 <div class="feature-icon mb-3">
                     <i class="fas fa-ship fa-3x text-primary"></i>
                 </div>
-                <h3>Kapal Nyaman</h3>
-                <p>Kapal kami dilengkapi dengan perlengkapan keselamatan dan kenyamanan penumpang.</p>
+                <h3>Comfortable Boats</h3>
+                <p>Our boats are equipped with safety equipment and passenger comfort features.</p>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="feature-icon mb-3">
                     <i class="fas fa-clock fa-3x text-primary"></i>
                 </div>
-                <h3>Tepat Waktu</h3>
-                <p>Jadwal keberangkatan yang teratur dan tepat waktu untuk kenyamanan perjalanan Anda.</p>
+                <h3>On Time</h3>
+                <p>Regular and punctual departure schedules for your travel comfort.</p>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="feature-icon mb-3">
                     <i class="fas fa-shield-alt fa-3x text-primary"></i>
                 </div>
-                <h3>Aman Terpercaya</h3>
-                <p>Dilayani oleh awak kapal profesional dengan pengalaman bertahun-tahun.</p>
+                <h3>Safe & Trusted</h3>
+                <p>Served by professional crew with years of experience.</p>
             </div>
         </div>
     </section>
