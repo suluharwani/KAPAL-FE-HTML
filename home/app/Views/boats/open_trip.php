@@ -1,4 +1,3 @@
-<!-- Main Content -->
 <main class="container my-5">
     <h2 class="text-center mb-4">Open Trip</h2>
     
@@ -108,10 +107,153 @@
                                 <?php endif; ?>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($openTrips)): ?>
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="fas fa-ship fa-3x mb-3"></i>
+                                        <p>Tidak ada open trip yang tersedia saat ini.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($openTrips as $trip): ?>
+                                <tr>
+                                    <td><?= $trip['departure_island'] ?> - <?= $trip['arrival_island'] ?></td>
+                                    <td><?= date('d M Y', strtotime($trip['departure_date'])) ?></td>
+                                    <td><?= date('H:i', strtotime($trip['departure_time'])) ?></td>
+                                    <td><?= $trip['boat_name'] ?></td>
+                                    <td>
+                                        <span class="badge bg-<?= $trip['available_seats'] > 0 ? 'success' : 'danger' ?>">
+                                            <?= $trip['available_seats'] ?>/<?= $trip['capacity'] ?> orang
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php if (isset($trip['price_per_person']) && !empty($trip['price_per_person'])): ?>
+                                            Rp <?= number_format($trip['price_per_person'], 0, ',', '.') ?> / orang
+                                            <?php if (isset($trip['agreed_price']) && !empty($trip['agreed_price'])): ?>
+                                                <br><small class="text-muted">Total: Rp <?= number_format($trip['agreed_price'], 0, ',', '.') ?></small>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php 
+                                            // Hitung harga per orang berdasarkan harga kapal dan kapasitas
+                                            $pricePerPerson = $trip['capacity'] > 0 ? $trip['price_per_trip'] / $trip['capacity'] : 0;
+                                            ?>
+                                            Rp <?= number_format($pricePerPerson, 0, ',', '.') ?> / orang
+                                            <br><small class="text-muted">Total: Rp <?= number_format($trip['price_per_trip'], 0, ',', '.') ?></small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-<?= 
+                                            $trip['status'] == 'upcoming' ? 'info' : 
+                                            ($trip['status'] == 'ongoing' ? 'warning' : 
+                                            ($trip['status'] == 'completed' ? 'success' : 'danger')) 
+                                        ?>">
+                                            <?= ucfirst($trip['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary join-btn" 
+                                                data-trip-id="<?= $trip['open_trip_id'] ?>"
+                                                data-boat-name="<?= $trip['boat_name'] ?>"
+                                                data-price="<?= $trip['price_per_person'] ?? $trip['price_per_trip'] ?>"
+                                                data-show-contact="<?= $trip['show_contact_admin'] ?? 0 ?>"
+                                                data-available-seats="<?= $trip['available_seats'] ?>"
+                                                <?= $trip['available_seats'] <= 0 ? 'disabled' : '' ?>>
+                                            <?= $trip['available_seats'] <= 0 ? 'Penuh' : 'Gabung' ?>
+                                        </button>
+                                        <?php if (session('role') == 'admin'): ?>
+                                            <button class="btn btn-sm btn-warning edit-price-btn mt-1"
+                                                    data-trip-id="<?= $trip['open_trip_id'] ?>"
+                                                    data-agreed-price="<?= $trip['agreed_price'] ?? '' ?>"
+                                                    data-commission-rate="<?= $trip['commission_rate'] ?? 0 ?>"
+                                                    data-show-contact="<?= $trip['show_contact_admin'] ?? 1 ?>"
+                                                    data-capacity="<?= $trip['capacity'] ?>">
+                                                <i class="fas fa-edit"></i> Harga
+                                            </button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- My Tickets Tab -->
+        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets-tab">
+            <?php if (empty($myTickets)): ?>
+                <div class="text-center py-5">
+                    <div class="text-muted">
+                        <i class="fas fa-ticket-alt fa-3x mb-3"></i>
+                        <p>Anda belum memiliki tiket open trip.</p>
+                        <a href="#available-trips-tab" class="btn btn-primary" data-bs-toggle="tab">
+                            <i class="fas fa-ship me-2"></i>Lihat Open Trip Tersedia
+                        </a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Kode Booking</th>
+                                <th>Rute</th>
+                                <th>Tanggal</th>
+                                <th>Waktu</th>
+                                <th>Kapal</th>
+                                <th>Jumlah Penumpang</th>
+                                <th>Total Harga</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($myTickets as $ticket): ?>
+                                <tr>
+                                    <td><?= $ticket['booking_code'] ?></td>
+                                    <td><?= $ticket['departure_island'] ?> - <?= $ticket['arrival_island'] ?></td>
+                                    <td><?= date('d M Y', strtotime($ticket['departure_date'])) ?></td>
+                                    <td><?= date('H:i', strtotime($ticket['departure_time'])) ?></td>
+                                    <td><?= $ticket['boat_name'] ?></td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            <?= $ticket['passenger_count'] ?> orang
+                                        </span>
+                                    </td>
+                                    <td>Rp <?= number_format($ticket['total_price'], 0, ',', '.') ?></td>
+                                    <td>
+                                        <span class="badge bg-<?= 
+                                            $ticket['booking_status'] == 'confirmed' ? 'success' : 
+                                            ($ticket['booking_status'] == 'pending' ? 'warning' : 
+                                            ($ticket['booking_status'] == 'paid' ? 'primary' : 
+                                            ($ticket['booking_status'] == 'completed' ? 'info' : 'danger'))) 
+                                        ?>">
+                                            <?= ucfirst($ticket['booking_status']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info view-ticket-btn" 
+                                                data-booking-id="<?= $ticket['booking_id'] ?>">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </button>
+                                        <?php if ($ticket['booking_status'] == 'pending'): ?>
+                                            <button class="btn btn-sm btn-warning cancel-ticket-btn mt-1"
+                                                    data-booking-id="<?= $ticket['booking_id'] ?>">
+                                                <i class="fas fa-times"></i> Batalkan
+                                            </button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
     
     <!-- Request Open Trip Modal -->

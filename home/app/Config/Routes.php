@@ -54,6 +54,7 @@ $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->post('delete-all-members', 'Boats::deleteAllMembers');
     $routes->get('print-tickets', 'Boats::printTickets');
     $routes->post('send-whatsapp-tickets', 'Boats::sendWhatsAppTickets');
+    $routes->post('confirm-booking-passengers', 'Boats::confirmPassenger');
 
     $routes->get('download-tickets-pdf/(:num)', 'Boats::downloadTicketsPdf/$1');
     $routes->get('download-tickets-pdf', 'Boats::downloadTicketsPdf');
@@ -107,5 +108,11 @@ $routes->group('booking', ['filter' => 'auth'], function($routes) {
     $routes->get('detail/(:any)', 'Booking::detail/$1'); // booking_code
     $routes->get('print/(:any)', 'Booking::printTicket/$1'); // booking_code
     $routes->post('cancel', 'Booking::cancel');
+});
+// Profile routes - require auth
+$routes->group('profile', ['filter' => 'auth'], function($routes) {
+    $routes->get('/', 'Profile::index');
+    $routes->post('update', 'Profile::update');
+    $routes->post('changePassword', 'Profile::changePassword');
 });
 $routes->get('auth/check', 'Auth::check');

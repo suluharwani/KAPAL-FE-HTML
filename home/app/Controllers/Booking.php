@@ -131,7 +131,7 @@ public function process()
     // Data booking
     $bookingData = [
         'booking_code' => $bookingCode,
-        'user_id' => session()->get('user')['user_id'],
+        'user_id' => $_SESSION['userData']['user_id'],
         'schedule_id' => $scheduleId,
         'passenger_count' => $passengerCount,
         'total_price' => $totalPrice,
@@ -193,7 +193,7 @@ public function process()
     {
         $booking = $this->bookingModel->getBookingWithDetails($bookingCode);
         
-        if (!$booking || $booking['user_id'] != session()->get('user')['user_id']) {
+        if (!$booking || $booking['user_id'] != $_SESSION['userData']['user_id']) {
             return redirect()->to('/')->with('error', 'Booking tidak ditemukan');
         }
 
@@ -209,20 +209,64 @@ public function process()
     /**
      * Daftar booking user
      */
-    public function myBookings()
+public function myBookings()
     {
-        $userId = session()->get('user')['user_id'];
-        $bookings = $this->bookingModel->where('user_id', $userId)
-                                     ->orderBy('created_at', 'DESC')
-                                     ->findAll();
-
+        // Pastikan user sudah login
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/auth/login');
+        }
+        
+        $bookingModel = new BookingModel();
+        $user_id = $_SESSION['userData']['user_id'];
+        
+        // Ambil booking berdasarkan status
+        $upcoming_bookings = $bookingModel->getUserBookingsByStatus($user_id, ['pending', 'confirmed', 'paid']);
+        $completed_bookings = $bookingModel->getUserBookingsByStatus($user_id, ['completed']);
+        $canceled_bookings = $bookingModel->getUserBookingsByStatus($user_id, ['canceled']);
+        
         $data = [
-            'title' => 'Booking Saya',
-            'active' => 'my_bookings',
-            'bookings' => $bookings
+            'title' => 'Pemesanan Saya - Raja Ampat Boat Services',
+            'upcoming_bookings' => $upcoming_bookings,
+            'completed_bookings' => $completed_bookings,
+            'canceled_bookings' => $canceled_bookings,
+            'active' => 'my_bookings'
         ];
-
-        $this->render('booking/my_bookings', $data);
+        
+        return $this->render('booking/my_bookings', $data);
+    }
+    
+    public function cancel()
+    {
+        // Pastikan user sudah login
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/auth/login');
+        }
+        
+        $booking_id = $this->request->getPost('booking_id');
+        $reason = $this->request->getPost('cancel_reason');
+        
+        $bookingModel = new BookingModel();
+        $user_id = $_SESSION['userData']['user_id'];
+        
+        // Pastikan booking milik user yang login
+        $booking = $bookingModel->where('booking_id', $booking_id)
+                               ->where('user_id', $user_id)
+                               ->first();
+        
+        if (!$booking) {
+            return redirect()->back()->with('error', 'Pemesanan tidak ditemukan');
+        }
+        
+        // Update status booking menjadi canceled
+        if ($bookingModel->update($booking_id, [
+            'booking_status' => 'canceled',
+            'notes' => $reason ? "Dibatalkan: " . $reason : 'Dibatalkan oleh pengguna',
+            'updated_at' => date('Y-m-d H:i:s')
+        ])) {
+            return redirect()->back()->with('success', 'Pemesanan berhasil dibatalkan');
+        } else {
+            return redirect()->back()->with('error', 'Gagal membatalkan pemesanan');
+        }
     }
 
     /**
@@ -232,7 +276,7 @@ public function process()
     {
         $booking = $this->bookingModel->getBookingWithDetails($bookingCode);
         
-        if (!$booking || $booking['user_id'] != session()->get('user')['user_id']) {
+        if (!$booking || $booking['user_id'] != $_SESSION['userData']['user_id']) {
             return redirect()->to('/')->with('error', 'Booking tidak ditemukan');
         }
 
@@ -252,7 +296,7 @@ public function process()
     {
         $booking = $this->bookingModel->getBookingWithDetails($bookingCode);
         
-        if (!$booking || $booking['user_id'] != session()->get('user')['user_id']) {
+        if (!$booking || $booking['user_id'] != $_SESSION['userData']['user_id']) {
             return redirect()->to('/')->with('error', 'Booking tidak ditemukan');
         }
 
@@ -274,56 +318,56 @@ public function process()
     /**
      * Batalkan booking
      */
-    public function cancel()
-    {
-        if (!$this->request->isAJAX()) {
-            return redirect()->back();
-        }
+    // public function cancel()
+    // {
+    //     if (!$this->request->isAJAX()) {
+    //         return redirect()->back();
+    //     }
 
-        $bookingCode = $this->request->getPost('booking_code');
-        $booking = $this->bookingModel->where('booking_code', $bookingCode)->first();
+    //     $bookingCode = $this->request->getPost('booking_code');
+    //     $booking = $this->bookingModel->where('booking_code', $bookingCode)->first();
 
-        if (!$booking || $booking['user_id'] != session()->get('user')['user_id']) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Booking tidak ditemukan'
-            ]);
-        }
+    //     if (!$booking || $booking['user_id'] != $_SESSION['userData']['user_id']) {
+    //         return $this->response->setJSON([
+    //             'status' => 'error',
+    //             'message' => 'Booking tidak ditemukan'
+    //         ]);
+    //     }
 
-        // Hanya bisa cancel jika masih pending
-        if (!in_array($booking['booking_status'], ['pending', 'confirmed'])) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Booking tidak dapat dibatalkan'
-            ]);
-        }
+    //     // Hanya bisa cancel jika masih pending
+    //     if (!in_array($booking['booking_status'], ['pending', 'confirmed'])) {
+    //         return $this->response->setJSON([
+    //             'status' => 'error',
+    //             'message' => 'Booking tidak dapat dibatalkan'
+    //         ]);
+    //     }
 
-        // Start transaction
-        $this->db->transStart();
+    //     // Start transaction
+    //     $this->db->transStart();
 
-        try {
-            // Kembalikan kursi
-            $this->scheduleModel->incrementSeats($booking['schedule_id'], $booking['passenger_count']);
+    //     try {
+    //         // Kembalikan kursi
+    //         $this->scheduleModel->incrementSeats($booking['schedule_id'], $booking['passenger_count']);
 
-            // Update status booking
-            $this->bookingModel->update($booking['booking_id'], [
-                'booking_status' => 'canceled',
-                'payment_status' => 'failed'
-            ]);
+    //         // Update status booking
+    //         $this->bookingModel->update($booking['booking_id'], [
+    //             'booking_status' => 'canceled',
+    //             'payment_status' => 'failed'
+    //         ]);
 
-            $this->db->transComplete();
+    //         $this->db->transComplete();
 
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Booking berhasil dibatalkan'
-            ]);
+    //         return $this->response->setJSON([
+    //             'status' => 'success',
+    //             'message' => 'Booking berhasil dibatalkan'
+    //         ]);
 
-        } catch (\Exception $e) {
-            $this->db->transRollback();
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         $this->db->transRollback();
+    //         return $this->response->setJSON([
+    //             'status' => 'error',
+    //             'message' => $e->getMessage()
+    //         ]);
+    //     }
+    // }
 }

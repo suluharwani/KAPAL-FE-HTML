@@ -239,6 +239,12 @@
             font-size: 0.8rem;
             color: #7f8c8d;
         }
+        a, .text-underline, .underline {
+    text-decoration: none !important;
+}
+        a:hover, a:focus {
+    text-decoration: none !important;
+}
     </style>
 </head>
 <body>

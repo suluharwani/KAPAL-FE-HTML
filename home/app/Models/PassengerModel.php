@@ -8,6 +8,7 @@ class PassengerModel extends Model
     protected $primaryKey = 'passenger_id';
     protected $allowedFields = [
         'booking_id',
+        'user_id',
         'full_name',
         'identity_number',
         'phone',

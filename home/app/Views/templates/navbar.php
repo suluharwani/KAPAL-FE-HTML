@@ -62,8 +62,69 @@
                     <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
                         <a class="btn btn-primary" href="<?= base_url('auth/login') ?>">Login to Book</a>
                     </li>
-                <?php endif; ?>
-            </ul>
+                    
+                    <!-- Daftar Wisata Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <?= (strpos(current_url(), 'tour') !== false) ? 'active' : '' ?>" href="#" id="toursDropdown" role="button" data-bs-toggle="dropdown">
+                            Daftar Wisata
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item <?= (current_url() == base_url('tour/waigeo')) ? 'active' : '' ?>" href="/tour/waigeo">Wisata Pulau Waigeo</a></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('tour/misool')) ? 'active' : '' ?>" href="/tour/misool">Wisata Pulau Misool</a></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('tour/salawati')) ? 'active' : '' ?>" href="/tour/salawati">Wisata Pulau Salawati</a></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('tour/batanta')) ? 'active' : '' ?>" href="/tour/batanta">Wisata Pulau Batanta</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('gallery')) ? 'active' : '' ?>" href="/gallery">Lihat Galeri</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <?= (current_url() == base_url('blog')) ? 'active' : '' ?>" href="/blog">Blog</a>
+                    </li>
+                    
+                    <!-- Tentang Kami Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <?= (strpos(current_url(), 'about') !== false) ? 'active' : '' ?>" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown">
+                            Tentang Kami
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item <?= (current_url() == base_url('about')) ? 'active' : '' ?>" href="/about">Profil Perusahaan</a></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('about/team')) ? 'active' : '' ?>" href="/about/team">Tim Kami</a></li>
+                            <li><a class="dropdown-item <?= (current_url() == base_url('about/testimonials')) ? 'active' : '' ?>" href="/about/testimonials">Testimonial</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <?= (current_url() == base_url('contact')) ? 'active' : '' ?>" href="/contact">Kontak</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link <?= (current_url() == base_url('faq')) ? 'active' : '' ?>" href="/faq">FAQ</a>
+                    </li>
+                </ul>
+                
+                <!-- User Actions -->
+                <div class="user-actions">
+                    <?php if (session()->get('isLoggedIn')): ?>
+                        <a class="btn btn-outline-primary btn-sm" href="/profile">
+                            <i class="fas fa-user me-1"></i> Profil
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" href="/boats/open-trip">
+                            <i class="fas fa-users me-1"></i> Open Trip
+                        </a>
+                        <a class="btn btn-outline-secondary btn-sm" href="/auth/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
+                        </a>
+                    <?php else: ?>
+                        <a class="btn btn-primary btn-login" href="/auth/login">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login untuk Pesan
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

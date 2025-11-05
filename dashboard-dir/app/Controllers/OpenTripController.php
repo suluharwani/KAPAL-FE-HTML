@@ -171,49 +171,64 @@ class OpenTripController extends BaseController
         }
     }
 
-    public function approveRequest($requestId)
-    {
-        $request = $this->requestOpenTripModel->find($requestId);
-        if (!$request) {
-            return redirect()->back()->with('error', 'Request not found');
-        }
-
-        // Get boat capacity
-        $boatId = $request['boat_id'];
-        $boat = $this->boatModel->find($boatId);
-        if (!$boat) {
-            return redirect()->back()->with('error', 'Boat not found');
-        }
-
-        $capacity = $boat['capacity'];
-
-        // Create schedule
-        $scheduleData = [
-            'route_id' => $request['route_id'],
-            'boat_id' => $boatId,
-            'departure_date' => $request['proposed_date'],
-            'departure_time' => $request['proposed_time'],
-            'available_seats' => $capacity,
-            'is_open_trip' => 1
-        ];
-
-        $scheduleId = $this->scheduleModel->insert($scheduleData);
-
-        // Create open trip
-        $openTripData = [
-            'request_id' => $requestId,
-            'schedule_id' => $scheduleId,
-            'boat_id' => $boatId,
-            'reserved_seats' => 0,
-            'available_seats' => $capacity,
-            'status' => 'upcoming'
-        ];
-
-        $openTripId = $this->openTripModel->insert($openTripData);
-
-        // Update request status
-        $this->requestOpenTripModel->update($requestId, ['status' => 'approved']);
-
-        return redirect()->to('/admin/open-trips')->with('success', 'Open trip approved and created successfully');
+public function approveRequest($requestId)
+{
+    $request = $this->requestOpenTripModel->find($requestId);
+    if (!$request) {
+        return redirect()->back()->with('error', 'Request not found');
     }
+
+    // Validasi agreed_price dan price_per_person
+    $rules = [
+        'agreed_price' => 'required|numeric|greater_than[0]',
+        'price_per_person' => 'required|numeric|greater_than[0]'
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    }
+
+    $agreedPrice = $this->request->getPost('agreed_price');
+    $pricePerPerson = $this->request->getPost('price_per_person');
+
+    // Get boat capacity
+    $boatId = $request['boat_id'];
+    $boat = $this->boatModel->find($boatId);
+    if (!$boat) {
+        return redirect()->back()->with('error', 'Boat not found');
+    }
+
+    $capacity = $boat['capacity'];
+
+    // Create schedule
+    $scheduleData = [
+        'route_id' => $request['route_id'],
+        'boat_id' => $boatId,
+        'departure_date' => $request['proposed_date'],
+        'departure_time' => $request['proposed_time'],
+        'available_seats' => $capacity,
+        'is_open_trip' => 1
+    ];
+
+    $scheduleId = $this->scheduleModel->insert($scheduleData);
+
+    // Create open trip
+    $openTripData = [
+        'request_id' => $requestId,
+        'schedule_id' => $scheduleId,
+        'boat_id' => $boatId,
+        'reserved_seats' => 0,
+        'available_seats' => $capacity,
+        'agreed_price' => $agreedPrice,
+        'price_per_person' => $pricePerPerson,
+        'status' => 'upcoming'
+    ];
+
+    $openTripId = $this->openTripModel->insert($openTripData);
+
+    // Update request status
+    $this->requestOpenTripModel->update($requestId, ['status' => 'approved']);
+
+    return redirect()->to('/admin/open-trips')->with('success', 'Open trip approved and created successfully');
+}
 }
