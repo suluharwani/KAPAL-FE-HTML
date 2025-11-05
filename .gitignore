@@ -5,3 +5,4 @@ dashboard-dir/.env
 *.json
 /dashboard-dir/writable/session
 home/writable/session/ci_session549392c9ae7a5afa12929b5fdfe0445b
+home/writable/session/ci_session27df2b738ef9313a930b8d92e858c066

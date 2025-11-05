@@ -248,32 +248,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-ship me-2"></i>Raja Ampat Boat Services
-            </a>
-            <div class="navbar-nav ms-auto">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user me-1"></i><?= $_SESSION['user_name'] ?? 'User' ?>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/profile"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
-                            <li><a class="dropdown-item" href="/my-bookings"><i class="fas fa-ticket-alt me-2"></i>My Bookings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
-                <?php else: ?>
-                    <a class="nav-link" href="/auth/login"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </nav>
-
     <!-- Search Section -->
     <section class="search-section">
         <div class="container">
