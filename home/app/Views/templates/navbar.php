@@ -39,6 +39,18 @@
             border-radius: 0.375rem;
             font-weight: 500;
         }
+        .btn-download {
+            background-color: #28a745;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-download:hover {
+            background-color: #218838;
+            color: white;
+        }
         .user-actions {
             display: flex;
             align-items: center;
@@ -114,6 +126,11 @@
                 
                 <!-- User Actions -->
                 <div class="user-actions">
+                    <!-- Download App Button -->
+                    <a class="btn btn-download" href="/installer/Muramuma_1_1.0.apk" download>
+                        <i class="fas fa-download me-1"></i> Download App
+                    </a>
+                    
                     <?php if (session()->get('isLoggedIn')): ?>
                         <a class="btn btn-outline-primary btn-sm" href="/profile">
                             <i class="fas fa-user me-1"></i> Profile
