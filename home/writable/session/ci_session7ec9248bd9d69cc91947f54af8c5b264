@@ -1,0 +1,1 @@
+__ci_last_regenerate|i:1763749601;_ci_previous_url|s:39:"http://muramuma.co/index.php/auth/login";error|s:202:"Login dengan Google gagal: cURL error 60: SSL certificate problem: unable to get local issuer certificate (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://oauth2.googleapis.com/token";__ci_vars|a:1:{s:5:"error";s:3:"old";}

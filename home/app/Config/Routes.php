@@ -24,6 +24,9 @@ $routes->group('auth', function($routes) {
 $routes->post('auth/attemptLogin', 'Auth::attemptLogin');
 $routes->post('auth/attemptRegister', 'Auth::attemptRegister');
 $routes->get('auth/verify/(:any)', 'Auth::verify/$1');
+
+$routes->get('auth/google', 'Auth::google');
+$routes->get('auth/google-callback', 'Auth::googleCallback');
 // Boats routes
 $routes->group('boats', ['filter' => 'auth'], function($routes) {
     $routes->get('/', 'Home::index');

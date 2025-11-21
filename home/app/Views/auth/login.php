@@ -23,6 +23,18 @@
                     <?php if (session()->getFlashdata('message')): ?>
                         <div class="alert alert-success"><?= session()->getFlashdata('message') ?></div>
                     <?php endif; ?>
+
+                    <!-- Google Login Button -->
+                    <div class="d-grid mb-4">
+                        <a href="<?= base_url('auth/google') ?>" class="btn btn-danger">
+                            <i class="fab fa-google me-2"></i>Login dengan Google
+                        </a>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <hr>
+                        <span class="bg-white px-3">ATAU</span>
+                    </div>
                     
                     <form action="<?= base_url('auth/attemptLogin') ?>" method="post">
                         <div class="mb-3">
