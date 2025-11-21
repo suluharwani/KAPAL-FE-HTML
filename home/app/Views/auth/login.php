@@ -7,21 +7,31 @@
                 </div>
                 <div class="card-body">
                     <?php if (session()->getFlashdata('error')): ?>
-                        <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                        <div class="alert alert-danger">
+                            <?php 
+                            $error = session()->getFlashdata('error');
+                            // Jika error mengandung link HTML, gunakan html_entity_decode
+                            if (strpos($error, '<a href') !== false) {
+                                echo $error;
+                            } else {
+                                echo htmlspecialchars($error);
+                            }
+                            ?>
+                        </div>
                     <?php endif; ?>
                     
                     <?php if (session()->getFlashdata('errors')): ?>
                         <div class="alert alert-danger">
                             <ul class="mb-0">
                                 <?php foreach (session()->getFlashdata('errors') as $error): ?>
-                                    <li><?= $error ?></li>
+                                    <li><?= htmlspecialchars($error) ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     <?php endif; ?>
                     
                     <?php if (session()->getFlashdata('message')): ?>
-                        <div class="alert alert-success"><?= session()->getFlashdata('message') ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars(session()->getFlashdata('message')) ?></div>
                     <?php endif; ?>
 
                     <!-- Google Login Button -->
@@ -39,7 +49,7 @@
                     <form action="<?= base_url('auth/attemptLogin') ?>" method="post">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" value="<?= old('email') ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>

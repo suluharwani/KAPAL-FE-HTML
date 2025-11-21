@@ -6,18 +6,31 @@
                     <h3 class="mb-0 text-center">Register</h3>
                 </div>
                 <div class="card-body">
+                    <?php if (session()->getFlashdata('error')): ?>
+                        <div class="alert alert-danger">
+                            <?php 
+                            $error = session()->getFlashdata('error');
+                            if (strpos($error, '<a href') !== false) {
+                                echo $error;
+                            } else {
+                                echo htmlspecialchars($error);
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                    
                     <?php if (session()->getFlashdata('errors')): ?>
                         <div class="alert alert-danger">
                             <ul class="mb-0">
                                 <?php foreach (session()->getFlashdata('errors') as $error): ?>
-                                    <li><?= $error ?></li>
+                                    <li><?= htmlspecialchars($error) ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     <?php endif; ?>
                     
                     <?php if (session()->getFlashdata('message')): ?>
-                        <div class="alert alert-success"><?= session()->getFlashdata('message') ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars(session()->getFlashdata('message')) ?></div>
                     <?php endif; ?>
 
                     <!-- Google Register Button -->
@@ -35,11 +48,11 @@
                     <form action="<?= base_url('auth/attemptRegister') ?>" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <input type="text" class="form-control" id="username" name="username" value="<?= old('username') ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" value="<?= old('email') ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -51,11 +64,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="full_name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" required>
+                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?= old('full_name') ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required>
+                            <input type="text" class="form-control" id="phone" name="phone" value="<?= old('phone') ?>" required>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Register</button>

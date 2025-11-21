@@ -131,44 +131,49 @@ class Auth extends BaseController
         $this->render('auth/login', $data);
     }
 
-    public function attemptLogin()
-    {
-        if (!$this->validate([
-            'email' => 'required|valid_email',
-            'password' => 'required'
-        ])) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $model = new UserModel();
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
-
-        $user = $model->where('email', $email)->first();
-
-        if (!$user || !password_verify($password, $user['password'])) {
-            return redirect()->back()->withInput()->with('error', 'Email atau password salah');
-        }
-
-        if (!$user['email_verified']) {
-            return redirect()->back()->withInput()->with('error', 'Email belum diverifikasi. Silakan cek email Anda.');
-        }
-
-        // Set session
-        $this->session->set([
-            'isLoggedIn' => true,
-            'userData' => [
-                'user_id' => $user['user_id'],
-                'username' => $user['username'],
-                'email' => $user['email'],
-                'full_name' => $user['full_name'],
-                'phone' => $user['phone'],
-                'role' => $user['role']
-            ]
-        ]);
-
-        return redirect()->to('')->with('message', 'Login berhasil');
+public function attemptLogin()
+{
+    if (!$this->validate([
+        'email' => 'required|valid_email',
+        'password' => 'required'
+    ])) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
+
+    $model = new UserModel();
+    $email = $this->request->getPost('email');
+    $password = $this->request->getPost('password');
+
+    $user = $model->where('email', $email)->first();
+
+    // Jika user tidak ditemukan, arahkan ke register
+    if (!$user) {
+        return redirect()->back()->withInput()->with('error', 'Email tidak terdaftar. Silakan <a href="'.base_url('auth/register').'">daftar terlebih dahulu</a>.');
+    }
+
+    if (!password_verify($password, $user['password'])) {
+        return redirect()->back()->withInput()->with('error', 'Password salah.');
+    }
+
+    if (!$user['email_verified']) {
+        return redirect()->back()->withInput()->with('error', 'Email belum diverifikasi. Silakan cek email Anda.');
+    }
+
+    // Set session
+    $this->session->set([
+        'isLoggedIn' => true,
+        'userData' => [
+            'user_id' => $user['user_id'],
+            'username' => $user['username'],
+            'email' => $user['email'],
+            'full_name' => $user['full_name'],
+            'phone' => $user['phone'],
+            'role' => $user['role']
+        ]
+    ]);
+
+    return redirect()->to('')->with('message', 'Login berhasil');
+}
 
     public function register()
     {
@@ -184,38 +189,45 @@ class Auth extends BaseController
         $this->render('auth/register', $data);
     }
 
-    public function attemptRegister()
-    {
-        if (!$this->validate([
-            'username' => 'required|min_length[3]|max_length[50]|is_unique[users.username]',
-            'email' => 'required|valid_email|is_unique[users.email]',
-            'password' => 'required|min_length[6]',
-            'passconf' => 'required|matches[password]',
-            'full_name' => 'required',
-            'phone' => 'required'
-        ])) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+public function attemptRegister()
+{
+    $model = new UserModel();
+    $email = $this->request->getPost('email');
 
-        $model = new UserModel();
-
-        $data = [
-            'username' => $this->request->getPost('username'),
-            'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
-            'full_name' => $this->request->getPost('full_name'),
-            'phone' => $this->request->getPost('phone'),
-            'role' => 'customer'
-        ];
-
-        if ($model->save($data)) {
-            $user = $model->where('email', $data['email'])->first();
-            $this->sendVerificationEmail($user);
-            return redirect()->to('/auth/login')->with('message', 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.');
-        }
-
-        return redirect()->back()->withInput()->with('error', 'Gagal melakukan registrasi');
+    // Cek apakah email sudah terdaftar
+    $existingUser = $model->where('email', $email)->first();
+    if ($existingUser) {
+        return redirect()->back()->withInput()->with('error', 'Email sudah terdaftar. Silakan <a href="'.base_url('auth/login').'">login</a> atau gunakan email lain.');
     }
+
+    if (!$this->validate([
+        'username' => 'required|min_length[3]|max_length[50]|is_unique[users.username]',
+        'email' => 'required|valid_email|is_unique[users.email]',
+        'password' => 'required|min_length[6]',
+        'passconf' => 'required|matches[password]',
+        'full_name' => 'required',
+        'phone' => 'required'
+    ])) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    }
+
+    $data = [
+        'username' => $this->request->getPost('username'),
+        'email' => $email,
+        'password' => $this->request->getPost('password'),
+        'full_name' => $this->request->getPost('full_name'),
+        'phone' => $this->request->getPost('phone'),
+        'role' => 'customer'
+    ];
+
+    if ($model->save($data)) {
+        $user = $model->where('email', $data['email'])->first();
+        $this->sendVerificationEmail($user);
+        return redirect()->to('/auth/login')->with('message', 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.');
+    }
+
+    return redirect()->back()->withInput()->with('error', 'Gagal melakukan registrasi');
+}
 
     protected function sendVerificationEmail($user)
     {
